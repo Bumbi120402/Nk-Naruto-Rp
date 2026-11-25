@@ -42,6 +42,8 @@ Bilder legt ihr in `assets/img/` ab und tragt den Pfad ein, z. B. `image: "asset
 Farben stehen oben in `assets/css/style.css` (`--gold`, `--tag`, `--seal` …).
 
 ## Extras
+- **Suche:** Die Lupe oben (oder Strg+K bzw. „/“) durchsucht Wiki, Jutsu, Regelwerk, FAQ, News, Changelog, Karte und alle Seiten gleichzeitig. Neue Inhalte sind automatisch durchsuchbar.
+- **Trailer:** liegt unter `assets/video/teaser.mp4`, das Vorschaubild unter `assets/img/teaser-poster.webp`.
 - **Discord live:** In `content.js` bei `discordId` die Server-ID eintragen und in Discord unter *Servereinstellungen → Widget* das Widget aktivieren. Dann steht oben „xx online“.
 - **Live-Besucher („X auf der Seite“):** Kostenloses Projekt auf supabase.com anlegen (Region: Frankfurt / eu-central-1). Unter *Project Settings → API* die Project-URL und den anon- bzw. publishable key kopieren und in `content.js` bei `live` eintragen. Unter *Realtime → Settings* muss der öffentliche Zugriff erlaubt sein (nicht „nur private Kanäle“). Die Datenschutzerklärung ergänzt sich dann automatisch.
 - **Ambient-Sound:** Der Lautsprecher-Knopf oben spielt einen eingebauten, ruhigen Klang (Wind und Zupfinstrument). Er startet nie von selbst. Eigene Musik: Datei z. B. nach `assets/audio/` legen und bei `music` eintragen.

@@ -22,6 +22,7 @@
     social: '<circle cx="18" cy="5.5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="18.5" r="2.5"/><path d="m8.2 10.8 7.6-4M8.2 13.2l7.6 4"/>',
     soundOn: '<path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/>',
     soundOff: '<path d="M4 9v6h4l5 4V5L8 9z"/><path d="m17 9 5 6M22 9l-5 6"/>',
+    search: '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/>',
     lock: '<rect x="5" y="11" width="14" height="10" rx="1"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>'
   };
   const icon = (k) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[k]}</svg>`;
@@ -73,6 +74,7 @@
       ? `<button type="button" class="nav-group${x.some((s) => s[2] === page) ? " is-active" : ""}" data-g="${gi}" aria-expanded="false" aria-controls="mega">${icon(ic)}<span>${l}<i class="caret" aria-hidden="true"></i></span></button>`
       : `<a href="${x}"${cur(ic)}>${icon(ic)}<span>${l}</span></a>`).join("")}</nav>
     <div class="nav-tools">
+      <button type="button" class="search-btn" aria-label="Seite durchsuchen" title="Suchen (Strg+K)">${icon("search")}<span>Suchen</span><kbd>Strg K</kbd></button>
       <span class="visitors" hidden title="Gerade auf der Seite"><i></i><b></b></span>
       <span class="online" hidden><i></i><b></b></span>
       <button type="button" class="sound-btn" aria-pressed="false" aria-label="Musik an/aus" title="Musik">${icon("soundOff")}</button>
@@ -306,6 +308,83 @@
     }).catch(() => {});
   }
 
+
+  /* ---------------- Seitenweite Suche (Strg+K) ---------------- */
+  (function siteSearch() {
+    const btn = $(".search-btn"); if (!btn) return;
+    const norm = (s) => String(s || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/ß/g, "ss");
+    const strip = (h) => String(h || "").replace(/<[^>]+>/g, " ").replace(/&amp;/g, "&").replace(/&nbsp;/g, " ").replace(/\s+/g, " ").trim();
+    let IDX = null;
+    const build = () => {
+      const I = [];
+      NAV.forEach(([l, ic, x]) => (Array.isArray(x) ? x : [[x, l, ic, "Startseite"]]).forEach(([h, n, , d]) => I.push({ type: "Seite", title: n, text: d, url: h })));
+      [["impressum.html", "Impressum"], ["datenschutz.html", "Datenschutz"], ["nutzungsbedingungen.html", "Nutzungsbedingungen"]].forEach(([h, n]) => I.push({ type: "Seite", title: n, text: "Rechtliches", url: h }));
+      (D.wiki || []).forEach((c) => c.pages.forEach((p) => I.push({ type: "Wiki", sub: c.name, title: p.title, text: strip(p.html), url: `wiki.html#${p.id}` })));
+      (D.jutsu || []).forEach((j) => I.push({ type: "Jutsu", sub: [j.element, j.rank && "Rang " + j.rank].filter(Boolean).join(", "), title: j.name, text: j.text, url: `jutsu.html?q=${encodeURIComponent(j.name)}` }));
+      (D.rules || []).forEach((s, i) => s.items.forEach(([n, d], j) => I.push({ type: "Regelwerk", sub: `§${i + 1}.${j + 1}`, title: n, text: d, url: `regelwerk.html#r${i + 1}` })));
+      (D.faq || []).forEach(([q, a], k) => I.push({ type: "FAQ", title: q, text: a, url: `faq.html#faq-${k + 1}` }));
+      (D.news || []).forEach((n) => I.push({ type: "News", sub: n.date, title: n.title, text: n.text, url: "news.html" }));
+      (D.changelog || []).forEach((v) => I.push({ type: "Changelog", sub: v.version && "Version " + v.version, title: v.title || "Version " + v.version, text: (v.changes || []).map((c) => c[1]).join(" "), url: "changelog.html" }));
+      (D.villages || []).forEach((v) => I.push({ type: "Welt", title: v.name, text: [v.alias, v.text].join(" "), url: `welt.html#${encodeURIComponent(v.name)}` }));
+      (D.clans || []).forEach((c) => I.push({ type: "Clan", title: c.name, text: [c.ability, c.text].join(" "), url: "welt.html" }));
+      ((D.map || {}).markers || []).forEach((mk) => I.push({ type: "Karte", sub: mk.realm, title: mk.name, text: mk.text, url: mk.link || "welt.html" }));
+      return I.map((x) => ({ ...x, nt: norm(x.title), nx: norm(x.text) }));
+    };
+    const modal = document.createElement("div");
+    modal.className = "sr-modal"; modal.hidden = true;
+    modal.innerHTML = `<div class="sr-box" role="dialog" aria-modal="true" aria-label="Suche">
+      <div class="sr-head">${icon("search")}<input type="search" placeholder="Wiki, Regeln, Jutsu, FAQ durchsuchen" aria-label="Suchbegriff" autocomplete="off" spellcheck="false"><button type="button" class="sr-close" aria-label="Schließen">Esc</button></div>
+      <div class="sr-body" role="listbox"></div>
+      <div class="sr-foot"><span><kbd>↑</kbd><kbd>↓</kbd> auswählen</span><span><kbd>Enter</kbd> öffnen</span><span><kbd>Esc</kbd> schließen</span></div></div>`;
+    document.body.append(modal);
+    const inp = modal.querySelector("input"), body = modal.querySelector(".sr-body");
+    let sel = 0, hits = [], lastFocus;
+    const mark = (s, terms) => { let h = esc(s); terms.forEach((w) => { if (!w) return; const n = norm(s), i = n.indexOf(w); if (i < 0) return; const raw = s.substr(i, w.length); h = h.replace(esc(raw), `<mark>${esc(raw)}</mark>`); }); return h; };
+    const snip = (x, terms) => {
+      const t = x.text || ""; const i = terms.length ? norm(t).indexOf(terms[0]) : -1;
+      if (i < 0) return esc(t.slice(0, 120)) + (t.length > 120 ? " …" : "");
+      const a = Math.max(0, i - 50), s = (a ? "… " : "") + t.slice(a, i + 90) + (i + 90 < t.length ? " …" : "");
+      return mark(s, terms);
+    };
+    const render = () => {
+      const q = norm(inp.value.trim()), terms = q.split(/\s+/).filter(Boolean);
+      if (!terms.length) {
+        hits = IDX.filter((x) => x.type === "Seite").slice(0, 12);
+        body.innerHTML = `<p class="sr-hint">Schnellzugriff</p>` + list(hits, []);
+      } else {
+        hits = IDX.map((x) => {
+          if (!terms.every((w) => x.nt.includes(w) || x.nx.includes(w))) return null;
+          let s = 0; terms.forEach((w) => { if (x.nt.startsWith(w)) s += 12; else if (x.nt.includes(w)) s += 8; if (x.nx.includes(w)) s += 1; });
+          if (x.type === "Seite") s += 2; return [s, x];
+        }).filter(Boolean).sort((a, b) => b[0] - a[0]).slice(0, 40).map((p) => p[1]);
+        body.innerHTML = hits.length ? `<p class="sr-hint">${hits.length}${hits.length === 40 ? "+" : ""} Treffer</p>` + list(hits, terms)
+          : `<p class="sr-empty">Nichts gefunden für „${esc(inp.value)}“. Versuch es mit einem anderen Begriff, zum Beispiel „Sharingan“ oder „Chūnin“.</p>`;
+      }
+      sel = 0; paint();
+    };
+    const list = (arr, terms) => `<ul>${arr.map((x, i) => `<li><a href="${esc(x.url)}" data-i="${i}" role="option"><span class="sr-type">${esc(x.type)}</span><span class="sr-main"><b>${mark(x.title, terms)}</b>${x.sub ? `<small>${esc(x.sub)}</small>` : ""}<em>${snip(x, terms)}</em></span></a></li>`).join("")}</ul>`;
+    const paint = () => body.querySelectorAll("a[data-i]").forEach((a) => { const on = +a.dataset.i === sel; a.classList.toggle("on", on); a.setAttribute("aria-selected", on); if (on) a.scrollIntoView({ block: "nearest" }); });
+    const open = () => { IDX = IDX || build(); lastFocus = document.activeElement; modal.hidden = false; document.body.style.overflow = "hidden"; inp.value = ""; render(); setTimeout(() => inp.focus(), 0); };
+    const close = () => { modal.hidden = true; document.body.style.overflow = ""; lastFocus && lastFocus.focus && lastFocus.focus(); };
+    const go = (a) => { if (!a) return; close(); const u = new URL(a.href, location.href); if (u.pathname === location.pathname && u.search === location.search && u.hash) { location.hash = u.hash; } else location.href = a.href; };
+    btn.addEventListener("click", open);
+    modal.querySelector(".sr-close").addEventListener("click", close);
+    modal.addEventListener("click", (e) => { if (e.target === modal) close(); const a = e.target.closest("a[data-i]"); if (a) { e.preventDefault(); go(a); } });
+    body.addEventListener("mousemove", (e) => { const a = e.target.closest("a[data-i]"); if (a && +a.dataset.i !== sel) { sel = +a.dataset.i; paint(); } });
+    inp.addEventListener("input", render);
+    inp.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowDown") { e.preventDefault(); sel = Math.min(sel + 1, hits.length - 1); paint(); }
+      else if (e.key === "ArrowUp") { e.preventDefault(); sel = Math.max(sel - 1, 0); paint(); }
+      else if (e.key === "Enter") { e.preventDefault(); go(body.querySelector(`a[data-i="${sel}"]`)); }
+    });
+    addEventListener("keydown", (e) => {
+      const typing = /input|textarea|select/i.test((document.activeElement || {}).tagName || "") || (document.activeElement || {}).isContentEditable;
+      if ((e.key === "k" || e.key === "K") && (e.ctrlKey || e.metaKey)) { e.preventDefault(); modal.hidden ? open() : close(); }
+      else if (e.key === "/" && !typing && modal.hidden) { e.preventDefault(); open(); }
+      else if (e.key === "Escape" && !modal.hidden) close();
+    });
+  })();
+
   /* ---------------- Live: wie viele sind gerade auf der Seite (Supabase Realtime Presence) ---------------- */
   (function live() {
     const L = S.live || {}; if (!L.url || !L.key) return;
@@ -424,6 +503,14 @@
       const res = Object.values((D.dorftest || {}).results || {});
       $("#teaser-dots").innerHTML = res.map((r) => `<i style="--c:${esc(r.color)}"></i>`).join("");
       if (!reduced) embers($(".hero canvas"));
+      const tv = $("#trailer"), tp = $(".trailer-play");
+      if (tv && tp) {
+        tp.addEventListener("click", () => {
+          tp.hidden = true; tv.controls = true; tv.play().catch(() => {});
+          const snd = $(".sound-btn"); if (snd && snd.getAttribute("aria-pressed") === "true") snd.click();
+        });
+        tv.addEventListener("ended", () => { tv.controls = false; tv.load(); tp.hidden = false; });
+      }
     },
     news() {
       $("#list").innerHTML = D.news.length ? `<div class="scroll">${newsSorted().map(newsHTML).join("")}</div>`
@@ -498,7 +585,7 @@
         : sealed("Das Regelwerk wird gerade verfasst", "Hier steht bald alles, was auf dem Server gilt, sortiert nach Paragraphen.");
     },
     faq() {
-      $("#faq-list").innerHTML = D.faq.length ? `<div class="faq">${D.faq.map(([q, a]) => `<details><summary>${esc(q)}</summary><div class="a">${esc(a)}</div></details>`).join("")}</div>`
+      $("#faq-list").innerHTML = D.faq.length ? `<div class="faq">${D.faq.map(([q, a], k) => `<details id="faq-${k + 1}"><summary>${esc(q)}</summary><div class="a">${esc(a)}</div></details>`).join("")}</div>`
         : sealed("Noch keine Fragen beantwortet", "Häufige Fragen sammeln wir hier, sobald sie im Discord auftauchen.");
     },
     changelog() {
@@ -618,7 +705,7 @@
       const EC = { Feuer: "#ff6a3d", Wind: "#8fd19e", Wasser: "#4aa3c9", Blitz: "#b59cff", Erde: "#c19a6b" };
       const uniq = (k) => [...new Set(J.map((j) => j[k]).filter(Boolean))];
       const order = ["E", "D", "C", "B", "A", "S"];
-      const F = { q: "", element: "", rank: "", type: "" };
+      const F = { q: new URLSearchParams(location.search).get("q") || "", element: "", rank: "", type: "" };
       const group = (k, label, vals) => vals.length ? `<span class="chip-label">${label}</span>` + [["", "Alle"], ...vals.map((v) => [v, v])].map(([v, l]) => `<button type="button" class="chip" data-k="${k}" data-v="${esc(v)}" aria-pressed="${v === ""}">${esc(l)}</button>`).join("") : "";
       el.innerHTML = `<div class="jutsu-tools"><input class="search" type="search" placeholder="Jutsu suchen" aria-label="Jutsu suchen">
         <div class="chips">${group("element", "Element", uniq("element"))}${group("rank", "Rang", uniq("rank").sort((a, b) => order.indexOf(a) - order.indexOf(b)))}${group("type", "Art", uniq("type"))}</div></div>
@@ -632,6 +719,7 @@
           <div class="meta">${j.element ? `<span class="el">${esc(j.element)}</span>` : ""}${j.rank ? `<span class="rk">Rang ${esc(j.rank)}</span>` : ""}${j.type ? `<span>${esc(j.type)}</span>` : ""}${j.clan ? `<span>${esc(j.clan)}</span>` : ""}</div>
           ${j.text ? `<p>${esc(j.text)}</p>` : ""}</article>`).join("") || `<article class="jutsu"><p>Keine Technik passt zu diesen Filtern.</p></article>`;
       };
+      el.querySelector(".search").value = F.q;
       el.querySelector(".search").addEventListener("input", (e) => { F.q = e.target.value; draw(); });
       el.querySelector(".chips").addEventListener("click", (e) => {
         const b = e.target.closest(".chip"); if (!b) return;
@@ -660,6 +748,10 @@
     }
   };
   if (R[page]) R[page]();
+
+  /* Sprungziel per Link öffnen (z. B. FAQ aus der Suche) */
+  const openHash = () => { const d = location.hash && document.getElementById(decodeURIComponent(location.hash.slice(1))); if (d && d.tagName === "DETAILS") { d.open = true; d.scrollIntoView({ block: "center" }); } };
+  openHash(); addEventListener("hashchange", openHash);
 
   /* Leaks aufdecken */
   document.addEventListener("click", (e) => { const l = e.target.closest(".leak.covered"); if (l) l.classList.remove("covered"); });
