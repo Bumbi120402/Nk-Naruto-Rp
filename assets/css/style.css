@@ -210,7 +210,9 @@ p { margin: 0 0 1em; max-width: var(--measure); }
 .scroll h2, .scroll h3 { color: var(--text); }
 .scroll p, .scroll li { color: var(--ash); }
 
-.sealed { display: grid; grid-template-columns: auto 1fr; gap: clamp(24px, 4vw, 60px); align-items: center; padding-block: 60px; }
+.sealed { padding-block: 56px; }
+.tag-logo { width: 72px; margin: 0 auto 10px; filter: drop-shadow(0 0 10px rgba(255,196,0,.35)); }
+.leak-wrap .tag-logo { width: 54px; margin-bottom: 6px; }
 .hanko {
   width: 140px; height: 140px; display: grid; place-items: center; transform: rotate(-9deg);
   border: 4px solid var(--gold); border-radius: 16px; color: var(--gold);

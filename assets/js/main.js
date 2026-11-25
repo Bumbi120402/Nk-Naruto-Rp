@@ -71,12 +71,12 @@
   $(".shell").append(footer);
 
   /* ---------------- Leere Schriftrolle ---------------- */
-  const sealed = (title, text) => `<div class="scroll sealed"><div class="hanko" aria-hidden="true">NK</div><div><h3>${title}</h3><p>${text}</p></div></div>`;
+  const sealed = (title, text) => `<div class="scroll sealed"><div><h3>${title}</h3><p>${text}</p></div></div>`;
 
   /* ---------------- Countdown-Zettel ---------------- */
   function countdownTag(el) {
     const t = new Date(S.release).getTime();
-    const head = `<div class="bomb" aria-hidden="true">NK</div>`;
+    const head = `<img class="tag-logo" src="assets/img/logo-small.png" alt="">`;
     if (!S.release || isNaN(t)) { el.remove(); return; }  // kein Datum = kein Countdown
     const tick = () => {
       const d = t - Date.now();
@@ -105,8 +105,8 @@
     const at = l.unlock ? new Date(l.unlock).getTime() : 0, locked = at > Date.now();
     const img = l.image ? `<img src="${esc(l.image)}" alt="">` : `<div class="ph">${icon("lock")}</div>`;
     const tag = locked
-      ? `<div class="tag-paper"><div class="bomb">NK</div><p class="label" style="margin:0">Frei ab ${new Date(l.unlock).toLocaleDateString("de-DE", { day: "2-digit", month: "2-digit" })}</p></div>`
-      : `<div class="tag-paper"><div class="bomb">NK</div><p class="label" style="margin:0">Aufdecken</p></div>`;
+      ? `<div class="tag-paper"><img class="tag-logo" src="assets/img/logo-small.png" alt=""><p class="label" style="margin:0">Frei ab ${new Date(l.unlock).toLocaleDateString("de-DE", { day: "2-digit", month: "2-digit" })}</p></div>`
+      : `<div class="tag-paper"><img class="tag-logo" src="assets/img/logo-small.png" alt=""><p class="label" style="margin:0">Aufdecken</p></div>`;
     return `<button type="button" class="leak ${locked ? "locked" : "covered"}" ${locked ? "disabled" : ""}>
       <div class="leak-img">${img}<div class="leak-wrap">${tag}</div></div>
       <div class="leak-body"><h3>${locked ? "Versiegelt" : esc(l.title)}</h3><p>${locked ? "Dieser Leak öffnet sich von selbst." : esc(l.text)}</p></div></button>`;
