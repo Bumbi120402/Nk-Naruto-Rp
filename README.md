@@ -2,6 +2,10 @@
 
 Statische Website im Schwarz-Gelb-Design mit dem NK-Wappen. Sie läuft kostenlos auf **GitHub Pages** und braucht keinen Server und keinen Build-Schritt.
 
+**Design:** tiefschwarze Nacht, Chakra-Gold aus dem Wappen, Schriftrollen- und Briefbomben-Papier mit roten Siegelstempeln. Links ist eine Kanji-Navigation, auf der Startseite gibt es ein Fingerzeichen-Intro (einmal pro Besuch) und den Countdown als Briefbomben-Zettel. Leere Bereiche zeigen automatisch eine versiegelte Schriftrolle.
+
+Die Schriften liegen direkt im Repo (`assets/fonts`), es werden also keine Google-Server geladen. Lizenz: SIL Open Font License (Anton, Bitter, Noto Serif CJK).
+
 ## Seiten
 | Datei | Inhalt |
 |---|---|
@@ -16,10 +20,9 @@ Statische Website im Schwarz-Gelb-Design mit dem NK-Wappen. Sie läuft kostenlos
 ## Inhalte ändern – nur eine Datei
 **Alle Texte stehen in `assets/js/content.js`.** Datei öffnen, Text ändern, speichern, hochladen. Fertig.
 
-Als Erstes solltet ihr Folgendes ausfüllen (in der Datei mit `>>` markiert):
-- `discord`: euer Discord-Invite-Link
-- `release`: Release-Datum und Uhrzeit für den Countdown
-- Team-Namen, eure Regel für Zweitcharaktere, Kekkei-Genkai-Plätze
+Im Moment sind alle Listen leer. Über jeder Liste steht als Kommentar ein Beispiel, wie ein Eintrag aussieht.
+- `discord`: euer Discord-Invite-Link (ohne Link ist der Discord-Knopf ausgegraut)
+- `release`: Release-Datum und Uhrzeit (ohne Datum steht auf dem Zettel „Datum folgt“)
 
 Eine **neue Ankündigung** fügt ihr ganz oben bei `news:` ein:
 ```js
@@ -27,11 +30,11 @@ Eine **neue Ankündigung** fügt ihr ganz oben bei `news:` ein:
 ```
 Für einen **neuen Leak** mit Freischaltdatum tragt ihr bei `leaks:` ein:
 ```js
-{ title: "Neuer Leak", icon: "🔥", image: "", unlock: "2026-12-10T18:00:00+01:00", text: "…" },
+{ title: "Neuer Leak", image: "", unlock: "2026-12-10T18:00:00+01:00", text: "…" },
 ```
 Bilder legt ihr in `assets/img/` ab und tragt den Pfad ein, z. B. `image: "assets/img/leak1.jpg"`.
 
-Farben und Schriften stehen oben in `assets/css/style.css` (`--yellow`, `--bg` …).
+Farben stehen oben in `assets/css/style.css` (`--gold`, `--tag`, `--seal` …).
 
 ## Auf GitHub Pages veröffentlichen
 1. Auf GitHub ein neues Repository anlegen, z. B. `nk-website`.

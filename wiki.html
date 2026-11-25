@@ -4,33 +4,33 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Wiki · NK Naruto RP</title>
-  <meta name="description" content="Das NK-Wiki: Start-Guide, Ränge, Jutsu, Missionen und RP-Begriffe.">
-  <meta name="theme-color" content="#070707">
+  <meta name="description" content="Das Nachschlagewerk von NK.">
+  <meta name="theme-color" content="#000000">
   <meta property="og:title" content="Wiki · NK Naruto RP">
-  <meta property="og:description" content="Das NK-Wiki: Start-Guide, Ränge, Jutsu, Missionen und RP-Begriffe.">
+  <meta property="og:description" content="Das Nachschlagewerk von NK.">
   <meta property="og:image" content="assets/img/og.jpg">
   <link rel="icon" type="image/png" href="assets/img/favicon-64.png">
   <link rel="apple-touch-icon" href="assets/img/favicon.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preload" href="assets/fonts/kanji.woff" as="font" type="font/woff" crossorigin>
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body data-page="wiki">
+<div class="shell">
 <main>
-  <div class="page-head"><div class="container">
-    <span class="kicker">Nachschlagewerk</span>
-    <h1>Wiki</h1>
-    <p>Alles, was du für dein Ninja-Leben wissen musst – durchsuchbar.</p>
-  </div></div>
-  <div class="container wiki">
+  <header class="phead">
+    <div class="ghost" aria-hidden="true">書</div>
+    <div class="wrap"><h1>Wiki</h1><p>Alles zum Nachschlagen, von den ersten Schritten bis zu den Systemen des Servers.</p></div>
+  </header>
+  <div class="wrap wiki">
     <aside class="wiki-side">
-      <input class="search" id="wiki-search" type="search" placeholder="Wiki durchsuchen …" aria-label="Wiki durchsuchen">
-      <nav id="wiki-nav"></nav>
+      <label class="sr" for="wiki-search" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Wiki durchsuchen</label>
+      <input class="search" id="wiki-search" type="search" placeholder="Wiki durchsuchen">
+      <nav id="wiki-nav" aria-label="Wiki-Artikel"></nav>
     </aside>
     <article class="wiki-article" id="wiki-article"></article>
   </div>
 </main>
+</div>
   <script src="assets/js/content.js"></script>
   <script src="assets/js/main.js"></script>
 </body>
