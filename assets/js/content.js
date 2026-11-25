@@ -50,8 +50,6 @@ window.NK = {
   /* [ "Frage?", "Antwort" ] */
   faq: [],
 
-  /* { image: "assets/img/galerie/bild1.jpg", title: "Erstes Event" } */
-  gallery: [],
 
 
   /* { group: "Serverleitung", members: [ { name: "DJ Reeps", role: "Serverleitung", avatar: "", text: "" } ] } */

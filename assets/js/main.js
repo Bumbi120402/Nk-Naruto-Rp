@@ -15,8 +15,6 @@
     wiki: '<path d="M6 3h11a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H6z"/><path d="M6 3v18M9.5 8h5M9.5 12h5"/>',
     regelwerk: '<path d="M5 4h14M5 20h14"/><rect x="7" y="4" width="10" height="16"/><path d="M10 9h4M10 13h4"/>',
     team: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M21.5 20c0-2.9-1.7-5-4.5-5.7"/>',
-    galerie: '<rect x="3" y="4" width="18" height="16" rx="1.5"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-9 9"/>',
-    quiz: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.3"/>',
     faq: '<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5v.7"/><path d="M12 17h.01"/>',
     jutsu: '<path d="M12 2c1.5 3 4 4.5 4 8a4 4 0 0 1-8 0c0-1.6.7-2.6 1.5-3.5.2 1.6 1 2.5 2 2.5-.6-2.5-.4-4.6.5-7z"/><path d="M6 15c-1 1.5-1.5 2.7-1.5 4 0 1.5 3.4 3 7.5 3s7.5-1.5 7.5-3c0-1.3-.5-2.5-1.5-4"/>',
     dorftest: '<path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',
@@ -35,7 +33,6 @@
     ["jutsu.html", "Jutsu", "jutsu"],
     ["regelwerk.html", "Regelwerk", "regelwerk"],
     ["team.html", "Team", "team"],
-    ["galerie.html", "Galerie", "galerie"],
     ["faq.html", "FAQ", "faq"],
     ["dorftest.html", "Dorf-Test", "dorftest"],
     ["changelog.html", "Changelog", "changelog"],
@@ -460,19 +457,6 @@
     faq() {
       $("#faq-list").innerHTML = D.faq.length ? `<div class="faq">${D.faq.map(([q, a]) => `<details><summary>${esc(q)}</summary><div class="a">${esc(a)}</div></details>`).join("")}</div>`
         : sealed("Noch keine Fragen beantwortet", "Häufige Fragen sammeln wir hier, sobald sie im Discord auftauchen.");
-    },
-    galerie() {
-      const G = D.gallery || [];
-      if (!G.length) { $("#gallery").innerHTML = sealed("Die Galerie ist noch leer", "Screenshots, Artworks und Event-Bilder landen hier. Ein Klick öffnet sie groß."); return; }
-      $("#gallery").innerHTML = `<div class="gallery">${G.map((g, i) => `<button type="button" data-i="${i}"><img src="${esc(g.image)}" alt="${esc(g.title || "")}" loading="lazy">${g.title ? `<figcaption>${esc(g.title)}</figcaption>` : ""}</button>`).join("")}</div>`;
-      $("#gallery").addEventListener("click", (e) => {
-        const b = e.target.closest("button[data-i]"); if (!b) return;
-        const g = G[+b.dataset.i], box = document.createElement("div");
-        box.className = "lightbox"; box.innerHTML = `<div><img src="${esc(g.image)}" alt="">${g.title ? `<p>${esc(g.title)}</p>` : ""}</div>`;
-        const close = () => { box.remove(); removeEventListener("keydown", key); };
-        const key = (ev) => { if (ev.key === "Escape") close(); };
-        box.addEventListener("click", close); addEventListener("keydown", key); document.body.append(box);
-      });
     },
     changelog() {
       const L = D.changelog || [], el = $("#changelog");

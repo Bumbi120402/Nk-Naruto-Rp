@@ -15,7 +15,6 @@ Die Schriften liegen direkt im Repo (`assets/fonts`), es werden also keine Googl
 | `wiki.html` | Wiki mit 72 Seiten in 10 Kategorien, Suche, Zurück/Weiter. Inhalte in `assets/js/wiki.js` |
 | `regelwerk.html` | Regelwerk mit Paragraphen |
 | `team.html` | Team nach Gruppen |
-| `galerie.html` | Galerie, Klick öffnet das Bild groß |
 | `jutsu.html` | Jutsu-Datenbank mit Suche und Filtern (Element, Rang, Art) |
 | `faq.html` | Häufige Fragen |
 | `dorftest.html` | Dorf-Test mit Ergebnis zum Teilen |
