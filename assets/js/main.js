@@ -349,6 +349,9 @@
         ? `<div class="leaks">${D.leaks.slice(0, 3).map(leakHTML).join("")}</div>`
         : sealed("Noch nichts geleakt", "Vor dem Release tauchen hier erste Einblicke auf. Manche öffnen sich zu einem festen Zeitpunkt von selbst.");
       $("#join-btn").innerHTML = discordBtn();
+      const sd = $("#step-discord");
+      if (S.discord) { sd.href = S.discord; sd.target = "_blank"; sd.rel = "noopener"; }
+      else { sd.removeAttribute("href"); sd.setAttribute("aria-disabled", "true"); sd.querySelector("span").textContent = "Der Link folgt in Kürze."; }
       $("#hall").innerHTML = D.hall.length
         ? `<div class="hall">${D.hall.map((h) => `<article class="hall-card"><div class="pic">${h.image ? `<img src="${esc(h.image)}" alt="">` : esc((h.name || "?").slice(0, 1))}</div><small>${esc(h.title || "")}</small><h3>${esc(h.name)}</h3>${h.text ? `<p>${esc(h.text)}</p>` : ""}</article>`).join("")}</div>`
         : sealed("Noch kein Ninja des Monats", "Hier ehren wir regelmäßig Spieler, die mit ihrem Roleplay herausgestochen sind.");
