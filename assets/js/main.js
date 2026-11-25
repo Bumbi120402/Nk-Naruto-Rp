@@ -156,8 +156,8 @@
   function renderMap(el) {
     if (!el) return;
     const M = D.map || {}, mk = M.markers || [];
-    el.innerHTML = `<div class="map">${M.image ? `<img src="${esc(M.image)}" alt="Karte der Welt">` : MAP_SVG}
-      ${mk.map((m, i) => `<button type="button" class="marker" data-i="${i}" aria-expanded="false" style="left:${+m.x}%;top:${+m.y}%;--mc:${esc(m.color || "#ffc400")}"><i class="dot"></i><span>${esc(m.name)}</span></button>`).join("")}</div>`;
+    el.innerHTML = `<div class="map${M.image ? " has-img" : ""}">${M.image ? `<img src="${esc(M.image)}" alt="Karte der Welt">` : MAP_SVG}
+      ${mk.map((m, i) => `<button type="button" class="marker${m.small ? " small" : ""}" data-i="${i}" aria-expanded="false" aria-label="${esc(m.name)}" style="left:${+m.x}%;top:${+m.y}%;--mc:${esc(m.color || "#ffc400")}"><i class="dot"></i><span>${esc(m.name)}</span></button>`).join("")}</div>`;
     const map = el.querySelector(".map");
     const close = () => { map.querySelector(".map-pop")?.remove(); map.querySelectorAll(".marker").forEach((b) => b.setAttribute("aria-expanded", "false")); };
     map.addEventListener("click", (e) => {
@@ -169,7 +169,7 @@
       const pop = document.createElement("div");
       pop.className = "map-pop" + (+m.y < 40 ? " below" : "");
       pop.style.cssText = `left:${Math.min(Math.max(+m.x, 18), 82)}%;top:${+m.y}%;--mc:${m.color || "#ffc400"}`;
-      pop.innerHTML = `<h3>${esc(m.name)}</h3>${m.realm ? `<small>${esc(m.realm)}</small>` : ""}${m.text ? `<p>${esc(m.text)}</p>` : ""}${hasVillage ? `<a href="#${encodeURIComponent(m.name)}">Mehr über das Dorf</a>` : m.link ? `<a href="${esc(m.link)}">Mehr erfahren</a>` : ""}`;
+      pop.innerHTML = `<h3>${esc(m.name)}</h3>${m.realm ? `<small>${esc(m.realm)}</small>` : ""}${m.text ? `<p>${esc(m.text)}</p>` : ""}${hasVillage ? `<a href="#${encodeURIComponent(m.name)}">Mehr über das Dorf</a>` : m.link ? `<a href="${esc(m.link)}">Mehr im Wiki</a>` : ""}`;
       map.append(pop);
     });
     addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });

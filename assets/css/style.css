@@ -615,3 +615,15 @@ footer .legal { margin-top: 34px; font-size: .8rem; color: #6a6252; max-width: n
   .wiki-side nav { display: none; }
   body.wk-open .wiki-side nav { display: block; }
 }
+
+/* Karte als Bild */
+.map.has-img { aspect-ratio: auto; }
+.map.has-img > img { position: static; display: block; width: 100%; height: auto; }
+.marker.small { --mc: #e8c77a; }
+.marker.small .dot { width: 10px; height: 10px; box-shadow: 0 0 0 3px rgba(0,0,0,.65), 0 0 10px var(--mc); }
+.marker.small .dot::after { display: none; }
+.marker.small span { position: absolute; top: 16px; font: 600 .78rem/1 var(--body); padding: 4px 7px; background: rgba(0,0,0,.85); border: 1px solid rgba(255,196,0,.35); opacity: 0; pointer-events: none; transition: opacity .15s; }
+.marker.small:hover span, .marker.small:focus-visible span { opacity: 1; }
+.marker { z-index: 2; }
+.marker:hover { z-index: 3; }
+@media (max-width: 700px) { .marker.small span { display: none; } }

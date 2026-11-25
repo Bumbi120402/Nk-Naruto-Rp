@@ -69,15 +69,27 @@ window.NK = {
      image leer = eingebaute Karte. Eigene Karte: image: "assets/img/karte.jpg"
      x / y = Position in Prozent (0–100) von links / oben                                       */
   map: {
-    image: "",
+    image: "assets/img/karte.webp",
     markers: [
-      { name: "Iwagakure",   realm: "Erdreich",    x: 25, y: 28, color: "#b08463", text: "Das Dorf versteckt im Stein." },
-      { name: "Kumogakure",  realm: "Blitzreich",  x: 72, y: 24, color: "#a98bea", text: "Das Dorf versteckt in den Wolken." },
-      { name: "Konohagakure",realm: "Feuerreich",  x: 47, y: 54, color: "#6fbf4a", text: "Das Dorf versteckt hinter den Blättern." },
-      { name: "Sunagakure",  realm: "Windreich",   x: 22, y: 70, color: "#d9a441", text: "Das Dorf versteckt im Sand." },
-      { name: "Kirigakure",  realm: "Wasserreich", x: 88, y: 60, color: "#4aa3c9", text: "Das Dorf versteckt im Nebel." }
+      { name: "Konohagakure", realm: "Feuerreich",  x: 42.1, y: 63.3, color: "#6fbf4a", text: "Das Dorf versteckt hinter den Blättern.", link: "wiki.html#konoha" },
+      { name: "Sunagakure",   realm: "Windreich",   x: 20.1, y: 85.2, color: "#d9a441", text: "Das Dorf versteckt im Sand.", link: "wiki.html#suna" },
+      { name: "Iwagakure",    realm: "Erdreich",    x: 26.9, y: 31.5, color: "#b08463", text: "Das Dorf versteckt hinter den Felsen.", link: "wiki.html#erdreich" },
+      { name: "Kumogakure",   realm: "Blitzreich",  x: 71.1, y: 29.9, color: "#a98bea", text: "Das Dorf versteckt in den Wolken.", link: "wiki.html#blitzreich" },
+      { name: "Kirigakure",   realm: "Wasserreich", x: 82.8, y: 74.3, color: "#4aa3c9", text: "Das Dorf versteckt im Nebel.", link: "wiki.html#wasserreich" },
+      /* kleine Länder: small: true = kleiner Punkt, Name erscheint beim Drüberfahren */
+      { name: "Regenland",            small: true, x: 28.7, y: 54.2, text: "Fast ununterbrochener Regen, im Krieg schwer verwüstet.", link: "wiki.html#kleine-laender" },
+      { name: "Grasland",             small: true, x: 34.7, y: 39.9, text: "Grenzt an das Feuerreich. Sein kleines Dorf heißt Kusagakure.", link: "wiki.html#kleine-laender" },
+      { name: "Steinland",            small: true, x: 18.9, y: 57.8, text: "Karges Bergland voller Höhlen.", link: "wiki.html#kleine-laender" },
+      { name: "Reisreich",            small: true, x: 46.1, y: 43.8, text: "Reisfelder ohne offizielles Shinobi-Dorf, Unterschlupf für Abtrünnige.", link: "wiki.html#kleine-laender" },
+      { name: "Land der Wasserfälle", small: true, x: 50.6, y: 44.3, text: "Schluchten, Wasserfälle und das versteckte Dorf Takigakure.", link: "wiki.html#kleine-laender" },
+      { name: "Frostland",            small: true, x: 55.9, y: 40.3, text: "Kurze Sommer, lange Winter.", link: "wiki.html#kleine-laender" },
+      { name: "Land der heißen Quellen", small: true, x: 54.9, y: 51.3, text: "Berühmt für seine Badehäuser, neutraler Treffpunkt.", link: "wiki.html#kleine-laender" },
+      { name: "Strudelland",          small: true, x: 63.1, y: 71.7, text: "Insel voller Strudel, Ruinen eines Siegel-Clans.", link: "wiki.html#kleine-laender" },
+      { name: "Wellenland",           small: true, x: 45.3, y: 88.3, text: "Kleines Inselland, lebt von Fischerei und Handel.", link: "wiki.html#kleine-laender" },
+      { name: "Flussland",            small: true, x: 35.2, y: 87.7, text: "Pufferzone zwischen Feuer- und Windreich.", link: "wiki.html#kleine-laender" }
     ]
   },
+
 
   /* ------------------------------------------------------------ STECKBRIEF-GENERATOR (Mitmachen)
      type: text, number, textarea, select
