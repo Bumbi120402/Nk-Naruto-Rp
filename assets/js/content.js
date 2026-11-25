@@ -157,5 +157,10 @@ window.NK = {
     contactForm: "",     // z. B. Link zu einem Kontaktformular
     register: "",        // falls vorhanden, z. B. "Vereinsregister Amtsgericht Musterstadt, VR 12345"
     responsible: ""      // Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV: Name + Anschrift (leer = wie oben)
-  }
+  },
+
+  /* ------------------------------------------------------------ DATENSCHUTZ & NUTZUNGSBEDINGUNGEN
+     Die Texte stehen in main.js und passen sich automatisch an (z. B. Discord-Anzeige nur, wenn aktiv).
+     authority: optional eure Datenschutz-Aufsichtsbehörde, z. B. "Landesbeauftragte für Datenschutz Niedersachsen" */
+  legal: { updated: "November 2026", authority: "" }
 };

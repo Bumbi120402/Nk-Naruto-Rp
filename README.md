@@ -21,6 +21,7 @@ Die Schriften liegen direkt im Repo (`assets/fonts`), es werden also keine Googl
 | `faq.html` | Häufige Fragen |
 | `dorftest.html` | Dorf-Test mit Ergebnis zum Teilen |
 | `social.html` | Social Media: alle Kanäle (in `content.js` unter `socials`) |
+| `impressum.html`, `datenschutz.html`, `nutzungsbedingungen.html` | Rechtliches, verlinkt in der Fußzeile. Angaben in `content.js` unter `impressum` und `legal` |
 | `leaks.html` | Leaks (verlinkt von der Startseite) |
 
 ## Inhalte ändern – nur eine Datei

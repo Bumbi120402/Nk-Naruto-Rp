@@ -82,7 +82,7 @@
       <nav aria-label="Fußzeile">${PAGES.map(([h, l]) => `<a href="${h}">${l}</a>`).join("")}</nav>
     </div>
     ${(D.socials || []).some((x) => x.url) ? `<div class="f-social">${D.socials.filter((x) => x.url).map((x) => `<a href="${esc(x.url)}" target="_blank" rel="noopener" aria-label="${esc(x.platform)}">${(SOC[x.platform.toLowerCase()] || SOC.link).i}</a>`).join("")}</div>` : ""}
-    <div class="legal-row"><nav aria-label="Rechtliches"><a href="impressum.html"${page === "impressum" ? ' aria-current="page"' : ""}>Impressum</a></nav>
+    <div class="legal-row"><nav aria-label="Rechtliches">${[["impressum.html", "Impressum", "impressum"], ["datenschutz.html", "Datenschutz", "datenschutz"], ["nutzungsbedingungen.html", "Nutzungsbedingungen", "nutzungsbedingungen"]].map(([h, l, p]) => `<a href="${h}"${page === p ? ' aria-current="page"' : ""}>${l}</a>`).join("")}</nav>
     <p class="legal">© ${new Date().getFullYear()} NK Gaming Area. Ein Fan-Projekt, nicht offiziell verbunden mit Naruto, Masashi Kishimoto, Shueisha oder Studio Pierrot.</p></div>
   </div>`;
   $(".shell").append(footer);
@@ -510,12 +510,74 @@
             <li>Das Impressum muss von jeder Seite aus leicht erreichbar sein. Der Link unten in der Fußzeile erfüllt das.</li>
             <li>Die Impressumspflicht steht seit Mai 2024 im Digitale-Dienste-Gesetz (DDG), nicht mehr im TMG. Alte Vorlagen mit „§ 5 TMG“ sollten angepasst werden.</li>
             <li>Der früher übliche Link zur EU-Streitschlichtungsplattform ist seit Juli 2025 nicht mehr nötig, die Plattform wurde eingestellt.</li>
-            <li>Sobald Discord-Anzeige, Musik oder andere externe Dienste eingebunden sind, braucht ihr zusätzlich eine Datenschutzerklärung.</li>
+            <li>Die Datenschutzerklärung ist schon angelegt und nutzt dieselben Angaben. Sie steht ebenfalls unten in der Fußzeile.</li>
           </ul>
           <p class="fine">Diese Vorlage ist keine Rechtsberatung. Für ein verbindliches Impressum am besten einen Generator wie e-recht24 nutzen oder es prüfen lassen.</p>
           <h2>So sieht es fertig aus</h2>
           <div class="example"><p><b>Angaben gemäß § 5 DDG</b><br>Max Mustermann<br>Musterstraße 1<br>12345 Musterstadt</p><p><b>Kontakt</b><br>E-Mail: kontakt@beispiel.de<br>Telefon: 0123 456789</p><p><b>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</b><br>Max Mustermann, Anschrift wie oben</p></div>
         </div>`;
+    },
+    datenschutz() {
+      const I = D.impressum || {}, el = $("#datenschutz");
+      const who = I.name && I.address && I.city
+        ? `<p>${esc(I.name)}<br>${esc(I.address)}<br>${esc(I.city)}${I.email ? `<br>E-Mail: <a href="mailto:${esc(I.email)}">${esc(I.email)}</a>` : ""}</p>`
+        : `<div class="play-note"><b>Noch offen:</b> Name, Anschrift und E-Mail erscheinen hier automatisch, sobald sie in <code>content.js</code> unter <code>impressum</code> eingetragen sind.</div>`;
+      const auth = (D.legal || {}).authority;
+      el.innerHTML = `<div class="scroll legal-doc">
+        <h2>Verantwortlicher</h2>
+        <p>Verantwortlich für die Datenverarbeitung auf dieser Website im Sinne der Datenschutz-Grundverordnung (DSGVO) ist:</p>${who}
+        <h2>Das Wichtigste in Kürze</h2>
+        <ul class="checklist">
+          <li>Wir setzen <b>keine Cookies</b>, kein Tracking und keine Analyse-Tools ein.</li>
+          <li>Es gibt keine Registrierung, kein Kontaktformular und keine Kommentarfunktion. Wir erfassen also keine Daten, die du selbst eingibst.</li>
+          <li>Schriften, Bilder und Musik liegen auf unserem eigenen Webspace. Es werden keine Google Fonts oder andere fremde Schriftdienste geladen.</li>
+          <li>Beim Aufruf der Seite verarbeitet unser Hosting-Anbieter technisch notwendige Daten (siehe „Hosting über GitHub Pages“).</li>
+        </ul>
+        <h2>Hosting über GitHub Pages</h2>
+        <p>Diese Website wird über GitHub Pages bereitgestellt, einen Dienst der GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, USA. Beim Aufruf einer Seite überträgt dein Browser automatisch technische Daten an die Server von GitHub, insbesondere deine IP-Adresse, Datum und Uhrzeit des Abrufs, die aufgerufene Seite, die Seite, von der du kommst, sowie Browser und Betriebssystem. GitHub speichert die IP-Adressen der Besucher nach eigenen Angaben aus Sicherheitsgründen.</p>
+        <p>Rechtsgrundlage ist unser berechtigtes Interesse an einer sicheren und funktionierenden Bereitstellung der Website (Art. 6 Abs. 1 lit. f DSGVO). Dabei können Daten in die USA übermittelt werden. GitHub stützt solche Übermittlungen auf Standardvertragsklauseln der EU-Kommission (Art. 46 DSGVO). Mehr dazu in der Datenschutzerklärung von GitHub: <a href="https://docs.github.com/de/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">docs.github.com</a>.</p>
+        <h2>Speicherung in deinem Browser</h2>
+        <p>Für zwei Komfortfunktionen speichert die Website kleine Einträge im Speicher deines Browsers (Local Storage bzw. Session Storage). Diese Daten verlassen dein Gerät nicht und werden nicht an uns übertragen.</p>
+        <ul class="checklist">
+          <li><b>nk-intro</b> (Session Storage): merkt sich, dass du die Start-Animation schon gesehen hast. Wird beim Schließen des Browser-Tabs gelöscht.</li>
+          <li><b>nk-vol</b> (Local Storage): merkt sich die Lautstärke der Musik, wenn du den Regler benutzt. Bleibt gespeichert, bis du es in deinem Browser löschst.</li>
+        </ul>
+        <p>Beides ist unbedingt erforderlich, damit die von dir genutzten Funktionen so arbeiten, wie du es erwartest (§ 25 Abs. 2 Nr. 2 TDDDG). Du kannst die Einträge jederzeit über die Einstellungen deines Browsers löschen.</p>
+        ${S.discordId ? `<h2>Discord-Anzeige</h2>
+        <p>Oben auf der Seite zeigen wir, wie viele Mitglieder gerade auf unserem Discord-Server online sind. Dafür ruft dein Browser beim Laden der Seite Daten von Discord ab (Discord Inc., 444 De Haro Street, San Francisco, CA 94107, USA). Dabei wird deine IP-Adresse an Discord übermittelt. Rechtsgrundlage ist unser berechtigtes Interesse, aktuelle Informationen zu unserer Community anzuzeigen (Art. 6 Abs. 1 lit. f DSGVO). Datenschutzerklärung von Discord: <a href="https://discord.com/privacy" target="_blank" rel="noopener">discord.com/privacy</a>.</p>` : ""}
+        ${(S.status || {}).statusUrl ? `<h2>Serverstatus</h2><p>Für die Statusanzeige ruft dein Browser Daten von ${esc(new URL(S.status.statusUrl, location.href).hostname)} ab. Dabei wird deine IP-Adresse an diesen Server übermittelt (Art. 6 Abs. 1 lit. f DSGVO).</p>` : ""}
+        <h2>Links zu anderen Seiten</h2>
+        <p>Auf dieser Website verlinken wir auf Discord, soziale Netzwerke und andere Seiten. Es handelt sich um einfache Links: Erst wenn du sie anklickst, wird die fremde Seite geladen. Ab dann gilt die Datenschutzerklärung des jeweiligen Anbieters.</p>
+        <h2>Musik</h2>
+        <p>Die Musik startet nur, wenn du auf den Lautsprecher-Knopf klickst. Die Datei liegt auf unserem eigenen Webspace, es werden dabei keine Daten an Dritte übertragen.</p>
+        <h2>Deine Rechte</h2>
+        <p>Du hast jederzeit das Recht auf Auskunft über deine gespeicherten Daten (Art. 15 DSGVO), auf Berichtigung (Art. 16), Löschung (Art. 17), Einschränkung der Verarbeitung (Art. 18) und Datenübertragbarkeit (Art. 20). Gegen Verarbeitungen auf Grundlage unseres berechtigten Interesses kannst du Widerspruch einlegen (Art. 21 DSGVO). Wende dich dafür an die oben genannte Kontaktadresse.</p>
+        <p>Außerdem kannst du dich bei einer Datenschutz-Aufsichtsbehörde beschweren (Art. 77 DSGVO)${auth ? `, zum Beispiel bei: ${esc(auth)}` : ", zum Beispiel bei der Behörde deines Bundeslandes"}.</p>
+        <h2>Änderungen</h2>
+        <p>Wenn wir neue Funktionen einbauen, passen wir diese Datenschutzerklärung an. Es gilt immer die hier veröffentlichte Fassung.</p>
+        <p class="fine">Stand: ${esc((D.legal || {}).updated || "November 2026")}</p></div>`;
+    },
+    nutzungsbedingungen() {
+      $("#nutzungsbedingungen").innerHTML = `<div class="scroll legal-doc">
+        <h2>Geltungsbereich</h2>
+        <p>Diese Nutzungsbedingungen gelten für die Website von NK Gaming Area. Für das Spielen auf unserem Server und die Teilnahme an unserem Discord gilt zusätzlich unser <a href="regelwerk.html">Regelwerk</a>.</p>
+        <h2>Fan-Projekt</h2>
+        <p>NK Gaming Area ist ein nicht offizielles Fan-Projekt. Wir stehen in keiner Verbindung zu Masashi Kishimoto, Shueisha, Studio Pierrot oder anderen Rechteinhabern von Naruto. Namen, Begriffe und Marken aus Naruto gehören ihren jeweiligen Eigentümern und werden hier nur im Rahmen eines Fan-Projekts verwendet.</p>
+        <h2>Nutzung der Inhalte</h2>
+        <p>Die Texte, Grafiken und Gestaltung dieser Website, etwa Wiki, Lore, Regelwerk, Karte und Logo, wurden für NK Gaming Area erstellt. Du darfst sie für dich lesen, nutzen und mit Link auf diese Seite teilen. Nicht erlaubt ist es, Inhalte ganz oder in großen Teilen zu kopieren und als eigene auszugeben, etwa für einen anderen Server, oder sie kommerziell zu nutzen. Wenn du etwas übernehmen möchtest, frag uns einfach im Discord.</p>
+        <h2>Verfügbarkeit</h2>
+        <p>Wir bemühen uns, dass die Website immer erreichbar und aktuell ist. Einen Anspruch darauf gibt es aber nicht. Wir können Inhalte und Funktionen jederzeit ändern, erweitern oder entfernen.</p>
+        <h2>Richtigkeit der Inhalte</h2>
+        <p>Alle Angaben, zum Beispiel im Wiki, im Changelog oder zum Serverstatus, erstellen wir sorgfältig, aber ohne Gewähr. Verbindlich für das Spiel ist das, was das Team im Discord bekannt gibt. Dorf-Test und Quiz dienen der Unterhaltung und haben keinen Einfluss auf deinen Charakter.</p>
+        <h2>Links zu anderen Seiten</h2>
+        <p>Für Inhalte externer Seiten, auf die wir verlinken, sind deren Betreiber verantwortlich. Wenn uns ein rechtswidriger Inhalt auffällt oder gemeldet wird, entfernen wir den Link.</p>
+        <h2>Haftung</h2>
+        <p>Wir haften unbeschränkt bei Vorsatz und grober Fahrlässigkeit sowie bei Verletzung von Leben, Körper oder Gesundheit. Im Übrigen ist die Haftung ausgeschlossen, soweit das gesetzlich zulässig ist.</p>
+        <h2>Änderungen dieser Bedingungen</h2>
+        <p>Wir können diese Nutzungsbedingungen anpassen, etwa wenn neue Funktionen dazukommen. Es gilt die jeweils auf dieser Seite veröffentlichte Fassung.</p>
+        <h2>Anwendbares Recht</h2>
+        <p>Es gilt das Recht der Bundesrepublik Deutschland.</p>
+        <p class="fine">Stand: ${esc((D.legal || {}).updated || "November 2026")}</p></div>`;
     },
     jutsu() {
       const J = D.jutsu || [], el = $("#jutsu");
