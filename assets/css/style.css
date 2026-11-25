@@ -686,3 +686,11 @@ a.social:hover { border-color: var(--gold); transform: translateY(-3px); color: 
 .example p:last-child { margin: 0; }
 code { font-size: .9em; color: var(--gold); background: rgba(255,196,0,.08); padding: 1px 5px; }
 .legal-row nav { display: flex; gap: 22px; flex-wrap: wrap; }
+
+/* Impressum fertig */
+.impressum-doc { max-width: 720px; padding-block: 48px; }
+.impressum-doc section + section { margin-top: 30px; padding-top: 28px; border-top: 1px solid rgba(255,196,0,.14); }
+.impressum-doc h2 { font-size: 1.15rem; font-family: var(--body); font-weight: 800; color: var(--gold); letter-spacing: .01em; margin: 0 0 10px; }
+.impressum-doc p { color: var(--text); font-size: 1.08rem; line-height: 1.75; margin: 0; }
+.impressum-doc a { color: var(--text); text-decoration-color: rgba(255,196,0,.6); }
+.impressum-doc a:hover { color: var(--gold); }

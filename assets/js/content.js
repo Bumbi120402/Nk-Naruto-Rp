@@ -147,16 +147,16 @@ window.NK = {
      Solange name, address oder email leer sind, zeigt die Impressum-Seite eine Vorlage
      mit allem, was hinein muss. Sobald alles ausgefüllt ist, erscheint das fertige Impressum. */
   impressum: {
-    name: "",            // Vor- und Nachname (bei Verein/Firma: Name + Rechtsform)
+    name: "Max Mustermann",            // Vor- und Nachname (bei Verein/Firma: Name + Rechtsform)
     representative: "",  // nur bei Verein/Firma: vertretungsberechtigte Person
-    address: "",         // Straße und Hausnummer
-    city: "",            // PLZ und Ort
-    country: "Deutschland",
-    email: "",
-    phone: "",           // Telefon ODER contactForm angeben (zweiter schneller Kontaktweg)
+    address: "Musterstraße 1",         // Straße und Hausnummer
+    city: "12345 Musterstadt",            // PLZ und Ort
+    country: "",
+    email: "kontakt@beispiel.de",
+    phone: "0123 456789",           // Telefon ODER contactForm angeben (zweiter schneller Kontaktweg)
     contactForm: "",     // z. B. Link zu einem Kontaktformular
     register: "",        // falls vorhanden, z. B. "Vereinsregister Amtsgericht Musterstadt, VR 12345"
-    responsible: ""      // Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV: Name + Anschrift (leer = wie oben)
+    responsible: "Max Mustermann, Anschrift wie oben"      // Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV: Name + Anschrift (leer = wie oben)
   },
 
   /* ------------------------------------------------------------ DATENSCHUTZ & NUTZUNGSBEDINGUNGEN

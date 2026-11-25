@@ -477,18 +477,14 @@
       const I = D.impressum || {}, el = $("#impressum");
       const ready = I.name && I.address && I.city && I.email && (I.phone || I.contactForm);
       if (ready) {
-        el.innerHTML = `<div class="scroll legal-doc">
-          <h2>Angaben gemäß § 5 DDG</h2>
-          <p>${esc(I.name)}${I.representative ? `<br>vertreten durch ${esc(I.representative)}` : ""}<br>${esc(I.address)}<br>${esc(I.city)}${I.country ? `<br>${esc(I.country)}` : ""}</p>
-          <h2>Kontakt</h2>
-          <p>E-Mail: <a href="mailto:${esc(I.email)}">${esc(I.email)}</a>${I.phone ? `<br>Telefon: ${esc(I.phone)}` : ""}${I.contactForm ? `<br>Kontaktformular: <a href="${esc(I.contactForm)}">${esc(I.contactForm)}</a>` : ""}</p>
-          ${I.register ? `<h2>Registereintrag</h2><p>${esc(I.register)}</p>` : ""}
-          <h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
-          <p>${I.responsible ? esc(I.responsible) : `${esc(I.name)}, Anschrift wie oben`}</p>
-          <h2>Haftung für Links</h2>
-          <p>Diese Website enthält Links zu externen Seiten, auf deren Inhalte wir keinen Einfluss haben. Für diese Inhalte ist der jeweilige Anbieter verantwortlich. Bei Bekanntwerden von Rechtsverletzungen entfernen wir solche Links umgehend.</p>
-          <h2>Hinweis</h2>
-          <p>NK Gaming Area ist ein Fan-Projekt und steht in keiner Verbindung zu Masashi Kishimoto, Shueisha, Studio Pierrot oder den Rechteinhabern von Naruto. Alle Marken gehören ihren jeweiligen Eigentümern.</p></div>`;
+        el.innerHTML = `<div class="scroll legal-doc impressum-doc">
+          <section><h2>Angaben gemäß § 5 DDG</h2>
+          <p>${esc(I.name)}${I.representative ? `<br>vertreten durch ${esc(I.representative)}` : ""}<br>${esc(I.address)}<br>${esc(I.city)}${I.country ? `<br>${esc(I.country)}` : ""}</p></section>
+          <section><h2>Kontakt</h2>
+          <p>E-Mail: <a href="mailto:${esc(I.email)}">${esc(I.email)}</a>${I.phone ? `<br>Telefon: <a href="tel:${esc(I.phone.replace(/[^0-9+]/g, ""))}">${esc(I.phone)}</a>` : ""}${I.contactForm ? `<br>Kontaktformular: <a href="${esc(I.contactForm)}">${esc(I.contactForm)}</a>` : ""}</p></section>
+          ${I.register ? `<section><h2>Registereintrag</h2><p>${esc(I.register)}</p></section>` : ""}
+          <section><h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
+          <p>${I.responsible ? esc(I.responsible) : `${esc(I.name)}, Anschrift wie oben`}</p></section></div>`;
         return;
       }
       el.innerHTML = `<div class="play-note"><b>Vorlage.</b> Diese Seite zeigt, was in euer Impressum muss. Sobald ihr in <code>assets/js/content.js</code> unter <code>impressum</code> Name, Anschrift, E-Mail und einen zweiten Kontaktweg eintragt, erscheint hier automatisch das fertige Impressum.</div>
