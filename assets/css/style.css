@@ -694,3 +694,9 @@ code { font-size: .9em; color: var(--gold); background: rgba(255,196,0,.08); pad
 .impressum-doc p { color: var(--text); font-size: 1.08rem; line-height: 1.75; margin: 0; }
 .impressum-doc a { color: var(--text); text-decoration-color: rgba(255,196,0,.6); }
 .impressum-doc a:hover { color: var(--gold); }
+
+/* Live-Besucher */
+.visitors { display: inline-flex; align-items: center; gap: 8px; font: 600 .82rem/1 var(--body); color: var(--text); white-space: nowrap; padding: 8px 12px; border: 1px solid #3a3326; }
+.visitors[hidden] { display: none; }
+.visitors i { width: 8px; height: 8px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 8px var(--gold); animation: pulse 2s infinite; }
+@media (max-width: 520px) { .visitors b { font-size: .75rem; } }

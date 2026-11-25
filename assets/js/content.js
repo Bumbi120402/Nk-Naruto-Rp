@@ -14,6 +14,9 @@ window.NK = {
     title: "Naruto Roleplay",
     slogan: "",          // Satz unter dem Logo auf der Startseite
     discord: "",         // z. B. "https://discord.gg/abc123"
+    /* Live-Anzeige "X auf der Seite" über Supabase (kostenlos, Server in Frankfurt).
+       Beide Werte stehen in Supabase unter Project Settings -> API. Leer = Anzeige aus. */
+    live: { url: "", key: "" },   // url z. B. "https://abcdefgh.supabase.co", key = anon / publishable key
     discordId: "",       // Server-ID für die Live-Anzeige "xx online" (Discord: Servereinstellungen -> Widget -> aktivieren, ID kopieren)
     music: "assets/audio/ambient.mp3",  // Musik für den Lautsprecher-Knopf. Leer "" = eingebauter Ambient-Sound
     playable: ["Konohagakure", "Sunagakure"],  // zum Start spielbare Dörfer (Startseite, Karte, Dorf-Test)
@@ -50,9 +53,6 @@ window.NK = {
   /* { image: "assets/img/galerie/bild1.jpg", title: "Erstes Event" } */
   gallery: [],
 
-  /* { q: "Wie heißt das Dorf versteckt hinter den Blättern?", answers: ["Suna", "Konoha", "Kiri"], correct: 1 }
-     correct = Nummer der richtigen Antwort, gezählt ab 0                                     */
-  quiz: [],
 
   /* { group: "Serverleitung", members: [ { name: "DJ Reeps", role: "Serverleitung", avatar: "", text: "" } ] } */
   team: [],

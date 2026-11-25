@@ -36,7 +36,6 @@
     ["regelwerk.html", "Regelwerk", "regelwerk"],
     ["team.html", "Team", "team"],
     ["galerie.html", "Galerie", "galerie"],
-    ["quiz.html", "Quiz", "quiz"],
     ["faq.html", "FAQ", "faq"],
     ["dorftest.html", "Dorf-Test", "dorftest"],
     ["changelog.html", "Changelog", "changelog"],
@@ -57,6 +56,7 @@
     <a class="nav-logo" href="index.html" aria-label="${esc(S.name)} Startseite"><img src="assets/img/logo-small.png" alt=""></a>
     <nav class="nav-links" aria-label="Kategorien">${PAGES.map(([h, l, p]) => `<a href="${h}"${cur(p)}>${icon(p)}${l}</a>`).join("")}</nav>
     <div class="nav-tools">
+      <span class="visitors" hidden title="Gerade auf der Seite"><i></i><b></b></span>
       <span class="online" hidden><i></i><b></b></span>
       <button type="button" class="sound-btn" aria-pressed="false" aria-label="Musik an/aus" title="Musik">${icon("soundOff")}</button>
       <input type="range" class="vol" min="0" max="100" step="1" value="50" aria-label="Lautstärke" title="Lautstärke" hidden>
@@ -266,6 +266,41 @@
     }).catch(() => {});
   }
 
+  /* ---------------- Live: wie viele sind gerade auf der Seite (Supabase Realtime Presence) ---------------- */
+  (function live() {
+    const L = S.live || {}; if (!L.url || !L.key) return;
+    const badge = $(".visitors"), topic = "realtime:nk-online";
+    const id = (crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).slice(2) + Date.now().toString(36));
+    let ws, ref = 0, hb, retry = 0, state = {};
+    const show = () => { const n = Object.keys(state).length; if (!n) return; badge.hidden = false; badge.querySelector("b").textContent = `${n} auf der Seite`; };
+    const send = (msg) => { if (ws && ws.readyState === 1) ws.send(JSON.stringify({ ...msg, ref: String(++ref) })); };
+    const connect = () => {
+      const host = L.url.replace(/^http/, "ws").replace(/\/$/, "");
+      ws = new WebSocket(`${host}/realtime/v1/websocket?apikey=${encodeURIComponent(L.key)}&vsn=1.0.0`);
+      ws.onopen = () => {
+        retry = 0;
+        send({ topic, event: "phx_join", join_ref: "1", payload: { config: { broadcast: { self: false }, presence: { key: id }, private: false }, access_token: L.key } });
+        clearInterval(hb); hb = setInterval(() => send({ topic: "phoenix", event: "heartbeat", payload: {} }), 25000);
+      };
+      ws.onmessage = (e) => {
+        let m; try { m = JSON.parse(e.data); } catch (x) { return; }
+        if (m.topic !== topic) return;
+        if (m.event === "phx_reply" && m.payload && m.payload.status === "ok" && !state[id]) {
+          send({ topic, event: "presence", join_ref: "1", payload: { type: "presence", event: "track", payload: { t: Date.now() } } });
+        }
+        if (m.event === "presence_state") { state = { ...m.payload }; show(); }
+        if (m.event === "presence_diff") {
+          Object.keys(m.payload.joins || {}).forEach((k) => (state[k] = 1));
+          Object.keys(m.payload.leaves || {}).forEach((k) => delete state[k]);
+          show();
+        }
+      };
+      ws.onclose = () => { clearInterval(hb); state = {}; setTimeout(connect, Math.min(30000, 2000 * 2 ** retry++)); };
+      ws.onerror = () => ws.close();
+    };
+    connect();
+  })();
+
   /* ---------------- Ambient-Sound (nur auf Klick) ---------------- */
   (function sound() {
     const btn = $(".sound-btn"); if (!btn) return;
@@ -439,33 +474,6 @@
         box.addEventListener("click", close); addEventListener("keydown", key); document.body.append(box);
       });
     },
-    quiz() {
-      const Q = D.quiz || [], el = $("#quiz");
-      if (!Q.length) { el.innerHTML = sealed("Das Quiz ist noch in Arbeit", "Bald kannst du hier testen, wie gut du dich in der Welt von NK auskennst."); return; }
-      let i = 0, score = 0;
-      const show = () => {
-        if (i >= Q.length) {
-          el.innerHTML = `<div class="scroll quiz"><p>Dein Ergebnis</p><div class="quiz-score">${score} / ${Q.length}</div>
-            <p>${score === Q.length ? "Perfekt. Du kennst dich aus." : score >= Q.length / 2 ? "Gut gemacht. Da geht noch mehr." : "Schau mal ins Wiki und versuch es nochmal."}</p>
-            <button type="button" class="btn" id="again">Nochmal spielen</button></div>`;
-          $("#again").addEventListener("click", () => { i = 0; score = 0; show(); }); return;
-        }
-        const q = Q[i];
-        el.innerHTML = `<div class="scroll quiz"><div class="quiz-top"><span>Frage ${i + 1} von ${Q.length}</span><div class="quiz-bar"><i style="width:${(i / Q.length) * 100}%"></i></div></div>
-          <h3>${esc(q.q)}</h3><div class="answers">${q.answers.map((a, k) => `<button type="button" data-k="${k}">${esc(a)}</button>`).join("")}</div>
-          <div class="quiz-foot"><p id="fb" aria-live="polite"></p></div></div>`;
-        el.querySelector(".answers").addEventListener("click", (e) => {
-          const b = e.target.closest("button"); if (!b || b.disabled) return;
-          const k = +b.dataset.k, ok = k === q.correct; if (ok) score++;
-          el.querySelectorAll(".answers button").forEach((x, j) => { x.disabled = true; if (j === q.correct) x.classList.add("right"); });
-          if (!ok) b.classList.add("wrong");
-          $("#fb").textContent = ok ? "Richtig." : `Falsch. Richtig ist: ${q.answers[q.correct]}`;
-          const n = document.createElement("button"); n.type = "button"; n.className = "btn"; n.textContent = i + 1 < Q.length ? "Nächste Frage" : "Ergebnis anzeigen";
-          n.addEventListener("click", () => { i++; show(); }); el.querySelector(".quiz-foot").append(n); n.focus();
-        });
-      };
-      show();
-    },
     changelog() {
       const L = D.changelog || [], el = $("#changelog");
       if (!L.length) { el.innerHTML = sealed("Noch keine Einträge", "Hier steht bald jede Änderung am Server: neue Inhalte, Anpassungen und behobene Fehler."); return; }
@@ -541,6 +549,8 @@
         <p>Beides ist unbedingt erforderlich, damit die von dir genutzten Funktionen so arbeiten, wie du es erwartest (§ 25 Abs. 2 Nr. 2 TDDDG). Du kannst die Einträge jederzeit über die Einstellungen deines Browsers löschen.</p>
         ${S.discordId ? `<h2>Discord-Anzeige</h2>
         <p>Oben auf der Seite zeigen wir, wie viele Mitglieder gerade auf unserem Discord-Server online sind. Dafür ruft dein Browser beim Laden der Seite Daten von Discord ab (Discord Inc., 444 De Haro Street, San Francisco, CA 94107, USA). Dabei wird deine IP-Adresse an Discord übermittelt. Rechtsgrundlage ist unser berechtigtes Interesse, aktuelle Informationen zu unserer Community anzuzeigen (Art. 6 Abs. 1 lit. f DSGVO). Datenschutzerklärung von Discord: <a href="https://discord.com/privacy" target="_blank" rel="noopener">discord.com/privacy</a>.</p>` : ""}
+        ${(S.live || {}).url && (S.live || {}).key ? `<h2>Anzeige der Besucher</h2>
+        <p>Oben auf der Seite zeigen wir an, wie viele Personen die Website gerade geöffnet haben. Dafür baut dein Browser eine Verbindung zu Supabase auf (Supabase Inc.), einem Dienst, dessen Server für unser Projekt in Frankfurt am Main stehen. Übertragen werden deine IP-Adresse, die für den Verbindungsaufbau technisch nötig ist, und eine zufällige Kennung, die bei jedem Seitenaufruf neu erzeugt und nicht gespeichert wird. Es werden keine Cookies gesetzt und keine Profile gebildet. Sobald du die Seite schließt, bist du nicht mehr mitgezählt. Rechtsgrundlage ist unser berechtigtes Interesse, die aktuelle Aktivität auf der Website anzuzeigen (Art. 6 Abs. 1 lit. f DSGVO). Datenschutzerklärung von Supabase: <a href="https://supabase.com/privacy" target="_blank" rel="noopener">supabase.com/privacy</a>.</p>` : ""}
         ${(S.status || {}).statusUrl ? `<h2>Serverstatus</h2><p>Für die Statusanzeige ruft dein Browser Daten von ${esc(new URL(S.status.statusUrl, location.href).hostname)} ab. Dabei wird deine IP-Adresse an diesen Server übermittelt (Art. 6 Abs. 1 lit. f DSGVO).</p>` : ""}
         <h2>Links zu anderen Seiten</h2>
         <p>Auf dieser Website verlinken wir auf Discord, soziale Netzwerke und andere Seiten. Es handelt sich um einfache Links: Erst wenn du sie anklickst, wird die fremde Seite geladen. Ab dann gilt die Datenschutzerklärung des jeweiligen Anbieters.</p>
@@ -564,7 +574,7 @@
         <h2>Verfügbarkeit</h2>
         <p>Wir bemühen uns, dass die Website immer erreichbar und aktuell ist. Einen Anspruch darauf gibt es aber nicht. Wir können Inhalte und Funktionen jederzeit ändern, erweitern oder entfernen.</p>
         <h2>Richtigkeit der Inhalte</h2>
-        <p>Alle Angaben, zum Beispiel im Wiki, im Changelog oder zum Serverstatus, erstellen wir sorgfältig, aber ohne Gewähr. Verbindlich für das Spiel ist das, was das Team im Discord bekannt gibt. Dorf-Test und Quiz dienen der Unterhaltung und haben keinen Einfluss auf deinen Charakter.</p>
+        <p>Alle Angaben, zum Beispiel im Wiki, im Changelog oder zum Serverstatus, erstellen wir sorgfältig, aber ohne Gewähr. Verbindlich für das Spiel ist das, was das Team im Discord bekannt gibt. Der Dorf-Test dient der Unterhaltung und haben keinen Einfluss auf deinen Charakter.</p>
         <h2>Links zu anderen Seiten</h2>
         <p>Für Inhalte externer Seiten, auf die wir verlinken, sind deren Betreiber verantwortlich. Wenn uns ein rechtswidriger Inhalt auffällt oder gemeldet wird, entfernen wir den Link.</p>
         <h2>Haftung</h2>

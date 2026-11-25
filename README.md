@@ -16,7 +16,6 @@ Die Schriften liegen direkt im Repo (`assets/fonts`), es werden also keine Googl
 | `regelwerk.html` | Regelwerk mit Paragraphen |
 | `team.html` | Team nach Gruppen |
 | `galerie.html` | Galerie, Klick öffnet das Bild groß |
-| `quiz.html` | Quiz mit Auswertung am Ende |
 | `jutsu.html` | Jutsu-Datenbank mit Suche und Filtern (Element, Rang, Art) |
 | `faq.html` | Häufige Fragen |
 | `dorftest.html` | Dorf-Test mit Ergebnis zum Teilen |
@@ -45,6 +44,7 @@ Farben stehen oben in `assets/css/style.css` (`--gold`, `--tag`, `--seal` …).
 
 ## Extras
 - **Discord live:** In `content.js` bei `discordId` die Server-ID eintragen und in Discord unter *Servereinstellungen → Widget* das Widget aktivieren. Dann steht oben „xx online“.
+- **Live-Besucher („X auf der Seite“):** Kostenloses Projekt auf supabase.com anlegen (Region: Frankfurt / eu-central-1). Unter *Project Settings → API* die Project-URL und den anon- bzw. publishable key kopieren und in `content.js` bei `live` eintragen. Unter *Realtime → Settings* muss der öffentliche Zugriff erlaubt sein (nicht „nur private Kanäle“). Die Datenschutzerklärung ergänzt sich dann automatisch.
 - **Ambient-Sound:** Der Lautsprecher-Knopf oben spielt einen eingebauten, ruhigen Klang (Wind und Zupfinstrument). Er startet nie von selbst. Eigene Musik: Datei z. B. nach `assets/audio/` legen und bei `music` eintragen.
 - **Karte:** Ohne eigenes Bild wird eine eingebaute Karte gezeichnet. Eigene Karte: bei `map.image` eintragen und die Marker (x/y in Prozent) anpassen.
 - **Dorf-Test:** Fragen und Ergebnisse stehen in `content.js` unter `dorftest`.
