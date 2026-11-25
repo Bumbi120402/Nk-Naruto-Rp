@@ -568,3 +568,13 @@ footer .legal { margin-top: 34px; font-size: .8rem; color: #6a6252; max-width: n
   .marker span { display: none; }
 }
 .online[hidden] { display: none; }
+
+/* Lautstärke-Regler */
+.vol { --p: 50%; width: 96px; height: 20px; background: transparent; -webkit-appearance: none; appearance: none; cursor: pointer; }
+.vol[hidden] { display: none; }
+.vol::-webkit-slider-runnable-track { height: 4px; background: linear-gradient(90deg, var(--gold) var(--p), #3a3326 var(--p)); }
+.vol::-moz-range-track { height: 4px; background: #3a3326; }
+.vol::-moz-range-progress { height: 4px; background: var(--gold); }
+.vol::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; margin-top: -5px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 10px rgba(255,196,0,.6); border: 0; }
+.vol::-moz-range-thumb { width: 14px; height: 14px; border-radius: 50%; background: var(--gold); border: 0; box-shadow: 0 0 10px rgba(255,196,0,.6); }
+@media (max-width: 520px) { .vol { width: 70px; } }

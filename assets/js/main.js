@@ -54,7 +54,8 @@
     <nav class="nav-links" aria-label="Kategorien">${PAGES.map(([h, l, p]) => `<a href="${h}"${cur(p)}>${icon(p)}${l}</a>`).join("")}</nav>
     <div class="nav-tools">
       <span class="online" hidden><i></i><b></b></span>
-      <button type="button" class="sound-btn" aria-pressed="false" aria-label="Ambient-Sound an/aus" title="Ambient-Sound">${icon("soundOff")}</button>
+      <button type="button" class="sound-btn" aria-pressed="false" aria-label="Musik an/aus" title="Musik">${icon("soundOff")}</button>
+      <input type="range" class="vol" min="0" max="100" step="1" value="50" aria-label="Lautstärke" title="Lautstärke" hidden>
       ${S.discord ? `<a class="nav-discord" href="${esc(S.discord)}" target="_blank" rel="noopener">${discordSvg}Discord</a>` : `<span class="nav-discord" aria-disabled="true">${discordSvg}Discord</span>`}
     </div>
   </div>`;
@@ -271,6 +272,17 @@
   (function sound() {
     const btn = $(".sound-btn"); if (!btn) return;
     let ctx, master, running = false, timer, audioEl;
+    const vol = $(".vol");
+    let level = 0.5; try { const v = localStorage.getItem("nk-vol"); if (v !== null) level = +v; } catch (e) {}
+    vol.value = Math.round(level * 100);
+    const paint = () => vol.style.setProperty("--p", vol.value + "%");
+    paint();
+    vol.addEventListener("input", () => {
+      level = vol.value / 100; paint();
+      try { localStorage.setItem("nk-vol", level); } catch (e) {}
+      if (audioEl) audioEl.volume = level;
+      if (ctx && master && running) master.gain.setTargetAtTime(level, ctx.currentTime, .05);
+    });
     const scale = [293.66, 311.13, 392, 440, 466.16, 587.33, 622.25, 783.99];
     const pluck = () => {
       const t = ctx.currentTime, f = scale[Math.floor(Math.random() * scale.length)] / (Math.random() < .3 ? 2 : 1);
@@ -283,7 +295,7 @@
       timer = setTimeout(pluck, 1400 + Math.random() * 3200);
     };
     const start = () => {
-      if (S.music) { audioEl = audioEl || Object.assign(new Audio(S.music), { loop: true, volume: .5 }); audioEl.play().catch(() => {}); return; }
+      if (S.music) { audioEl = audioEl || Object.assign(new Audio(S.music), { loop: true }); audioEl.volume = level; audioEl.play().catch(() => {}); return; }
       ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
       if (!master) {
         master = ctx.createGain(); master.gain.value = 0; master.connect(ctx.destination);
@@ -297,7 +309,7 @@
         const lfo = ctx.createOscillator(), lg = ctx.createGain(); lfo.frequency.value = .07; lg.gain.value = 260; lfo.connect(lg).connect(lp.frequency); lfo.start();
         const ng = ctx.createGain(); ng.gain.value = .5; noise.connect(lp).connect(ng).connect(master); noise.start();
       }
-      ctx.resume(); master.gain.cancelScheduledValues(ctx.currentTime); master.gain.linearRampToValueAtTime(.5, ctx.currentTime + 1.5);
+      ctx.resume(); master.gain.cancelScheduledValues(ctx.currentTime); master.gain.linearRampToValueAtTime(level, ctx.currentTime + 1.5);
       clearTimeout(timer); pluck();
     };
     const stop = () => {
@@ -306,6 +318,7 @@
     };
     btn.addEventListener("click", () => {
       running = !running; btn.setAttribute("aria-pressed", running); btn.innerHTML = icon(running ? "soundOn" : "soundOff");
+      vol.hidden = !running;
       running ? start() : stop();
     });
   })();
