@@ -360,21 +360,27 @@
         body.innerHTML = hits.length ? `<p class="sr-hint">${hits.length}${hits.length === 40 ? "+" : ""} Treffer</p>` + list(hits, terms)
           : `<p class="sr-empty">Nichts gefunden für „${esc(inp.value)}“. Versuch es mit einem anderen Begriff, zum Beispiel „Sharingan“ oder „Chūnin“.</p>`;
       }
-      sel = 0; paint();
+      sel = 0; onEl = null; body.scrollTop = 0; paint(false);
     };
     const list = (arr, terms) => `<ul>${arr.map((x, i) => `<li><a href="${esc(x.url)}" data-i="${i}" role="option"><span class="sr-type">${esc(x.type)}</span><span class="sr-main"><b>${mark(x.title, terms)}</b>${x.sub ? `<small>${esc(x.sub)}</small>` : ""}<em>${snip(x, terms)}</em></span></a></li>`).join("")}</ul>`;
-    const paint = () => body.querySelectorAll("a[data-i]").forEach((a) => { const on = +a.dataset.i === sel; a.classList.toggle("on", on); a.setAttribute("aria-selected", on); if (on) a.scrollIntoView({ block: "nearest" }); });
+    let onEl = null;
+    const paint = (scroll) => {
+      const a = body.querySelector(`a[data-i="${sel}"]`);
+      if (onEl && onEl !== a) { onEl.classList.remove("on"); onEl.setAttribute("aria-selected", "false"); }
+      if (a) { a.classList.add("on"); a.setAttribute("aria-selected", "true"); if (scroll) a.scrollIntoView({ block: "nearest" }); }
+      onEl = a;
+    };
     const open = () => { IDX = IDX || build(); lastFocus = document.activeElement; modal.hidden = false; document.body.style.overflow = "hidden"; inp.value = ""; render(); setTimeout(() => inp.focus(), 0); };
     const close = () => { modal.hidden = true; document.body.style.overflow = ""; lastFocus && lastFocus.focus && lastFocus.focus(); };
     const go = (a) => { if (!a) return; close(); const u = new URL(a.href, location.href); if (u.pathname === location.pathname && u.search === location.search && u.hash) { location.hash = u.hash; } else location.href = a.href; };
     btn.addEventListener("click", open);
     modal.querySelector(".sr-close").addEventListener("click", close);
     modal.addEventListener("click", (e) => { if (e.target === modal) close(); const a = e.target.closest("a[data-i]"); if (a) { e.preventDefault(); go(a); } });
-    body.addEventListener("mousemove", (e) => { const a = e.target.closest("a[data-i]"); if (a && +a.dataset.i !== sel) { sel = +a.dataset.i; paint(); } });
+    body.addEventListener("mouseover", (e) => { const a = e.target.closest("a[data-i]"); if (a && +a.dataset.i !== sel) { sel = +a.dataset.i; paint(false); } });
     inp.addEventListener("input", render);
     inp.addEventListener("keydown", (e) => {
-      if (e.key === "ArrowDown") { e.preventDefault(); sel = Math.min(sel + 1, hits.length - 1); paint(); }
-      else if (e.key === "ArrowUp") { e.preventDefault(); sel = Math.max(sel - 1, 0); paint(); }
+      if (e.key === "ArrowDown") { e.preventDefault(); sel = Math.min(sel + 1, hits.length - 1); paint(true); }
+      else if (e.key === "ArrowUp") { e.preventDefault(); sel = Math.max(sel - 1, 0); paint(true); }
       else if (e.key === "Enter") { e.preventDefault(); go(body.querySelector(`a[data-i="${sel}"]`)); }
     });
     addEventListener("keydown", (e) => {
