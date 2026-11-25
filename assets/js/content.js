@@ -15,7 +15,7 @@ window.NK = {
     slogan: "",          // Satz unter dem Logo auf der Startseite
     discord: "",         // z. B. "https://discord.gg/abc123"
     discordId: "",       // Server-ID für die Live-Anzeige "xx online" (Discord: Servereinstellungen -> Widget -> aktivieren, ID kopieren)
-    music: "",           // optional eigene Musikdatei, z. B. "assets/audio/ambient.mp3". Leer = eingebauter Ambient-Sound
+    music: "assets/audio/ambient.mp3",  // Musik für den Lautsprecher-Knopf. Leer "" = eingebauter Ambient-Sound
     release: ""          // leer = kein Countdown. Sobald ein Datum drinsteht, z. B. "2026-12-26T18:00:00+01:00", erscheint er auf der Startseite
   },
 
