@@ -14,7 +14,7 @@ window.NK = {
     title: "Naruto Roleplay",
     slogan: "",          // Satz unter dem Logo auf der Startseite
     discord: "",         // z. B. "https://discord.gg/abc123"
-    release: ""          // z. B. "2026-12-26T18:00:00+01:00"  -> Countdown startet automatisch
+    release: ""          // leer = kein Countdown. Sobald ein Datum drinsteht, z. B. "2026-12-26T18:00:00+01:00", erscheint er auf der Startseite
   },
 
   /* { date: "2026-12-01", tag: "Update", pinned: false, title: "Titel", text: "Text\n- Listenpunkt" } */

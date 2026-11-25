@@ -77,7 +77,7 @@
   function countdownTag(el) {
     const t = new Date(S.release).getTime();
     const head = `<div class="bomb" aria-hidden="true">NK</div>`;
-    if (!S.release || isNaN(t)) { el.innerHTML = `<div class="tag-paper">${head}<p class="label">Release</p><div class="soon">Datum folgt</div></div>`; return; }
+    if (!S.release || isNaN(t)) { el.remove(); return; }  // kein Datum = kein Countdown
     const tick = () => {
       const d = t - Date.now();
       if (d <= 0) { el.innerHTML = `<div class="tag-paper">${head}<div class="live">Wir sind live</div></div>`; return; }
