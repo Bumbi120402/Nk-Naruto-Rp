@@ -263,8 +263,8 @@ p { margin: 0 0 1em; max-width: var(--measure); }
 .village dl { display: flex; gap: 32px; margin: 0 0 14px; flex-wrap: wrap; }
 .village dt { font-size: .8rem; color: var(--ash); }
 .village dd { margin: 0; font: 400 1.4rem/1.1 var(--display); color: var(--gold); }
-.clans { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2px; background: var(--line); border: 2px solid var(--line); }
-.clan { background: var(--ink); padding: 28px 26px; }
+.clans { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+.clan { background: #0a0805; border: 1px solid var(--line); padding: 28px 26px; }
 .clan h3 { font-size: 2.2rem; margin-bottom: 4px; }
 .clan .ab { color: var(--gold); font-weight: 600; margin-bottom: 10px; font-size: .95rem; }
 .clan p { color: var(--ash); font-size: .98rem; }
@@ -425,3 +425,146 @@ footer .legal { margin-top: 34px; font-size: .8rem; color: #6a6252; max-width: n
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .intro { display: none; }
 }
+
+/* ======================================================================
+   NAV-EXTRAS: Sound & Discord-Online
+   ====================================================================== */
+.nav-tools { flex: none; display: flex; align-items: center; gap: 10px; }
+.sound-btn { width: 42px; height: 42px; display: grid; place-items: center; background: transparent; border: 1px solid #3a3326; color: var(--ash); cursor: pointer; }
+.sound-btn svg { width: 20px; height: 20px; }
+.sound-btn:hover { color: var(--text); border-color: var(--ash); }
+.sound-btn[aria-pressed="true"] { color: var(--gold); border-color: var(--gold); box-shadow: 0 0 14px rgba(255,196,0,.25); }
+.online { display: inline-flex; align-items: center; gap: 7px; font: 600 .82rem/1 var(--body); color: var(--ash); white-space: nowrap; }
+.online i { width: 8px; height: 8px; border-radius: 50%; background: #3fae5a; box-shadow: 0 0 8px #3fae5a; animation: pulse 2s infinite; }
+@keyframes pulse { 50% { opacity: .35; } }
+@media (max-width: 1200px) { .nav-tools { order: 2; margin-left: auto; } }
+
+/* ======================================================================
+   MITMACHEN: Steckbrief-Generator
+   ====================================================================== */
+.tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 40px; }
+.form-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 48px; align-items: start; }
+.fields { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 20px; }
+.field { display: flex; flex-direction: column; gap: 7px; }
+.field.wide { grid-column: 1 / -1; }
+.field label { font-weight: 700; font-size: .92rem; }
+.field label .req { color: var(--gold); }
+.field input, .field select, .field textarea {
+  font: inherit; font-size: 1rem; color: var(--text); background: #0d0a06; border: 1px solid #3a2f17; padding: 12px 14px; width: 100%;
+}
+.field textarea { resize: vertical; min-height: 92px; line-height: 1.55; }
+.field select { appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--gold) 50%), linear-gradient(135deg, var(--gold) 50%, transparent 50%); background-position: calc(100% - 20px) 52%, calc(100% - 14px) 52%; background-size: 6px 6px; background-repeat: no-repeat; padding-right: 38px; }
+.field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(255,196,0,.12); }
+.form-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 26px; align-items: center; }
+.form-actions .hint { color: var(--ash); font-size: .92rem; margin: 0; }
+
+.idcard {
+  position: sticky; top: 110px; padding: 28px; background: linear-gradient(160deg, #1c160c, #0a0805 70%);
+  border: 1px solid rgba(255,196,0,.45); box-shadow: 0 30px 60px rgba(0,0,0,.6), inset 0 0 0 6px #0a0805, inset 0 0 0 7px rgba(255,196,0,.18);
+}
+.idcard-head { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,196,0,.25); padding-bottom: 14px; margin-bottom: 20px; }
+.idcard-head span { font: 400 1.25rem/1 var(--display); letter-spacing: .06em; color: var(--gold); }
+.idcard-head img { width: 46px; }
+.idcard-body { display: grid; grid-template-columns: 110px 1fr; gap: 20px; }
+.idcard .photo { aspect-ratio: 3/4; background: #0d0a06 url("../img/logo-small.png") center/70% no-repeat; border: 1px solid #3a2f17; opacity: .9; }
+.idcard h3 { font-size: 2.4rem; margin: 0 0 12px; word-break: break-word; }
+.idcard dl { display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; margin: 0; font-size: .95rem; }
+.idcard dt { color: var(--ash); }
+.idcard dd { margin: 0; color: var(--text); font-weight: 600; }
+.idcard .story { margin-top: 20px; padding-top: 16px; border-top: 1px solid rgba(255,196,0,.15); color: var(--ash); font-size: .92rem; max-height: 9.5em; overflow: hidden; -webkit-mask-image: linear-gradient(#000 70%, transparent); mask-image: linear-gradient(#000 70%, transparent); }
+
+/* ======================================================================
+   MITMACHEN: Dorf-Test
+   ====================================================================== */
+.dorftest { max-width: 860px; }
+.result { --vc: var(--gold); text-align: left; }
+.result .kicker-line { color: var(--ash); margin-bottom: 6px; }
+.result h3 { font-size: clamp(3.4rem, 9vw, 6.5rem); color: var(--vc); text-shadow: 0 0 40px color-mix(in srgb, var(--vc) 45%, transparent); margin-bottom: 18px; }
+.result .bars { display: grid; gap: 10px; margin: 26px 0 30px; max-width: 520px; }
+.result .bar { display: grid; grid-template-columns: 130px 1fr 34px; align-items: center; gap: 12px; font-size: .9rem; color: var(--ash); }
+.result .bar b { height: 8px; background: var(--line); position: relative; }
+.result .bar b i { position: absolute; inset: 0 auto 0 0; background: var(--c); }
+.result .scroll::before { background: linear-gradient(90deg, transparent, var(--vc) 20%, var(--vc) 80%, transparent); }
+
+/* ======================================================================
+   WELT: Karte, Zeitleiste, Dorf-Farben
+   ====================================================================== */
+.map { position: relative; aspect-ratio: 1000 / 620; border: 1px solid #3a2f17; background: #05070b; overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,.6); }
+.map > svg, .map > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.marker { position: absolute; transform: translate(-50%, -50%); background: none; border: 0; padding: 0; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 6px; color: var(--text); --mc: var(--gold); }
+.marker .dot { width: 18px; height: 18px; border-radius: 50%; background: var(--mc); box-shadow: 0 0 0 4px rgba(0,0,0,.6), 0 0 20px var(--mc); position: relative; }
+.marker .dot::after { content: ""; position: absolute; inset: -8px; border-radius: 50%; border: 2px solid var(--mc); animation: ring 2.4s ease-out infinite; }
+@keyframes ring { from { transform: scale(.5); opacity: 1; } to { transform: scale(1.8); opacity: 0; } }
+.marker span { font: 400 clamp(.9rem, 1.6vw, 1.35rem)/1 var(--display); letter-spacing: .03em; text-shadow: 0 2px 8px #000, 0 0 2px #000; white-space: nowrap; }
+.marker:hover .dot, .marker[aria-expanded="true"] .dot { transform: scale(1.25); }
+.map-pop {
+  position: absolute; z-index: 5; width: min(300px, 80%); padding: 18px 20px; background: rgba(8,6,3,.95); border: 1px solid var(--mc, var(--gold));
+  box-shadow: 0 20px 40px rgba(0,0,0,.7); transform: translate(-50%, calc(-100% - 26px));
+}
+.map-pop h3 { font-size: 1.9rem; margin-bottom: 2px; color: var(--mc, var(--gold)); }
+.map-pop small { color: var(--ash); display: block; margin-bottom: 8px; }
+.map-pop p { color: var(--text); margin: 0 0 10px; font-size: .95rem; }
+.map-pop.below { transform: translate(-50%, 26px); }
+
+.timeline { position: relative; padding-left: 40px; max-width: 900px; }
+.timeline::before { content: ""; position: absolute; left: 9px; top: 6px; bottom: 6px; width: 2px; background: linear-gradient(var(--gold), rgba(255,196,0,.1)); }
+.tl { position: relative; padding-bottom: 44px; }
+.tl::before { content: ""; position: absolute; left: -38px; top: 6px; width: 16px; height: 16px; transform: rotate(45deg); background: var(--ink); border: 3px solid var(--gold); }
+.tl:last-child::before { background: var(--gold); box-shadow: 0 0 18px var(--gold); }
+.tl time { font: 400 1.4rem/1 var(--display); color: var(--gold); letter-spacing: .04em; }
+.tl h3 { font-size: 2.2rem; margin: 6px 0 8px; }
+.tl p { color: var(--ash); }
+
+.village { --vc: var(--gold); }
+.village > .emblem { color: var(--vc); text-shadow: 0 0 40px color-mix(in srgb, var(--vc) 35%, transparent); }
+.village dd { color: var(--vc); }
+.village h3 { border-left: 4px solid var(--vc); padding-left: 16px; }
+
+/* ======================================================================
+   JUTSU-DATENBANK
+   ====================================================================== */
+.jutsu-tools { display: grid; grid-template-columns: minmax(220px, 340px) 1fr; gap: 20px 30px; align-items: start; margin-bottom: 30px; }
+.jutsu-tools .search { margin: 0; }
+.jutsu-tools .chips { margin: 0; }
+.chip-label { width: 100%; font-size: .8rem; font-weight: 700; color: var(--ash); margin: 4px 0 -2px; }
+.jutsu-count { color: var(--ash); margin-bottom: 16px; }
+.jutsus { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+.jutsu { background: #0a0805; padding: 24px 24px 26px; border: 1px solid var(--line); border-top: 3px solid var(--ec, #3a3326); }
+.jutsu h3 { font-size: 1.9rem; margin-bottom: 10px; }
+.jutsu .meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.jutsu .meta span { font: 700 .78rem/1 var(--body); padding: 5px 8px; border: 1px solid #3a3326; color: var(--ash); }
+.jutsu .meta .el { color: var(--ec); border-color: var(--ec); }
+.jutsu .meta .rk { color: var(--gold); border-color: rgba(255,196,0,.5); }
+.jutsu p { color: var(--ash); margin: 0; font-size: .97rem; }
+
+/* ======================================================================
+   STARTSEITE: Ninja des Monats + Dorf-Test-Teaser
+   ====================================================================== */
+.hall { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
+.hall-card { position: relative; background: linear-gradient(170deg, #1c160c, #0a0805 70%); border: 1px solid rgba(255,196,0,.4); padding: 28px; overflow: hidden; }
+.hall-card::before { content: ""; position: absolute; right: -40px; top: -40px; width: 140px; height: 140px; background: radial-gradient(circle, rgba(255,196,0,.35), transparent 70%); }
+.hall-card .pic { width: 96px; height: 96px; border-radius: 50%; overflow: hidden; border: 3px solid var(--gold); box-shadow: 0 0 24px rgba(255,196,0,.35); margin-bottom: 16px; display: grid; place-items: center; font: 400 2.6rem/1 var(--display); color: var(--gold); background: #0d0a06; }
+.hall-card .pic img { width: 100%; height: 100%; object-fit: cover; }
+.hall-card small { color: var(--gold); font-weight: 700; }
+.hall-card h3 { font-size: 2.4rem; margin: 4px 0 8px; }
+.hall-card p { color: var(--ash); margin: 0; }
+
+.teaser { display: grid; grid-template-columns: 1fr auto; gap: 30px; align-items: center; padding: clamp(30px, 5vw, 56px); background: linear-gradient(110deg, #0a0805 30%, rgba(10,8,5,.6)), url("../img/header-sm.webp") center 40%/cover; border: 1px solid #3a2f17; position: relative; overflow: hidden; }
+.teaser h2 { margin-bottom: 8px; }
+.teaser p { color: var(--ash); margin: 0; }
+.teaser .dots { display: flex; gap: 8px; margin-top: 18px; }
+.teaser .dots i { width: 12px; height: 12px; border-radius: 50%; background: var(--c); box-shadow: 0 0 10px var(--c); }
+
+@media (max-width: 1023px) {
+  .form-grid { grid-template-columns: 1fr; }
+  .idcard { position: static; }
+  .jutsu-tools { grid-template-columns: 1fr; }
+}
+@media (max-width: 700px) {
+  .fields { grid-template-columns: 1fr; }
+  .idcard-body { grid-template-columns: 80px 1fr; }
+  .teaser { grid-template-columns: 1fr; }
+  .result .bar { grid-template-columns: 100px 1fr 30px; }
+  .marker span { display: none; }
+}
+.online[hidden] { display: none; }

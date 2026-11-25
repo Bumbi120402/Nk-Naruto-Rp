@@ -9,15 +9,17 @@ Die Schriften liegen direkt im Repo (`assets/fonts`), es werden also keine Googl
 ## Seiten (Kategorien oben im Menü)
 | Datei | Inhalt |
 |---|---|
-| `index.html` | Start: Wappen, Release-Countdown, Discord, neueste News und Leaks |
+| `index.html` | Start: Wappen, Countdown (sobald Datum steht), News, Leaks, Ninja des Monats, Dorf-Test |
 | `news.html` | News (angepinnte oben) |
-| `welt.html` | Welt: Dörfer und Clans mit Filter |
+| `welt.html` | Welt: interaktive Karte, Dörfer (mit eigener Farbe), Clans, Zeitleiste |
 | `wiki.html` | Durchsuchbares Wiki |
 | `regelwerk.html` | Regelwerk mit Paragraphen |
 | `team.html` | Team nach Gruppen |
 | `galerie.html` | Galerie, Klick öffnet das Bild groß |
 | `quiz.html` | Quiz mit Auswertung am Ende |
+| `jutsu.html` | Jutsu-Datenbank mit Suche und Filtern (Element, Rang, Art) |
 | `faq.html` | Häufige Fragen |
+| `mitmachen.html` | Steckbrief-Generator (Ninja-Ausweis + Discord-Text kopieren) und Dorf-Test zum Teilen |
 | `leaks.html` | Leaks (verlinkt von der Startseite) |
 
 ## Inhalte ändern – nur eine Datei
@@ -38,6 +40,12 @@ Für einen **neuen Leak** mit Freischaltdatum tragt ihr bei `leaks:` ein:
 Bilder legt ihr in `assets/img/` ab und tragt den Pfad ein, z. B. `image: "assets/img/leak1.jpg"`.
 
 Farben stehen oben in `assets/css/style.css` (`--gold`, `--tag`, `--seal` …).
+
+## Extras
+- **Discord live:** In `content.js` bei `discordId` die Server-ID eintragen und in Discord unter *Servereinstellungen → Widget* das Widget aktivieren. Dann steht oben „xx online“.
+- **Ambient-Sound:** Der Lautsprecher-Knopf oben spielt einen eingebauten, ruhigen Klang (Wind und Zupfinstrument). Er startet nie von selbst. Eigene Musik: Datei z. B. nach `assets/audio/` legen und bei `music` eintragen.
+- **Karte:** Ohne eigenes Bild wird eine eingebaute Karte gezeichnet. Eigene Karte: bei `map.image` eintragen und die Marker (x/y in Prozent) anpassen.
+- **Dorf-Test & Steckbrief:** Fragen, Ergebnisse und Formularfelder stehen in `content.js` unter `dorftest` und `steckbrief`.
 
 ## Auf GitHub Pages veröffentlichen
 1. Auf GitHub ein neues Repository anlegen, z. B. `nk-website`.
