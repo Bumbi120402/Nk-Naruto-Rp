@@ -16,6 +16,7 @@ window.NK = {
     discord: "",         // z. B. "https://discord.gg/abc123"
     discordId: "",       // Server-ID für die Live-Anzeige "xx online" (Discord: Servereinstellungen -> Widget -> aktivieren, ID kopieren)
     music: "assets/audio/ambient.mp3",  // Musik für den Lautsprecher-Knopf. Leer "" = eingebauter Ambient-Sound
+    playable: ["Konohagakure", "Sunagakure"],  // zum Start spielbare Dörfer (Karte, Startseite, Dorf-Test, Steckbrief)
     release: ""          // leer = kein Countdown. Sobald ein Datum drinsteht, z. B. "2026-12-26T18:00:00+01:00", erscheint er auf der Startseite
   },
 

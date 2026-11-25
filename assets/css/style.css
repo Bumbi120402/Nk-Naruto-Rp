@@ -627,3 +627,26 @@ footer .legal { margin-top: 34px; font-size: .8rem; color: #6a6252; max-width: n
 .marker { z-index: 2; }
 .marker:hover { z-index: 3; }
 @media (max-width: 700px) { .marker.small span { display: none; } }
+
+/* Spielbare Dörfer */
+.play-note { border-left: 4px solid var(--gold); background: rgba(255,196,0,.06); padding: 14px 18px; margin: 0 0 22px; color: var(--text); max-width: none; }
+.play-note b { color: var(--gold); }
+.play-note span { color: var(--vc); font-weight: 700; }
+.result .play-note { margin: 18px 0 0; }
+.badge { display: inline-block; font: 700 .76rem/1 var(--body); padding: 5px 8px; margin: 2px 0 10px; border: 1px solid; }
+.badge.yes { color: #7fd36a; border-color: rgba(127,211,106,.6); background: rgba(127,211,106,.08); }
+.badge.no { color: var(--ash); border-color: #4a4232; }
+.marker.npc { opacity: .62; }
+.marker.npc .dot::after { display: none; }
+.marker.npc:hover, .marker.npc[aria-expanded="true"] { opacity: 1; }
+.marker.playable .dot { width: 22px; height: 22px; }
+.marker.playable span { font-size: clamp(1rem, 1.9vw, 1.6rem); }
+.play-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.play-card { --vc: var(--gold); position: relative; overflow: hidden; display: block; padding: clamp(28px, 4vw, 46px); text-decoration: none; color: var(--text);
+  background: linear-gradient(150deg, color-mix(in srgb, var(--vc) 16%, #0a0805), #0a0805 65%); border: 1px solid color-mix(in srgb, var(--vc) 55%, transparent); transition: transform .2s, border-color .2s; }
+.play-card::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3px; background: var(--vc); box-shadow: 0 0 18px var(--vc); }
+.play-card:hover { transform: translateY(-3px); border-color: var(--vc); color: var(--text); }
+.play-card small { color: var(--ash); font-weight: 700; }
+.play-card h3 { font-size: clamp(2.6rem, 5vw, 4rem); color: var(--vc); margin: 4px 0 10px; }
+.play-card p { color: var(--ash); }
+@media (max-width: 700px) { .play-cards { grid-template-columns: 1fr; } }

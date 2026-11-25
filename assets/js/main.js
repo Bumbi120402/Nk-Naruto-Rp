@@ -128,6 +128,13 @@
     <p style="color:var(--ash)">${esc(v.text)}</p></div></article>`;
 
 
+  /* ---------------- Spielbare Dörfer ---------------- */
+  const PLAY = S.playable || [];
+  const isPlayable = (name) => PLAY.includes(name);
+  const villageColor = (name) => (Object.values((D.dorftest || {}).results || {}).find((r) => r.name === name) || {}).color
+    || ((D.map || {}).markers || []).find((m) => m.name === name)?.color || "#ffc400";
+  const playNote = () => PLAY.length ? `<div class="play-note"><b>Zum Start spielbar:</b> ${PLAY.map((n) => `<span style="--vc:${esc(villageColor(n))}">${esc(n)}</span>`).join(" und ")}. Die anderen Dörfer gibt es in der Welt, sie spielen aber erst einmal im Hintergrund.</div>` : "";
+
   /* ---------------- Karte ---------------- */
   const MAP_SVG = `<svg viewBox="0 0 1000 620" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
     <defs>
@@ -157,7 +164,7 @@
     if (!el) return;
     const M = D.map || {}, mk = M.markers || [];
     el.innerHTML = `<div class="map${M.image ? " has-img" : ""}">${M.image ? `<img src="${esc(M.image)}" alt="Karte der Welt">` : MAP_SVG}
-      ${mk.map((m, i) => `<button type="button" class="marker${m.small ? " small" : ""}" data-i="${i}" aria-expanded="false" aria-label="${esc(m.name)}" style="left:${+m.x}%;top:${+m.y}%;--mc:${esc(m.color || "#ffc400")}"><i class="dot"></i><span>${esc(m.name)}</span></button>`).join("")}</div>`;
+      ${mk.map((m, i) => `<button type="button" class="marker${m.small ? " small" : ""}${!m.small && PLAY.length ? (isPlayable(m.name) ? " playable" : " npc") : ""}" data-i="${i}" aria-expanded="false" aria-label="${esc(m.name)}" style="left:${+m.x}%;top:${+m.y}%;--mc:${esc(m.color || "#ffc400")}"><i class="dot"></i><span>${esc(m.name)}</span></button>`).join("")}</div>`;
     const map = el.querySelector(".map");
     const close = () => { map.querySelector(".map-pop")?.remove(); map.querySelectorAll(".marker").forEach((b) => b.setAttribute("aria-expanded", "false")); };
     map.addEventListener("click", (e) => {
@@ -169,7 +176,7 @@
       const pop = document.createElement("div");
       pop.className = "map-pop" + (+m.y < 40 ? " below" : "");
       pop.style.cssText = `left:${Math.min(Math.max(+m.x, 18), 82)}%;top:${+m.y}%;--mc:${m.color || "#ffc400"}`;
-      pop.innerHTML = `<h3>${esc(m.name)}</h3>${m.realm ? `<small>${esc(m.realm)}</small>` : ""}${m.text ? `<p>${esc(m.text)}</p>` : ""}${hasVillage ? `<a href="#${encodeURIComponent(m.name)}">Mehr über das Dorf</a>` : m.link ? `<a href="${esc(m.link)}">Mehr im Wiki</a>` : ""}`;
+      pop.innerHTML = `<h3>${esc(m.name)}</h3>${m.realm ? `<small>${esc(m.realm)}</small>` : ""}${!m.small && PLAY.length ? `<span class="badge ${isPlayable(m.name) ? "yes" : "no"}">${isPlayable(m.name) ? "Spielbar" : "Zum Start nicht spielbar"}</span>` : ""}${m.text ? `<p>${esc(m.text)}</p>` : ""}${hasVillage ? `<a href="#${encodeURIComponent(m.name)}">Mehr über das Dorf</a>` : m.link ? `<a href="${esc(m.link)}">Mehr im Wiki</a>` : ""}`;
       map.append(pop);
     });
     addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
@@ -180,7 +187,7 @@
     if (!el) return;
     const FIELDS = D.steckbrief || [];
     const defVillages = Object.values((D.dorftest || {}).results || {}).map((r) => r.name);
-    const opts = (f) => f.options === "villages" ? (D.villages.length ? D.villages.map((v) => v.name) : defVillages)
+    const opts = (f) => f.options === "villages" ? (PLAY.length ? PLAY : D.villages.length ? D.villages.map((v) => v.name) : defVillages)
       : f.options === "clans" ? (D.clans.length ? [...D.clans.map((c) => c.name), "Clanlos"] : null) : f.options;
     const KEY = "nk-steckbrief";
     let saved = {}; try { saved = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (e) {}
@@ -235,7 +242,13 @@
     const result = (key, scores) => {
       const r = RES[key] || { name: key, color: "#ffc400", text: "" }, total = Object.values(scores || {}).reduce((a, b) => a + b, 0) || 1;
       const bars = scores ? Object.entries(RES).map(([k, x]) => [x, scores[k] || 0]).sort((a, b) => b[1] - a[1]) : [];
-      el.innerHTML = `<div class="result" style="--vc:${esc(r.color)}"><div class="scroll"><p class="kicker-line">Dein Dorf ist</p><h3>${esc(r.name)}</h3><p>${esc(r.text)}</p>
+      let alt = "";
+      if (PLAY.length && !isPlayable(r.name)) {
+        const opts = Object.entries(RES).filter(([, x]) => isPlayable(x.name)).sort((a, b) => ((scores || {})[b[0]] || 0) - ((scores || {})[a[0]] || 0));
+        const best = opts[0] && opts[0][1];
+        alt = `<div class="play-note">${esc(r.name)} ist zum Start nicht spielbar.${best ? ` Von den spielbaren Dörfern passt <span style="--vc:${esc(best.color)}">${esc(best.name)}</span> am besten zu dir.` : ""}</div>`;
+      }
+      el.innerHTML = `<div class="result" style="--vc:${esc(r.color)}"><div class="scroll"><p class="kicker-line">Dein Dorf ist</p><h3>${esc(r.name)}</h3><p>${esc(r.text)}</p>${alt}
         ${bars.length ? `<div class="bars">${bars.map(([x, n]) => `<div class="bar"><span>${esc(x.name)}</span><b><i style="width:${(n / total) * 100}%;--c:${esc(x.color)}"></i></b><span>${Math.round((n / total) * 100)}%</span></div>`).join("")}</div>` : ""}
         <div class="form-actions"><button type="button" class="btn" id="dt-share">Ergebnis teilen</button><button type="button" class="btn btn-ghost" id="dt-again">Nochmal machen</button><p class="hint" id="dt-hint" aria-live="polite"></p></div></div></div>`;
       $("#dt-again", el).addEventListener("click", () => { history.replaceState(null, "", location.pathname + "#dorftest"); i = 0; pts = {}; ask(); });
@@ -339,6 +352,11 @@
       $("#hall").innerHTML = D.hall.length
         ? `<div class="hall">${D.hall.map((h) => `<article class="hall-card"><div class="pic">${h.image ? `<img src="${esc(h.image)}" alt="">` : esc((h.name || "?").slice(0, 1))}</div><small>${esc(h.title || "")}</small><h3>${esc(h.name)}</h3>${h.text ? `<p>${esc(h.text)}</p>` : ""}</article>`).join("")}</div>`
         : sealed("Noch kein Ninja des Monats", "Hier ehren wir regelmäßig Spieler, die mit ihrem Roleplay herausgestochen sind.");
+      $("#playable").innerHTML = PLAY.length ? `<div class="play-cards">${PLAY.map((n) => {
+        const mk = ((D.map || {}).markers || []).find((m) => m.name === n) || {};
+        return `<a class="play-card" style="--vc:${esc(villageColor(n))}" href="${esc(mk.link || "welt.html")}"><small>${esc(mk.realm || "")}</small><h3>${esc(n)}</h3><p>${esc(mk.text || "")}</p><span class="badge yes">Zum Start spielbar</span></a>`;
+      }).join("")}</div>` : "";
+      if (!PLAY.length) $("#playable").closest("section").remove();
       const res = Object.values((D.dorftest || {}).results || {});
       $("#teaser-dots").innerHTML = res.map((r) => `<i style="--c:${esc(r.color)}"></i>`).join("");
       if (!reduced) embers($(".hero canvas"));
@@ -352,6 +370,7 @@
         : sealed("Noch nichts geleakt", "Sobald es erste Einblicke gibt, liegen sie hier verdeckt. Ein Klick deckt sie auf, gesperrte öffnen sich zum angegebenen Zeitpunkt.");
     },
     welt() {
+      $("#map").insertAdjacentHTML("beforebegin", playNote());
       renderMap($("#map"));
       $("#timeline").innerHTML = D.timeline.length
         ? `<div class="timeline">${D.timeline.map((t) => `<article class="tl"><time>${esc(t.date)}</time><h3>${esc(t.title)}</h3>${t.text ? `<p>${esc(t.text)}</p>` : ""}</article>`).join("")}</div>`
