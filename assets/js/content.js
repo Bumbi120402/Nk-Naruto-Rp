@@ -17,6 +17,10 @@ window.NK = {
     discordId: "",       // Server-ID für die Live-Anzeige "xx online" (Discord: Servereinstellungen -> Widget -> aktivieren, ID kopieren)
     music: "assets/audio/ambient.mp3",  // Musik für den Lautsprecher-Knopf. Leer "" = eingebauter Ambient-Sound
     playable: ["Konohagakure", "Sunagakure"],  // zum Start spielbare Dörfer (Startseite, Karte, Dorf-Test)
+    /* Serverstatus oben auf der Startseite.
+       state: "entwicklung", "online", "wartung" oder "offline"
+       statusUrl: optional Adresse, die {"online": true, "players": 12, "max": 64} liefert -> Status kommt dann automatisch */
+    status: { state: "entwicklung", text: "", statusUrl: "" },
     release: ""          // leer = kein Countdown. Sobald ein Datum drinsteht, z. B. "2026-12-26T18:00:00+01:00", erscheint er auf der Startseite
   },
 
@@ -132,5 +136,26 @@ window.NK = {
       kumo:   { name: "Kumogakure",   color: "#a98bea", text: "Direkt, laut und voller Energie. Du suchst die Herausforderung und weichst keinem Kampf aus." },
       iwa:    { name: "Iwagakure",    color: "#b08463", text: "Standhaft wie ein Fels. Wer dein Vertrauen hat, kann sich für immer auf dich verlassen." }
     }
+  },
+
+  /* ------------------------------------------------------------ CHANGELOG
+     Neueste Version oben. Art: "neu", "geändert", "behoben", "entfernt"
+     { version: "0.2", date: "2026-12-01", title: "Clan-Update", changes: [ ["neu", "Hyūga spielbar"], ["behoben", "…"] ] } */
+  changelog: [],
+
+  /* ------------------------------------------------------------ IMPRESSUM
+     Solange name, address oder email leer sind, zeigt die Impressum-Seite eine Vorlage
+     mit allem, was hinein muss. Sobald alles ausgefüllt ist, erscheint das fertige Impressum. */
+  impressum: {
+    name: "",            // Vor- und Nachname (bei Verein/Firma: Name + Rechtsform)
+    representative: "",  // nur bei Verein/Firma: vertretungsberechtigte Person
+    address: "",         // Straße und Hausnummer
+    city: "",            // PLZ und Ort
+    country: "Deutschland",
+    email: "",
+    phone: "",           // Telefon ODER contactForm angeben (zweiter schneller Kontaktweg)
+    contactForm: "",     // z. B. Link zu einem Kontaktformular
+    register: "",        // falls vorhanden, z. B. "Vereinsregister Amtsgericht Musterstadt, VR 12345"
+    responsible: ""      // Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV: Name + Anschrift (leer = wie oben)
   }
 };

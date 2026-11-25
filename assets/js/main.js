@@ -20,6 +20,7 @@
     faq: '<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5v.7"/><path d="M12 17h.01"/>',
     jutsu: '<path d="M12 2c1.5 3 4 4.5 4 8a4 4 0 0 1-8 0c0-1.6.7-2.6 1.5-3.5.2 1.6 1 2.5 2 2.5-.6-2.5-.4-4.6.5-7z"/><path d="M6 15c-1 1.5-1.5 2.7-1.5 4 0 1.5 3.4 3 7.5 3s7.5-1.5 7.5-3c0-1.3-.5-2.5-1.5-4"/>',
     dorftest: '<path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',
+    changelog: '<path d="M3.5 12a8.5 8.5 0 1 0 2.6-6.1L3.5 8.5"/><path d="M3.5 3.5v5h5"/><path d="M12 7.5V12l3 2"/>',
     social: '<circle cx="18" cy="5.5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="18.5" r="2.5"/><path d="m8.2 10.8 7.6-4M8.2 13.2l7.6 4"/>',
     soundOn: '<path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/>',
     soundOff: '<path d="M4 9v6h4l5 4V5L8 9z"/><path d="m17 9 5 6M22 9l-5 6"/>',
@@ -38,6 +39,7 @@
     ["quiz.html", "Quiz", "quiz"],
     ["faq.html", "FAQ", "faq"],
     ["dorftest.html", "Dorf-Test", "dorftest"],
+    ["changelog.html", "Changelog", "changelog"],
     ["social.html", "Social Media", "social"]
   ];
   const cur = (p) => (p === page ? ' aria-current="page"' : "");
@@ -76,11 +78,12 @@
   const footer = document.createElement("footer");
   footer.innerHTML = `<div class="wrap">
     <div class="f">
-      <a class="brand" href="index.html"><img src="assets/img/logo-small.png" alt=""><div><b>${esc(S.name)}</b><span>${esc(S.title)}</span></div></a>
+      <a class="brand" href="index.html"><img src="assets/img/logo-small.png" alt=""><div><b>NK Gaming Area</b><span>${esc(S.title)}</span></div></a>
       <nav aria-label="Fußzeile">${PAGES.map(([h, l]) => `<a href="${h}">${l}</a>`).join("")}</nav>
     </div>
     ${(D.socials || []).some((x) => x.url) ? `<div class="f-social">${D.socials.filter((x) => x.url).map((x) => `<a href="${esc(x.url)}" target="_blank" rel="noopener" aria-label="${esc(x.platform)}">${(SOC[x.platform.toLowerCase()] || SOC.link).i}</a>`).join("")}</div>` : ""}
-    <p class="legal">© ${new Date().getFullYear()} ${esc(S.name)} ${esc(S.title)}. Ein Fan-Projekt, nicht offiziell verbunden mit Naruto, Masashi Kishimoto, Shueisha oder Studio Pierrot.</p>
+    <div class="legal-row"><nav aria-label="Rechtliches"><a href="impressum.html"${page === "impressum" ? ' aria-current="page"' : ""}>Impressum</a></nav>
+    <p class="legal">© ${new Date().getFullYear()} NK Gaming Area. Ein Fan-Projekt, nicht offiziell verbunden mit Naruto, Masashi Kishimoto, Shueisha oder Studio Pierrot.</p></div>
   </div>`;
   $(".shell").append(footer);
 
@@ -130,6 +133,23 @@
     <dl>${v.land ? `<div><dt>Reich</dt><dd>${esc(v.land)}</dd></div>` : ""}${v.kage ? `<div><dt>Oberhaupt</dt><dd>${esc(v.kage)}</dd></div>` : ""}</dl>
     <p style="color:var(--ash)">${esc(v.text)}</p></div></article>`;
 
+
+  /* ---------------- Serverstatus ---------------- */
+  function serverStatus(el) {
+    if (!el) return;
+    const st = S.status || {}, NAMES = { entwicklung: "In Entwicklung", online: "Online", wartung: "Wartung", offline: "Offline" };
+    const draw = (state, extra) => {
+      state = NAMES[state] ? state : "entwicklung";
+      el.className = `status s-${state}`;
+      el.innerHTML = `<i aria-hidden="true"></i><span>Server: <b>${NAMES[state]}</b>${extra ? ` · ${esc(extra)}` : ""}${st.text ? ` · ${esc(st.text)}` : ""}</span>`;
+      el.hidden = false;
+    };
+    draw(st.state);
+    if (st.statusUrl) fetch(st.statusUrl, { cache: "no-store" }).then((r) => r.ok ? r.json() : null).then((d) => {
+      if (!d) return;
+      draw(d.online ? "online" : "offline", d.online && typeof d.players === "number" ? `${d.players}${d.max ? " / " + d.max : ""} Spieler` : "");
+    }).catch(() => {});
+  }
 
   /* ---------------- Social-Media-Icons ---------------- */
   const sv = (p, fill) => `<svg viewBox="0 0 24 24" ${fill ? 'fill="currentColor"' : 'fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"'} aria-hidden="true">${p}</svg>`;
@@ -305,6 +325,7 @@
   const R = {
     home() {
       $("#hero-sub").textContent = S.slogan || "";
+      serverStatus($("#status"));
       $("#hero-actions").innerHTML = discordBtn() + `<a class="btn btn-ghost" href="regelwerk.html">Zum Regelwerk</a>`;
       countdownTag($("#tag-cd"));
       $("#home-news").innerHTML = D.news.length
@@ -444,6 +465,57 @@
         });
       };
       show();
+    },
+    changelog() {
+      const L = D.changelog || [], el = $("#changelog");
+      if (!L.length) { el.innerHTML = sealed("Noch keine Einträge", "Hier steht bald jede Änderung am Server: neue Inhalte, Anpassungen und behobene Fehler."); return; }
+      const lab = { neu: "Neu", "geändert": "Geändert", behoben: "Behoben", entfernt: "Entfernt" };
+      el.innerHTML = `<div class="timeline changelog">${L.map((v) => `<article class="tl"><time>${v.version ? "Version " + esc(v.version) : ""}${v.date ? `<small>${new Date(v.date).toLocaleDateString("de-DE", { day: "2-digit", month: "long", year: "numeric" })}</small>` : ""}</time>
+        ${v.title ? `<h3>${esc(v.title)}</h3>` : ""}<ul class="changes">${(v.changes || []).map(([k, x]) => `<li><span class="ch ch-${esc((k || "").toLowerCase())}">${esc(lab[(k || "").toLowerCase()] || k)}</span>${esc(x)}</li>`).join("")}</ul></article>`).join("")}</div>`;
+    },
+    impressum() {
+      const I = D.impressum || {}, el = $("#impressum");
+      const ready = I.name && I.address && I.city && I.email && (I.phone || I.contactForm);
+      if (ready) {
+        el.innerHTML = `<div class="scroll legal-doc">
+          <h2>Angaben gemäß § 5 DDG</h2>
+          <p>${esc(I.name)}${I.representative ? `<br>vertreten durch ${esc(I.representative)}` : ""}<br>${esc(I.address)}<br>${esc(I.city)}${I.country ? `<br>${esc(I.country)}` : ""}</p>
+          <h2>Kontakt</h2>
+          <p>E-Mail: <a href="mailto:${esc(I.email)}">${esc(I.email)}</a>${I.phone ? `<br>Telefon: ${esc(I.phone)}` : ""}${I.contactForm ? `<br>Kontaktformular: <a href="${esc(I.contactForm)}">${esc(I.contactForm)}</a>` : ""}</p>
+          ${I.register ? `<h2>Registereintrag</h2><p>${esc(I.register)}</p>` : ""}
+          <h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
+          <p>${I.responsible ? esc(I.responsible) : `${esc(I.name)}, Anschrift wie oben`}</p>
+          <h2>Haftung für Links</h2>
+          <p>Diese Website enthält Links zu externen Seiten, auf deren Inhalte wir keinen Einfluss haben. Für diese Inhalte ist der jeweilige Anbieter verantwortlich. Bei Bekanntwerden von Rechtsverletzungen entfernen wir solche Links umgehend.</p>
+          <h2>Hinweis</h2>
+          <p>NK Gaming Area ist ein Fan-Projekt und steht in keiner Verbindung zu Masashi Kishimoto, Shueisha, Studio Pierrot oder den Rechteinhabern von Naruto. Alle Marken gehören ihren jeweiligen Eigentümern.</p></div>`;
+        return;
+      }
+      el.innerHTML = `<div class="play-note"><b>Vorlage.</b> Diese Seite zeigt, was in euer Impressum muss. Sobald ihr in <code>assets/js/content.js</code> unter <code>impressum</code> Name, Anschrift, E-Mail und einen zweiten Kontaktweg eintragt, erscheint hier automatisch das fertige Impressum.</div>
+        <div class="scroll legal-doc">
+          <h2>Pflichtangaben nach § 5 DDG</h2>
+          <ul class="checklist">
+            <li><b>Name:</b> Vor- und Nachname der verantwortlichen Person. Bei einem Verein oder einer Firma der vollständige Name mit Rechtsform (z. B. „NK Gaming e. V.“) und die vertretungsberechtigte Person.</li>
+            <li><b>Ladungsfähige Anschrift:</b> Straße, Hausnummer, PLZ und Ort. Ein Postfach reicht nicht. Wer die eigene Wohnadresse nicht zeigen will, kann eine ladungsfähige Adresse über einen Impressum-Service nutzen.</li>
+            <li><b>E-Mail-Adresse</b></li>
+            <li><b>Zweiter schneller Kontaktweg:</b> Telefonnummer oder ein Kontaktformular.</li>
+            <li><b>Nur falls vorhanden:</b> Registereintrag (Vereins- oder Handelsregister mit Nummer) und Umsatzsteuer-ID.</li>
+          </ul>
+          <h2>Verantwortlich nach § 18 Abs. 2 MStV</h2>
+          <p>Weil die Seite News und redaktionelle Texte enthält, muss eine verantwortliche Person mit Name und Anschrift genannt werden. Das kann dieselbe Person wie oben sein.</p>
+          <h2>Sinnvoll, aber freiwillig</h2>
+          <ul class="checklist"><li>Haftungshinweis für externe Links</li><li>Hinweis, dass NK ein Fan-Projekt ist und nicht zu den Rechteinhabern von Naruto gehört</li></ul>
+          <h2>Gut zu wissen</h2>
+          <ul class="checklist">
+            <li>Das Impressum muss von jeder Seite aus leicht erreichbar sein. Der Link unten in der Fußzeile erfüllt das.</li>
+            <li>Die Impressumspflicht steht seit Mai 2024 im Digitale-Dienste-Gesetz (DDG), nicht mehr im TMG. Alte Vorlagen mit „§ 5 TMG“ sollten angepasst werden.</li>
+            <li>Der früher übliche Link zur EU-Streitschlichtungsplattform ist seit Juli 2025 nicht mehr nötig, die Plattform wurde eingestellt.</li>
+            <li>Sobald Discord-Anzeige, Musik oder andere externe Dienste eingebunden sind, braucht ihr zusätzlich eine Datenschutzerklärung.</li>
+          </ul>
+          <p class="fine">Diese Vorlage ist keine Rechtsberatung. Für ein verbindliches Impressum am besten einen Generator wie e-recht24 nutzen oder es prüfen lassen.</p>
+          <h2>So sieht es fertig aus</h2>
+          <div class="example"><p><b>Angaben gemäß § 5 DDG</b><br>Max Mustermann<br>Musterstraße 1<br>12345 Musterstadt</p><p><b>Kontakt</b><br>E-Mail: kontakt@beispiel.de<br>Telefon: 0123 456789</p><p><b>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</b><br>Max Mustermann, Anschrift wie oben</p></div>
+        </div>`;
     },
     jutsu() {
       const J = D.jutsu || [], el = $("#jutsu");

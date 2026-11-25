@@ -644,3 +644,44 @@ a.social:hover { border-color: var(--gold); transform: translateY(-3px); color: 
 .f-social a { width: 42px; height: 42px; display: grid; place-items: center; border: 1px solid #3a3326; color: var(--ash); }
 .f-social a:hover { color: var(--gold); border-color: var(--gold); }
 .f-social svg { width: 20px; height: 20px; }
+
+/* Serverstatus */
+.status { display: inline-flex; align-items: center; gap: 10px; padding: 9px 14px; margin: 0 0 26px; border: 1px solid #3a3326; background: rgba(0,0,0,.55); font-size: .92rem; color: var(--ash); text-decoration: none; --stc: var(--gold); }
+.status[hidden] { display: none; }
+.status b { color: var(--stc); }
+.status i { width: 10px; height: 10px; border-radius: 50%; background: var(--stc); box-shadow: 0 0 10px var(--stc); animation: pulse 2s infinite; }
+.status:hover { border-color: var(--stc); color: var(--text); }
+.s-online { --stc: #4cd964; }
+.s-offline { --stc: #ff4b3a; }
+.s-wartung { --stc: #ff9f1a; }
+.s-entwicklung { --stc: var(--gold); }
+
+/* Changelog */
+.changelog time { display: block; }
+.changelog time small { display: block; font: 600 .85rem/1.4 var(--body); color: var(--ash); letter-spacing: 0; margin-top: 4px; }
+.changes { list-style: none; padding: 0; margin: 10px 0 0; display: grid; gap: 8px; }
+.changes li { color: #cfc8b8; display: flex; gap: 12px; align-items: baseline; }
+.ch { flex: none; min-width: 78px; text-align: center; font: 700 .74rem/1 var(--body); padding: 5px 7px; border: 1px solid; }
+.ch-neu { color: #7fd36a; border-color: rgba(127,211,106,.55); }
+.ch-geändert { color: var(--gold); border-color: rgba(255,196,0,.5); }
+.ch-behoben { color: #5fb6e6; border-color: rgba(95,182,230,.55); }
+.ch-entfernt { color: #ff6b5a; border-color: rgba(255,107,90,.55); }
+
+/* Fußzeile: Rechtliches */
+.legal-row { display: flex; justify-content: space-between; align-items: baseline; gap: 20px; flex-wrap: wrap; margin-top: 34px; padding-top: 20px; border-top: 1px solid var(--line); }
+.legal-row nav a { color: var(--text); font-weight: 700; text-decoration: none; }
+.legal-row nav a:hover, .legal-row nav a[aria-current="page"] { color: var(--gold); }
+.legal-row .legal { margin: 0; }
+
+/* Impressum */
+.legal-doc { max-width: 860px; }
+.legal-doc h2 { font-size: 2rem; margin: 1.4em 0 .4em; }
+.legal-doc h2:first-child { margin-top: 0; }
+.legal-doc p, .legal-doc li { color: #cfc8b8; }
+.checklist { padding-left: 1.2em; display: grid; gap: 8px; }
+.checklist li::marker { color: var(--gold); }
+.checklist b { color: var(--text); }
+.fine { font-size: .88rem; color: var(--ash) !important; margin-top: 18px; }
+.example { border: 1px dashed rgba(255,196,0,.35); padding: 20px 24px; background: rgba(255,196,0,.03); }
+.example p:last-child { margin: 0; }
+code { font-size: .9em; color: var(--gold); background: rgba(255,196,0,.08); padding: 1px 5px; }
