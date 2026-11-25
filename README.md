@@ -57,3 +57,6 @@ Eigene Domain: Unter *Settings → Pages → Custom domain* die Domain eintragen
 
 ---
 Fan-Projekt. Es ist nicht offiziell mit Naruto, Masashi Kishimoto, Shueisha oder Studio Pierrot verbunden.
+
+## Nach einer Änderung
+Damit Besucher nicht die alte Version aus ihrem Browser-Cache sehen, hängt hinter CSS und JS in den HTML-Dateien eine Versionsnummer (`?v=…`). Wenn du `content.js`, `wiki.js`, `main.js` oder `style.css` änderst, erhöhe diese Nummer in allen HTML-Dateien (Suchen & Ersetzen).
