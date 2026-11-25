@@ -18,7 +18,22 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" type="image/png" href="assets/img/favicon-64.png">
   <link rel="apple-touch-icon" href="assets/img/favicon.png">
-  <link rel="stylesheet" href="assets/css/style.css?v=202611260033">
+  <meta name="nk-version" content="20261126003557">
+  <script>
+    /* Holt automatisch die neueste Version, falls der Browser eine alte Seite im Cache hat */
+    (function () {
+      try {
+        fetch("version.json?t=" + Date.now(), { cache: "no-store" }).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
+          var mine = document.querySelector('meta[name="nk-version"]').content;
+          if (!j || !j.v || j.v === mine) return;
+          var u = new URL(location.href);
+          if (u.searchParams.get("r") === j.v) return;
+          u.searchParams.set("r", j.v); location.replace(u.toString());
+        }).catch(function () {});
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="assets/css/style.css?v=20261126003557">
 </head>
 <body data-page="leaks">
 <div class="shell">
@@ -30,8 +45,8 @@
   <section class="band"><div class="wrap" id="list"></div></section>
 </main>
 </div>
-  <script src="assets/js/content.js?v=202611260033"></script>
-  <script src="assets/js/wiki.js?v=202611260033"></script>
-  <script src="assets/js/main.js?v=202611260033"></script>
+  <script src="assets/js/content.js?v=20261126003557"></script>
+  <script src="assets/js/wiki.js?v=20261126003557"></script>
+  <script src="assets/js/main.js?v=20261126003557"></script>
 </body>
 </html>
