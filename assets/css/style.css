@@ -7,7 +7,6 @@
 
 @font-face { font-family: "Anton NK"; src: url("../fonts/anton.woff") format("woff"); font-display: swap; }
 @font-face { font-family: "Bitter NK"; src: url("../fonts/bitter.woff") format("woff"); font-weight: 100 900; font-display: swap; }
-@font-face { font-family: "Kanji NK"; src: url("../fonts/kanji.woff") format("woff"); font-display: block; }
 
 :root {
   --ink: #000;
@@ -24,7 +23,6 @@
 
   --display: "Anton NK", "Anton", Impact, "Arial Narrow", sans-serif;
   --body: "Bitter NK", "Bitter", Georgia, serif;
-  --kanji: "Kanji NK", "Noto Serif CJK JP", "Hiragino Mincho ProN", "Yu Mincho", serif;
 
   --rail: 96px;
   --measure: 68ch;
@@ -53,7 +51,6 @@ h1, h2, h3 { font-family: var(--display); font-weight: 400; line-height: .95; le
 h2 { font-size: clamp(2.6rem, 6vw, 4.6rem); }
 h3 { font-size: 1.9rem; }
 p { margin: 0 0 1em; max-width: var(--measure); }
-.kanji { font-family: var(--kanji); font-weight: 900; line-height: 1; }
 
 /* ======================================================================
    GERÜST: linke Siegel-Leiste + Inhalt
@@ -74,12 +71,12 @@ p { margin: 0 0 1em; max-width: var(--measure); }
   position: relative; display: flex; flex-direction: column; align-items: center; gap: 5px;
   padding: 10px 4px; color: var(--ash); text-decoration: none;
 }
-.rail nav a .kanji { font-size: 1.7rem; color: #5d5548; transition: color .2s, transform .2s; }
+.rail nav a svg { width: 26px; height: 26px; color: #6b6253; transition: color .2s, transform .2s; }
 .rail nav a small { font: 600 .66rem/1.1 var(--body); text-align: center; }
-.rail nav a:hover, .rail nav a:hover .kanji { color: var(--text); }
-.rail nav a:hover .kanji { transform: translateY(-2px); }
+.rail nav a:hover, .rail nav a:hover svg { color: var(--text); }
+.rail nav a:hover svg { transform: translateY(-2px); }
 .rail nav a[aria-current="page"] { color: var(--gold); }
-.rail nav a[aria-current="page"] .kanji { color: var(--gold); text-shadow: 0 0 18px rgba(255,196,0,.55); }
+.rail nav a[aria-current="page"] svg { color: var(--gold); filter: drop-shadow(0 0 8px rgba(255,196,0,.6)); }
 .rail nav a[aria-current="page"]::before {
   content: ""; position: absolute; left: 0; top: 14%; bottom: 14%; width: 4px; background: var(--gold); box-shadow: 0 0 14px var(--gold);
 }
@@ -114,16 +111,6 @@ p { margin: 0 0 1em; max-width: var(--measure); }
    INTRO: Fingerzeichen -> Wappen zündet (einmal pro Besuch)
    ====================================================================== */
 .intro { position: fixed; inset: 0; z-index: 200; background: var(--ink); display: grid; place-items: center; overflow: hidden; cursor: pointer; }
-.intro .seal {
-  position: absolute; font-family: var(--kanji); font-weight: 900; font-size: min(46vw, 46vh);
-  color: var(--gold); opacity: 0; text-shadow: 0 0 60px rgba(255,196,0,.6);
-}
-.intro .seal.on { animation: sealIn .34s cubic-bezier(.2,.9,.2,1) forwards; }
-@keyframes sealIn {
-  0% { opacity: 0; transform: scale(1.5); filter: blur(10px); }
-  40% { opacity: 1; transform: scale(1); filter: blur(0); }
-  100% { opacity: 0; transform: scale(.92); }
-}
 .intro .burst {
   position: absolute; width: 10px; height: 10px; border-radius: 50%; opacity: 0;
   background: radial-gradient(circle, #fff 0, var(--gold-hot) 20%, var(--ember) 45%, transparent 70%);
@@ -145,15 +132,24 @@ p { margin: 0 0 1em; max-width: var(--measure); }
   display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center;
   padding: 6vh 270px 8vh 7vw;
 }
-.hero canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.hero-bg {
+  position: absolute; inset: 0; z-index: 0;
+  background:
+    var(--night-noise),
+    linear-gradient(90deg, #000 0%, rgba(0,0,0,.8) 26%, rgba(0,0,0,.12) 60%, rgba(0,0,0,.3) 100%),
+    linear-gradient(0deg, #000 0%, rgba(0,0,0,0) 32%),
+    linear-gradient(180deg, rgba(0,0,0,.45) 0%, rgba(0,0,0,0) 22%),
+    url("../img/header.webp") 60% 35% / cover no-repeat;
+}
+.hero canvas { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; pointer-events: none; }
 .hero-glow {
   position: absolute; width: 70vw; height: 70vw; right: -14vw; top: 50%; translate: 0 -50%; pointer-events: none;
-  background: radial-gradient(circle, rgba(255,196,0,.20) 0, rgba(255,138,0,.07) 35%, transparent 62%);
+  background: radial-gradient(circle, rgba(255,196,0,.18) 0, rgba(255,138,0,.06) 35%, transparent 62%); z-index: 1;
 }
 .hero-mark {
   position: absolute; right: -1vw; top: 50%; translate: 0 -50%;
   font-family: var(--display); font-size: clamp(14rem, 42vw, 40rem); line-height: .8;
-  color: transparent; -webkit-text-stroke: 2px rgba(255,196,0,.2); user-select: none; pointer-events: none;
+  color: transparent; -webkit-text-stroke: 2px rgba(255,196,0,.16); user-select: none; pointer-events: none; z-index: 1;
 }
 .hero-logo { position: relative; z-index: 2; grid-column: 2; grid-row: 1; justify-self: center; width: min(640px, 100%);
   filter: drop-shadow(0 0 50px rgba(255,196,0,.35)) drop-shadow(0 30px 40px rgba(0,0,0,.8)); }
@@ -164,10 +160,6 @@ p { margin: 0 0 1em; max-width: var(--measure); }
 .hero-sub { font-size: 1.2rem; color: var(--ash); max-width: 32ch; margin-bottom: 34px; }
 .hero-sub:empty { display: none; }
 .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
-.hero-vert {
-  position: absolute; z-index: 3; left: 2.4vw; top: 50%; translate: 0 -50%;
-  writing-mode: vertical-rl; font-family: var(--kanji); font-weight: 900; font-size: 1.4rem; letter-spacing: .6em; color: #3d3628;
-}
 
 /* Briefbomben-Zettel als Countdown */
 .tag-cd { position: absolute; z-index: 4; right: 48px; top: 16vh; width: 196px; transform: rotate(4deg); transform-origin: 50% -16vh; animation: sway 6s ease-in-out infinite; }
@@ -179,7 +171,7 @@ p { margin: 0 0 1em; max-width: var(--measure); }
   box-shadow: 0 24px 40px rgba(0,0,0,.7);
   clip-path: polygon(0 0, 100% 0, 100% 96%, 94% 100%, 88% 97%, 80% 100%, 70% 97%, 60% 100%, 50% 97%, 40% 100%, 30% 97%, 20% 100%, 10% 97%, 4% 100%, 0 96%);
 }
-.tag-paper .bomb { font-family: var(--kanji); font-weight: 900; font-size: 4rem; color: var(--seal); line-height: 1; margin: 4px 0 10px; }
+.tag-paper .bomb { width: 74px; height: 74px; margin: 2px auto 12px; border-radius: 50%; border: 4px solid var(--seal); display: grid; place-items: center; font: 400 2rem/1 var(--display); color: var(--seal); box-shadow: inset 0 0 0 3px var(--tag), inset 0 0 0 6px var(--seal); }
 .tag-paper .label { font-weight: 700; font-size: .85rem; margin: 0 auto 10px; }
 .tag-paper .units { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 10px; }
 .tag-paper .u { border-top: 2px solid #1b140a; padding-top: 4px; }
@@ -191,11 +183,15 @@ p { margin: 0 0 1em; max-width: var(--measure); }
 /* ======================================================================
    SEITENKOPF der Unterseiten
    ====================================================================== */
-.phead { position: relative; overflow: hidden; padding: 17vh 0 9vh; border-bottom: 1px solid var(--line); }
-.phead .ghost {
-  position: absolute; right: -2vw; top: 50%; translate: 0 -50%;
-  font-family: var(--kanji); font-weight: 900; font-size: clamp(16rem, 36vw, 32rem); line-height: 1;
-  color: var(--soot); -webkit-text-stroke: 1px rgba(255,196,0,.16); user-select: none; pointer-events: none;
+.phead { position: relative; overflow: hidden; padding: 22vh 0 9vh; min-height: 56vh; display: flex; align-items: flex-end; }
+.phead .wrap { width: min(1240px, calc(100vw - var(--rail) - 8vw)); }
+.phead-bg {
+  position: absolute; inset: 0;
+  background:
+    var(--night-noise),
+    linear-gradient(90deg, #000 0%, rgba(0,0,0,.75) 28%, rgba(0,0,0,.08) 68%, rgba(0,0,0,.3) 100%),
+    linear-gradient(0deg, #000 2%, rgba(0,0,0,0) 50%),
+    url("../img/header.webp") 70% 30% / cover no-repeat;
 }
 .phead .wrap { position: relative; }
 .phead h1 { font-size: clamp(4.2rem, 11vw, 9.5rem); line-height: .85; margin: 0 0 24px; }
@@ -230,7 +226,7 @@ p { margin: 0 0 1em; max-width: var(--measure); }
 .hanko {
   width: 140px; height: 140px; display: grid; place-items: center; transform: rotate(-9deg);
   border: 5px solid var(--seal); border-radius: 16px; color: var(--seal);
-  font-family: var(--kanji); font-weight: 900; font-size: 5rem; line-height: 1;
+  font: 400 3.6rem/1 var(--display); letter-spacing: .02em;
   box-shadow: inset 0 0 0 4px var(--tag), inset 0 0 0 7px var(--seal);
   opacity: .9;
 }
@@ -257,11 +253,12 @@ p { margin: 0 0 1em; max-width: var(--measure); }
 .leak { position: relative; display: block; width: 100%; background: var(--soot); border: 1px solid #2f281c; cursor: pointer; text-align: left; color: inherit; font: inherit; padding: 0; }
 .leak-img { aspect-ratio: 4/3; position: relative; overflow: hidden; background: #0a0806; }
 .leak-img img, .leak-img .ph { width: 100%; height: 100%; object-fit: cover; transition: filter .6s, transform .6s; }
-.leak-img .ph { display: grid; place-items: center; font-family: var(--kanji); font-weight: 900; font-size: 6rem; color: #2f281c; }
+.leak-img .ph { display: grid; place-items: center; color: #3a3326; }
+.leak-img .ph svg { width: 64px; height: 64px; }
 .leak.covered .leak-img img, .leak.locked .leak-img img { filter: blur(22px) brightness(.55); transform: scale(1.2); }
 .leak-wrap { position: absolute; inset: 0; display: grid; place-items: center; }
 .leak-wrap .tag-paper { width: 58%; transform: rotate(-6deg); padding: 14px 10px 18px; }
-.leak-wrap .bomb { font-size: 2.6rem; margin: 0 0 6px; }
+.leak-wrap .bomb { width: 52px; height: 52px; font-size: 1.4rem; border-width: 3px; margin: 0 auto 8px; }
 .leak:not(.covered):not(.locked) .leak-wrap { display: none; }
 .leak-body { padding: 20px 22px 24px; }
 .leak-body h3 { font-size: 1.7rem; margin-bottom: 6px; }
@@ -269,7 +266,8 @@ p { margin: 0 0 1em; max-width: var(--measure); }
 .leak.locked { cursor: default; }
 
 .village { display: grid; grid-template-columns: 200px 1fr; gap: 40px; align-items: center; padding: 44px 0; border-bottom: 1px solid var(--line); }
-.village > .kanji { font-size: 9rem; color: var(--gold); text-align: center; text-shadow: 0 0 40px rgba(255,196,0,.25); }
+.village > .emblem { font: 400 7rem/1 var(--display); color: var(--gold); text-align: center; text-shadow: 0 0 40px rgba(255,196,0,.25); }
+.village > .emblem img { margin: 0 auto; max-height: 160px; width: auto; }
 .village h3 { font-size: clamp(2.6rem, 5vw, 4rem); margin-bottom: 4px; }
 .village .alias { color: var(--ash); font-style: italic; margin-bottom: 14px; }
 .village dl { display: flex; gap: 32px; margin: 0 0 14px; flex-wrap: wrap; }
@@ -328,9 +326,10 @@ p { margin: 0 0 1em; max-width: var(--measure); }
 .member p { color: var(--ash); font-size: .95rem; margin-top: 8px; }
 
 .seals-band { overflow: hidden; border-block: 1px solid var(--line); padding: 30px 0; background: var(--ink); }
-.seals-track { display: flex; gap: 70px; width: max-content; animation: marquee 50s linear infinite; }
-.seals-track span { font-family: var(--kanji); font-weight: 900; font-size: 4.2rem; line-height: 1; color: transparent; -webkit-text-stroke: 1.2px rgba(255,196,0,.55); }
-.seals-track span:nth-child(4n+1) { color: var(--gold); -webkit-text-stroke: 0; text-shadow: 0 0 24px rgba(255,196,0,.45); }
+.seals-track { display: flex; align-items: center; gap: 48px; width: max-content; animation: marquee 60s linear infinite; }
+.seals-track span { font: 400 4rem/1 var(--display); color: transparent; -webkit-text-stroke: 1.3px rgba(255,196,0,.6); white-space: nowrap; }
+.seals-track span:nth-of-type(3n+1) { color: var(--gold); -webkit-text-stroke: 0; }
+.seals-track img { width: 64px; filter: drop-shadow(0 0 10px rgba(255,196,0,.4)); }
 @keyframes marquee { to { transform: translateX(-50%); } }
 
 /* ======================================================================
@@ -342,7 +341,6 @@ p { margin: 0 0 1em; max-width: var(--measure); }
 .path li::before { content: ""; position: absolute; top: -10px; left: 0; width: 16px; height: 16px; background: var(--ink); border: 3px solid var(--gold); transform: rotate(45deg); }
 .path li:last-child::before { background: var(--gold); box-shadow: 0 0 22px var(--gold); }
 .path li b { display: block; font: 400 2rem/1 var(--display); margin-bottom: 8px; }
-.path li .kanji { font-size: 1.3rem; color: #5d5548; display: block; margin-bottom: 10px; }
 .path li:last-child b { color: var(--gold); }
 
 .join {
@@ -350,7 +348,6 @@ p { margin: 0 0 1em; max-width: var(--measure); }
   padding: clamp(40px, 7vw, 90px) clamp(26px, 6vw, 80px);
   display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: center;
 }
-.join .bg { position: absolute; right: 18%; top: 50%; translate: 0 -50%; font-size: 24vw; color: rgba(0,0,0,.08); pointer-events: none; }
 .join h2 { font-size: clamp(3rem, 7vw, 6.4rem); margin: 0 0 12px; position: relative; }
 .join p { font-size: 1.15rem; font-weight: 500; margin: 0; position: relative; color: #2a2000; }
 .join .btn { background: var(--ink); color: var(--gold); position: relative; }
@@ -390,8 +387,8 @@ footer .legal { margin-top: 34px; font-size: .8rem; color: #6a6252; max-width: n
   .sheet { position: fixed; inset: 0; z-index: 70; background: var(--ink); flex-direction: column; padding: 90px 8vw 40px; overflow: auto; }
   .sheet.open { display: flex; }
   .sheet a { display: flex; align-items: center; gap: 18px; padding: 12px 0; font: 400 2.4rem/1 var(--display); color: var(--text); text-decoration: none; border-bottom: 1px solid var(--line); }
-  .sheet a .kanji { font-size: 1.8rem; color: #5d5548; width: 1.2em; }
-  .sheet a[aria-current="page"], .sheet a[aria-current="page"] .kanji { color: var(--gold); }
+  .sheet a svg { width: 30px; height: 30px; color: #6b6253; flex: none; }
+  .sheet a[aria-current="page"], .sheet a[aria-current="page"] svg { color: var(--gold); }
   .sheet .close { position: absolute; top: 18px; right: 5vw; }
   .hero { grid-template-columns: 1fr; padding: 4vh 5vw 360px; min-height: auto; }
   .hero-logo { grid-column: 1; grid-row: 1; width: min(520px, 88vw); margin-bottom: 18px; }
@@ -409,7 +406,8 @@ footer .legal { margin-top: 34px; font-size: .8rem; color: #6a6252; max-width: n
   .hanko { width: 106px; height: 106px; font-size: 3.8rem; }
   .news { grid-template-columns: 1fr; gap: 6px; }
   .village { grid-template-columns: 1fr; gap: 10px; }
-  .village > .kanji { text-align: left; font-size: 6rem; }
+  .village > .emblem { text-align: left; font-size: 5rem; }
+  .village > .emblem img { margin: 0; }
   .join { grid-template-columns: 1fr; }
   .rule { grid-template-columns: 50px 1fr; }
   .hero-title { font-size: 21vw; }

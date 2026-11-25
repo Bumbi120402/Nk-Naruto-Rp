@@ -8,14 +8,25 @@
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const discordSvg = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.3 4.4A19.8 19.8 0 0 0 15.4 3l-.6 1.3a18.4 18.4 0 0 0-5.5 0L8.6 3a19.7 19.7 0 0 0-4.9 1.5C.6 9.1-.3 13.6.1 18.1a19.9 19.9 0 0 0 6 3l1.3-2.1a12.9 12.9 0 0 1-2-1l.5-.4a14.2 14.2 0 0 0 12.2 0l.5.4c-.6.4-1.3.7-2 1l1.3 2.1a19.8 19.8 0 0 0 6-3c.5-5.2-.8-9.7-3.6-13.7ZM8 15.4c-1.2 0-2.2-1.1-2.2-2.4S6.8 10.6 8 10.6s2.2 1.1 2.2 2.4-1 2.4-2.2 2.4Zm8 0c-1.2 0-2.2-1.1-2.2-2.4s1-2.4 2.2-2.4 2.2 1.1 2.2 2.4-1 2.4-2.2 2.4Z"/></svg>';
 
+  const ICON = {
+    home: '<path d="M3 11 12 4l9 7"/><path d="M5 10v10h5v-6h4v6h5V10"/>',
+    news: '<path d="M3 10v4h3l8 5V5L6 10H3z"/><path d="M18 9.5a3.5 3.5 0 0 1 0 5"/>',
+    leaks: '<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+    lore: '<path d="M2 20 9 7l4 6 3-4 6 11z"/><path d="M7.5 9.5 9 11l1.5-1.5"/>',
+    wiki: '<path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M5 17a3 3 0 0 1 3-3h11"/>',
+    regeln: '<path d="M12 3 4 6v6c0 5 3.4 8 8 9 4.6-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/>',
+    team: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M21.5 20c0-2.9-1.7-5-4.5-5.7"/>',
+    lock: '<rect x="5" y="11" width="14" height="10" rx="1"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>'
+  };
+  const icon = (k) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[k]}</svg>`;
   const PAGES = [
-    ["index.html", "Start", "始", "home"],
-    ["news.html", "Ankündigungen", "報", "news"],
-    ["leaks.html", "Leaks", "漏", "leaks"],
-    ["lore.html", "Lore", "史", "lore"],
-    ["wiki.html", "Wiki", "書", "wiki"],
-    ["regeln.html", "Regeln & FAQ", "掟", "regeln"],
-    ["team.html", "Team", "衆", "team"]
+    ["index.html", "Start", "", "home"],
+    ["news.html", "Ankündigungen", "", "news"],
+    ["leaks.html", "Leaks", "", "leaks"],
+    ["lore.html", "Lore", "", "lore"],
+    ["wiki.html", "Wiki", "", "wiki"],
+    ["regeln.html", "Regeln & FAQ", "", "regeln"],
+    ["team.html", "Team", "", "team"]
   ];
   const cur = (p) => (p === page ? ' aria-current="page"' : "");
 
@@ -30,7 +41,7 @@
   rail.className = "rail";
   rail.innerHTML = `
     <a class="rail-logo" href="index.html" aria-label="${esc(S.name)} Startseite"><img src="assets/img/logo-small.png" alt=""></a>
-    <nav aria-label="Hauptmenü">${PAGES.map(([h, l, k, p]) => `<a href="${h}"${cur(p)}><span class="kanji" aria-hidden="true">${k}</span><small>${l}</small></a>`).join("")}</nav>
+    <nav aria-label="Hauptmenü">${PAGES.map(([h, l, k, p]) => `<a href="${h}"${cur(p)}>${icon(p)}<small>${l}</small></a>`).join("")}</nav>
     ${S.discord ? `<a class="rail-discord" href="${esc(S.discord)}" target="_blank" rel="noopener" aria-label="Discord">${discordSvg}</a>` : `<span class="rail-discord" style="opacity:.35" title="Discord-Link folgt">${discordSvg}</span>`}`;
   const top = document.createElement("div");
   top.className = "topbar";
@@ -38,7 +49,7 @@
   const sheet = document.createElement("nav");
   sheet.className = "sheet"; sheet.id = "sheet"; sheet.setAttribute("aria-label", "Menü");
   sheet.innerHTML = `<button type="button" class="btn btn-ghost close">Schließen</button>` +
-    PAGES.map(([h, l, k, p]) => `<a href="${h}"${cur(p)}><span class="kanji" aria-hidden="true">${k}</span>${l}</a>`).join("") +
+    PAGES.map(([h, l, k, p]) => `<a href="${h}"${cur(p)}>${icon(p)}${l}</a>`).join("") +
     `<div style="margin-top:30px">${discordBtn()}</div>`;
   document.body.prepend(rail, top, sheet);
   const toggle = (open) => { sheet.classList.toggle("open", open); top.querySelector("button").setAttribute("aria-expanded", open); document.body.style.overflow = open ? "hidden" : ""; };
@@ -57,12 +68,12 @@
   $(".shell").append(footer);
 
   /* ---------------- Leere Schriftrolle ---------------- */
-  const sealed = (title, text, k = "封") => `<div class="scroll sealed"><div class="hanko" aria-hidden="true">${k}</div><div><h3>${title}</h3><p>${text}</p></div></div>`;
+  const sealed = (title, text) => `<div class="scroll sealed"><div class="hanko" aria-hidden="true">NK</div><div><h3>${title}</h3><p>${text}</p></div></div>`;
 
   /* ---------------- Countdown-Zettel ---------------- */
   function countdownTag(el) {
     const t = new Date(S.release).getTime();
-    const head = `<div class="bomb" aria-hidden="true">爆</div>`;
+    const head = `<div class="bomb" aria-hidden="true">NK</div>`;
     if (!S.release || isNaN(t)) { el.innerHTML = `<div class="tag-paper">${head}<p class="label">Release</p><div class="soon">Datum folgt</div></div>`; return; }
     const tick = () => {
       const d = t - Date.now();
@@ -89,15 +100,15 @@
   };
   const leakHTML = (l) => {
     const at = l.unlock ? new Date(l.unlock).getTime() : 0, locked = at > Date.now();
-    const img = l.image ? `<img src="${esc(l.image)}" alt="">` : `<div class="ph" aria-hidden="true">漏</div>`;
+    const img = l.image ? `<img src="${esc(l.image)}" alt="">` : `<div class="ph">${icon("lock")}</div>`;
     const tag = locked
-      ? `<div class="tag-paper"><div class="bomb">封</div><p class="label" style="margin:0">Frei ab ${new Date(l.unlock).toLocaleDateString("de-DE", { day: "2-digit", month: "2-digit" })}</p></div>`
-      : `<div class="tag-paper"><div class="bomb">爆</div><p class="label" style="margin:0">Aufdecken</p></div>`;
+      ? `<div class="tag-paper"><div class="bomb">NK</div><p class="label" style="margin:0">Frei ab ${new Date(l.unlock).toLocaleDateString("de-DE", { day: "2-digit", month: "2-digit" })}</p></div>`
+      : `<div class="tag-paper"><div class="bomb">NK</div><p class="label" style="margin:0">Aufdecken</p></div>`;
     return `<button type="button" class="leak ${locked ? "locked" : "covered"}" ${locked ? "disabled" : ""}>
       <div class="leak-img">${img}<div class="leak-wrap">${tag}</div></div>
       <div class="leak-body"><h3>${locked ? "Versiegelt" : esc(l.title)}</h3><p>${locked ? "Dieser Leak öffnet sich von selbst." : esc(l.text)}</p></div></button>`;
   };
-  const villageHTML = (v) => `<article class="village" id="${esc(v.name)}"><div class="kanji" aria-hidden="true">${esc(v.kanji || "")}</div>
+  const villageHTML = (v) => `<article class="village" id="${esc(v.name)}"><div class="emblem" aria-hidden="true">${v.emblem ? `<img src="${esc(v.emblem)}" alt="">` : esc((v.name || "?").slice(0, 1))}</div>
     <div><h3>${esc(v.name)}</h3>${v.alias ? `<p class="alias">${esc(v.alias)}</p>` : ""}
     <dl>${v.land ? `<div><dt>Reich</dt><dd>${esc(v.land)}</dd></div>` : ""}${v.kage ? `<div><dt>Oberhaupt</dt><dd>${esc(v.kage)}</dd></div>` : ""}</dl>
     <p style="color:var(--ash)">${esc(v.text)}</p></div></article>`;
@@ -113,7 +124,7 @@
         : sealed("Noch versiegelt", "Die ersten Ankündigungen erscheinen hier, sobald das Team sie veröffentlicht.");
       $("#home-leaks").innerHTML = D.leaks.length
         ? `<div class="leaks">${D.leaks.slice(0, 3).map(leakHTML).join("")}</div>`
-        : sealed("Noch nichts geleakt", "Vor dem Release tauchen hier erste Einblicke auf. Manche öffnen sich zu einem festen Zeitpunkt von selbst.", "漏");
+        : sealed("Noch nichts geleakt", "Vor dem Release tauchen hier erste Einblicke auf. Manche öffnen sich zu einem festen Zeitpunkt von selbst.");
       $("#join-btn").innerHTML = discordBtn();
       if (!reduced) embers($(".hero canvas"));
     },
@@ -123,12 +134,12 @@
     },
     leaks() {
       $("#list").innerHTML = D.leaks.length ? `<div class="leaks">${D.leaks.map(leakHTML).join("")}</div>`
-        : sealed("Noch nichts geleakt", "Sobald es erste Einblicke gibt, liegen sie hier verdeckt. Ein Klick deckt sie auf, gesperrte öffnen sich zum angegebenen Zeitpunkt.", "漏");
+        : sealed("Noch nichts geleakt", "Sobald es erste Einblicke gibt, liegen sie hier verdeckt. Ein Klick deckt sie auf, gesperrte öffnen sich zum angegebenen Zeitpunkt.");
     },
     lore() {
       $("#villages").innerHTML = D.villages.length ? D.villages.map(villageHTML).join("")
-        : sealed("Die Dörfer werden noch geschrieben", "Hier stellen sich bald die Dörfer vor, aus denen eure Charaktere stammen können.", "里");
-      if (!D.clans.length) { $("#clans").innerHTML = sealed("Clans folgen", "Jeder Clan bekommt hier seine Fähigkeiten, seine Geschichte und den Hinweis, ob er frei spielbar ist.", "血"); return; }
+        : sealed("Die Dörfer werden noch geschrieben", "Hier stellen sich bald die Dörfer vor, aus denen eure Charaktere stammen können.");
+      if (!D.clans.length) { $("#clans").innerHTML = sealed("Clans folgen", "Jeder Clan bekommt hier seine Fähigkeiten, seine Geschichte und den Hinweis, ob er frei spielbar ist."); return; }
       const vs = ["Alle", ...new Set(D.clans.map((c) => c.village).filter(Boolean))];
       const draw = (f) => { $("#clans").innerHTML = `<div class="clans">${D.clans.filter((c) => f === "Alle" || c.village === f).map((c) =>
         `<article class="clan"><h3>${esc(c.name)}</h3>${c.ability ? `<div class="ab">${esc(c.ability)}</div>` : ""}<p>${esc(c.text)}</p><div class="st">${esc(c.status || "")}${c.village ? ` · ${esc(c.village)}` : ""}</div></article>`).join("")}</div>`; };
@@ -141,7 +152,7 @@
       const nav = $("#wiki-nav"), art = $("#wiki-article"), q = $("#wiki-search");
       if (!D.wiki.length) {
         nav.innerHTML = `<p class="none">Noch keine Artikel.</p>`;
-        art.innerHTML = sealed("Das Wiki ist noch leer", "Sobald die ersten Artikel stehen, findest du sie links und kannst sie durchsuchen.", "書");
+        art.innerHTML = sealed("Das Wiki ist noch leer", "Sobald die ersten Artikel stehen, findest du sie links und kannst sie durchsuchen.");
         q.disabled = true; return;
       }
       const id = () => location.hash.slice(1) || D.wiki[0].id;
@@ -160,14 +171,14 @@
       $("#rules").innerHTML = D.rules.length
         ? `<div class="chips">${D.rules.map((s, i) => `<a class="chip" href="#r${i + 1}">§${i + 1} ${esc(s.title)}</a>`).join("")}</div><div class="scroll">${D.rules.map((s, i) =>
           `<section class="rules-sec" id="r${i + 1}"><h2><span class="para">§${i + 1}</span>${esc(s.title)}</h2>${s.items.map(([t, d], j) => `<div class="rule"><div class="n">${i + 1}.${j + 1}</div><div><b>${esc(t)}</b><p>${esc(d)}</p></div></div>`).join("")}</section>`).join("")}</div>`
-        : sealed("Die Regeln werden gerade verfasst", "Hier steht bald alles, was auf dem Server gilt, sortiert nach Paragraphen.", "掟");
+        : sealed("Die Regeln werden gerade verfasst", "Hier steht bald alles, was auf dem Server gilt, sortiert nach Paragraphen.");
       $("#faq-list").innerHTML = D.faq.length ? D.faq.map(([q, a]) => `<details><summary>${esc(q)}</summary><div class="a">${esc(a)}</div></details>`).join("")
-        : sealed("Noch keine Fragen beantwortet", "Häufige Fragen sammeln wir hier, sobald sie im Discord auftauchen.", "問");
+        : sealed("Noch keine Fragen beantwortet", "Häufige Fragen sammeln wir hier, sobald sie im Discord auftauchen.");
     },
     team() {
       $("#team").innerHTML = D.team.length ? D.team.map((g) => `<section class="team-group"><h2>${esc(g.group)}</h2><div class="members">${g.members.map((m) =>
         `<article class="member"><div class="portrait">${m.avatar ? `<img src="${esc(m.avatar)}" alt="">` : esc((m.name || "?").slice(0, 1))}</div><h3>${esc(m.name)}</h3><div class="role">${esc(m.role)}</div>${m.text ? `<p>${esc(m.text)}</p>` : ""}</article>`).join("")}</div></section>`).join("")
-        : sealed("Das Team stellt sich bald vor", "Hier findest du demnächst alle, die hinter NK stehen, und wofür sie zuständig sind.", "衆");
+        : sealed("Das Team stellt sich bald vor", "Hier findest du demnächst alle, die hinter NK stehen, und wofür sie zuständig sind.");
     }
   };
   if (R[page]) R[page]();
@@ -204,12 +215,11 @@
     if (seen || reduced) intro.remove();
     else {
       try { sessionStorage.setItem("nk-intro", "1"); } catch (e) {}
-      const seals = intro.querySelectorAll(".seal"); let i = 0, timers = [];
+      const timers = [];
       const end = () => { timers.forEach(clearTimeout); intro.classList.add("done"); setTimeout(() => intro.remove(), 600); };
       intro.addEventListener("click", end);
-      seals.forEach((s, k) => timers.push(setTimeout(() => s.classList.add("on"), 150 + k * 380)));
-      timers.push(setTimeout(() => intro.classList.add("ignite"), 150 + seals.length * 380));
-      timers.push(setTimeout(end, 150 + seals.length * 380 + 1300));
+      timers.push(setTimeout(() => intro.classList.add("ignite"), 250));
+      timers.push(setTimeout(end, 1700));
     }
   }
 })();

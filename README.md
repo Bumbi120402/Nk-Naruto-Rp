@@ -2,9 +2,9 @@
 
 Statische Website im Schwarz-Gelb-Design mit dem NK-Wappen. Sie läuft kostenlos auf **GitHub Pages** und braucht keinen Server und keinen Build-Schritt.
 
-**Design:** tiefschwarze Nacht, Chakra-Gold aus dem Wappen, Schriftrollen- und Briefbomben-Papier mit roten Siegelstempeln. Links ist eine Kanji-Navigation, auf der Startseite gibt es ein Fingerzeichen-Intro (einmal pro Besuch) und den Countdown als Briefbomben-Zettel. Leere Bereiche zeigen automatisch eine versiegelte Schriftrolle.
+**Design:** tiefschwarze Nacht, Chakra-Gold aus dem Wappen, Schriftrollen- und Briefbomben-Papier mit roten Siegelstempeln. Links ist eine Icon-Navigation, alle Kopfbereiche zeigen Konoha bei Nacht, auf der Startseite zündet beim ersten Besuch das Wappen und den Countdown als Briefbomben-Zettel. Leere Bereiche zeigen automatisch eine versiegelte Schriftrolle.
 
-Die Schriften liegen direkt im Repo (`assets/fonts`), es werden also keine Google-Server geladen. Lizenz: SIL Open Font License (Anton, Bitter, Noto Serif CJK).
+Die Schriften liegen direkt im Repo (`assets/fonts`), es werden also keine Google-Server geladen. Lizenz: SIL Open Font License (Anton, Bitter).
 
 ## Seiten
 | Datei | Inhalt |

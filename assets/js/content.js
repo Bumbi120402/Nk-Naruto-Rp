@@ -24,7 +24,7 @@ window.NK = {
      unlock leer = sofort sichtbar (verdeckt bis Klick)                                   */
   leaks: [],
 
-  /* { kanji: "木", name: "Konohagakure", alias: "…", land: "Feuerreich", kage: "Hokage", text: "…" } */
+  /* { emblem: "assets/img/konoha.png", name: "Konohagakure", alias: "…", land: "Feuerreich", kage: "Hokage", text: "…" } */
   villages: [],
 
   /* { name: "Uchiha", village: "Konohagakure", status: "Offen", ability: "…", text: "…" } */
