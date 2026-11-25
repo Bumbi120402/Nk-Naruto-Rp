@@ -19,7 +19,8 @@ Die Schriften liegen direkt im Repo (`assets/fonts`), es werden also keine Googl
 | `quiz.html` | Quiz mit Auswertung am Ende |
 | `jutsu.html` | Jutsu-Datenbank mit Suche und Filtern (Element, Rang, Art) |
 | `faq.html` | Häufige Fragen |
-| `mitmachen.html` | Steckbrief-Generator (Ninja-Ausweis + Discord-Text kopieren) und Dorf-Test zum Teilen |
+| `dorftest.html` | Dorf-Test mit Ergebnis zum Teilen |
+| `social.html` | Social Media: alle Kanäle (in `content.js` unter `socials`) |
 | `leaks.html` | Leaks (verlinkt von der Startseite) |
 
 ## Inhalte ändern – nur eine Datei
@@ -45,7 +46,7 @@ Farben stehen oben in `assets/css/style.css` (`--gold`, `--tag`, `--seal` …).
 - **Discord live:** In `content.js` bei `discordId` die Server-ID eintragen und in Discord unter *Servereinstellungen → Widget* das Widget aktivieren. Dann steht oben „xx online“.
 - **Ambient-Sound:** Der Lautsprecher-Knopf oben spielt einen eingebauten, ruhigen Klang (Wind und Zupfinstrument). Er startet nie von selbst. Eigene Musik: Datei z. B. nach `assets/audio/` legen und bei `music` eintragen.
 - **Karte:** Ohne eigenes Bild wird eine eingebaute Karte gezeichnet. Eigene Karte: bei `map.image` eintragen und die Marker (x/y in Prozent) anpassen.
-- **Dorf-Test & Steckbrief:** Fragen, Ergebnisse und Formularfelder stehen in `content.js` unter `dorftest` und `steckbrief`.
+- **Dorf-Test:** Fragen und Ergebnisse stehen in `content.js` unter `dorftest`.
 
 ## Auf GitHub Pages veröffentlichen
 1. Auf GitHub ein neues Repository anlegen, z. B. `nk-website`.

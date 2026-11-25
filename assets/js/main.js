@@ -19,7 +19,8 @@
     quiz: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.3"/>',
     faq: '<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5v.7"/><path d="M12 17h.01"/>',
     jutsu: '<path d="M12 2c1.5 3 4 4.5 4 8a4 4 0 0 1-8 0c0-1.6.7-2.6 1.5-3.5.2 1.6 1 2.5 2 2.5-.6-2.5-.4-4.6.5-7z"/><path d="M6 15c-1 1.5-1.5 2.7-1.5 4 0 1.5 3.4 3 7.5 3s7.5-1.5 7.5-3c0-1.3-.5-2.5-1.5-4"/>',
-    mitmachen: '<path d="M4 20l4-1 11-11-3-3L5 16z"/><path d="M14 7l3 3"/><path d="M4 20h16"/>',
+    dorftest: '<path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',
+    social: '<circle cx="18" cy="5.5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="18.5" r="2.5"/><path d="m8.2 10.8 7.6-4M8.2 13.2l7.6 4"/>',
     soundOn: '<path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/>',
     soundOff: '<path d="M4 9v6h4l5 4V5L8 9z"/><path d="m17 9 5 6M22 9l-5 6"/>',
     lock: '<rect x="5" y="11" width="14" height="10" rx="1"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>'
@@ -36,7 +37,8 @@
     ["galerie.html", "Galerie", "galerie"],
     ["quiz.html", "Quiz", "quiz"],
     ["faq.html", "FAQ", "faq"],
-    ["mitmachen.html", "Mitmachen", "mitmachen"]
+    ["dorftest.html", "Dorf-Test", "dorftest"],
+    ["social.html", "Social Media", "social"]
   ];
   const cur = (p) => (p === page ? ' aria-current="page"' : "");
 
@@ -77,6 +79,7 @@
       <a class="brand" href="index.html"><img src="assets/img/logo-small.png" alt=""><div><b>${esc(S.name)}</b><span>${esc(S.title)}</span></div></a>
       <nav aria-label="Fußzeile">${PAGES.map(([h, l]) => `<a href="${h}">${l}</a>`).join("")}</nav>
     </div>
+    ${(D.socials || []).some((x) => x.url) ? `<div class="f-social">${D.socials.filter((x) => x.url).map((x) => `<a href="${esc(x.url)}" target="_blank" rel="noopener" aria-label="${esc(x.platform)}">${(SOC[x.platform.toLowerCase()] || SOC.link).i}</a>`).join("")}</div>` : ""}
     <p class="legal">© ${new Date().getFullYear()} ${esc(S.name)} ${esc(S.title)}. Ein Fan-Projekt, nicht offiziell verbunden mit Naruto, Masashi Kishimoto, Shueisha oder Studio Pierrot.</p>
   </div>`;
   $(".shell").append(footer);
@@ -127,6 +130,18 @@
     <dl>${v.land ? `<div><dt>Reich</dt><dd>${esc(v.land)}</dd></div>` : ""}${v.kage ? `<div><dt>Oberhaupt</dt><dd>${esc(v.kage)}</dd></div>` : ""}</dl>
     <p style="color:var(--ash)">${esc(v.text)}</p></div></article>`;
 
+
+  /* ---------------- Social-Media-Icons ---------------- */
+  const sv = (p, fill) => `<svg viewBox="0 0 24 24" ${fill ? 'fill="currentColor"' : 'fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"'} aria-hidden="true">${p}</svg>`;
+  const SOC = {
+    discord: { c: "#5865f2", i: discordSvg },
+    tiktok: { c: "#ff2a55", i: sv('<path d="M14 3v11.5a3.5 3.5 0 1 1-3.5-3.5"/><path d="M14 3c.4 2.6 2.3 4.4 5 4.6"/>') },
+    youtube: { c: "#ff3b30", i: sv('<rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="m10 9.2 5 2.8-5 2.8z" fill="currentColor"/>') },
+    instagram: { c: "#e4405f", i: sv('<rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".6" fill="currentColor"/>') },
+    twitch: { c: "#9146ff", i: sv('<path d="M5 3 3.5 6.5V19H8v2.5h2.5L13 19h3.5L20.5 15V3z"/><path d="M11 7.5v4M15.5 7.5v4"/>') },
+    x: { c: "#e8e6e0", i: sv('<path d="M4 4l16 16M20 4 4 20"/>') },
+    link: { c: "#ffc400", i: sv('<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>') }
+  };
 
   /* ---------------- Spielbare Dörfer ---------------- */
   const PLAY = S.playable || [];
@@ -180,56 +195,6 @@
       map.append(pop);
     });
     addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
-  }
-
-  /* ---------------- Steckbrief-Generator ---------------- */
-  function steckbrief(el) {
-    if (!el) return;
-    const FIELDS = D.steckbrief || [];
-    const defVillages = Object.values((D.dorftest || {}).results || {}).map((r) => r.name);
-    const opts = (f) => f.options === "villages" ? (PLAY.length ? PLAY : D.villages.length ? D.villages.map((v) => v.name) : defVillages)
-      : f.options === "clans" ? (D.clans.length ? [...D.clans.map((c) => c.name), "Clanlos"] : null) : f.options;
-    const KEY = "nk-steckbrief";
-    let saved = {}; try { saved = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (e) {}
-    const input = (f) => {
-      const id = `sb-${f.id}`, v = esc(saved[f.id] || ""), o = opts(f), lab = `<label for="${id}">${esc(f.label)}${f.required ? ' <span class="req">*</span>' : ""}</label>`;
-      const ph = f.placeholder ? ` placeholder="${esc(f.placeholder)}"` : "";
-      if (f.type === "textarea") return `<div class="field wide">${lab}<textarea id="${id}" name="${f.id}" rows="${f.rows || 3}"${ph}>${v}</textarea></div>`;
-      if (f.type === "select" && o) return `<div class="field">${lab}<select id="${id}" name="${f.id}"><option value="">Bitte wählen</option>${o.map((x) => `<option${saved[f.id] === x ? " selected" : ""}>${esc(x)}</option>`).join("")}</select></div>`;
-      return `<div class="field">${lab}<input id="${id}" name="${f.id}" type="${f.type === "number" ? "number" : "text"}" value="${v}"${ph}${f.required ? " required" : ""}></div>`;
-    };
-    el.innerHTML = `<div class="form-grid">
-      <form class="scroll" id="sb-form" novalidate><div class="fields">${FIELDS.map(input).join("")}</div>
-        <div class="form-actions"><button type="submit" class="btn">Steckbrief kopieren</button><button type="button" class="btn btn-ghost" id="sb-reset">Leeren</button><p class="hint" id="sb-hint" aria-live="polite">Wird automatisch auf deinem Gerät gespeichert.</p></div></form>
-      <aside class="idcard" aria-label="Vorschau"><div class="idcard-head"><span>Ninja-Ausweis</span><img src="assets/img/logo-small.png" alt=""></div>
-        <div class="idcard-body"><div class="photo"></div><div><h3 id="id-name">Dein Name</h3><dl id="id-dl"></dl></div></div><div class="story" id="id-story"></div></aside></div>`;
-    const form = $("#sb-form", el);
-    const val = () => Object.fromEntries(FIELDS.map((f) => [f.id, (form.elements[f.id]?.value || "").trim()]));
-    const short = FIELDS.filter((f) => f.type !== "textarea" && f.id !== "name");
-    const update = () => {
-      const v = val();
-      $("#id-name", el).textContent = v.name || "Dein Name";
-      $("#id-dl", el).innerHTML = short.map((f) => `<dt>${esc(f.label)}</dt><dd>${esc(v[f.id] || "–")}</dd>`).join("");
-      const story = FIELDS.find((f) => f.id === "geschichte");
-      $("#id-story", el).textContent = story ? v[story.id] : "";
-      try { localStorage.setItem(KEY, JSON.stringify(v)); } catch (e) {}
-    };
-    const text = () => {
-      const v = val(), lines = ["**Charakter-Steckbrief**", ""];
-      FIELDS.forEach((f) => { if (!v[f.id]) return; lines.push(f.type === "textarea" ? `**${f.label}:**\n${v[f.id]}\n` : `**${f.label}:** ${v[f.id]}`); });
-      return lines.join("\n").trim();
-    };
-    form.addEventListener("input", update);
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const miss = FIELDS.filter((f) => f.required && !val()[f.id]);
-      const hint = $("#sb-hint", el);
-      if (miss.length) { hint.textContent = `Bitte noch ausfüllen: ${miss.map((f) => f.label).join(", ")}.`; form.elements[miss[0].id].focus(); return; }
-      try { await navigator.clipboard.writeText(text()); hint.textContent = "Kopiert. Jetzt einfach im Discord einfügen."; }
-      catch (err) { const t = document.createElement("textarea"); t.value = text(); document.body.append(t); t.select(); document.execCommand("copy"); t.remove(); hint.textContent = "Kopiert. Jetzt einfach im Discord einfügen."; }
-    });
-    $("#sb-reset", el).addEventListener("click", () => { form.reset(); form.querySelectorAll("input,textarea").forEach((x) => (x.value = "")); form.querySelectorAll("select").forEach((x) => (x.selectedIndex = 0)); update(); $("#sb-hint", el).textContent = "Formular geleert."; });
-    update();
   }
 
   /* ---------------- Dorf-Test ---------------- */
@@ -509,9 +474,17 @@
       });
       draw();
     },
-    mitmachen() {
-      steckbrief($("#steckbrief-app"));
+    dorftest() {
       dorftest($("#dorftest-app"));
+    },
+    social() {
+      const L = (D.socials || []).filter((x) => x.platform);
+      if (!L.length) { $("#socials").innerHTML = sealed("Noch keine Kanäle eingetragen", "Hier findest du bald alle Kanäle von NK an einem Ort."); return; }
+      $("#socials").innerHTML = `<div class="socials">${L.map((x) => {
+        const k = SOC[x.platform.toLowerCase()] || SOC.link, live = !!x.url;
+        const inner = `<span class="s-ico" style="--sc:${k.c}">${k.i}</span><span class="s-txt"><b>${esc(x.platform)}</b><small>${live ? esc(x.handle || "Jetzt folgen") : "Folgt bald"}</small>${x.text ? `<em>${esc(x.text)}</em>` : ""}</span>`;
+        return live ? `<a class="social" href="${esc(x.url)}" target="_blank" rel="noopener">${inner}</a>` : `<div class="social off" aria-disabled="true">${inner}</div>`;
+      }).join("")}</div>`;
     },
     team() {
       $("#team").innerHTML = D.team.length ? D.team.map((g) => `<section class="team-group"><h2>${esc(g.group)}</h2><div class="members">${g.members.map((m) =>

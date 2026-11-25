@@ -16,7 +16,7 @@ window.NK = {
     discord: "",         // z. B. "https://discord.gg/abc123"
     discordId: "",       // Server-ID für die Live-Anzeige "xx online" (Discord: Servereinstellungen -> Widget -> aktivieren, ID kopieren)
     music: "assets/audio/ambient.mp3",  // Musik für den Lautsprecher-Knopf. Leer "" = eingebauter Ambient-Sound
-    playable: ["Konohagakure", "Sunagakure"],  // zum Start spielbare Dörfer (Karte, Startseite, Dorf-Test, Steckbrief)
+    playable: ["Konohagakure", "Sunagakure"],  // zum Start spielbare Dörfer (Startseite, Karte, Dorf-Test)
     release: ""          // leer = kein Countdown. Sobald ein Datum drinsteht, z. B. "2026-12-26T18:00:00+01:00", erscheint er auf der Startseite
   },
 
@@ -92,22 +92,15 @@ window.NK = {
   },
 
 
-  /* ------------------------------------------------------------ STECKBRIEF-GENERATOR (Mitmachen)
-     type: text, number, textarea, select
-     options: Liste ODER "villages" (nimmt die Dörfer) ODER "clans" (nimmt die Clans + Clanlos)  */
-  steckbrief: [
-    { id: "name", label: "Name", type: "text", required: true, placeholder: "Vor- und Nachname" },
-    { id: "alter", label: "Alter", type: "number", placeholder: "z. B. 14" },
-    { id: "geschlecht", label: "Geschlecht", type: "text" },
-    { id: "dorf", label: "Herkunftsdorf", type: "select", options: "villages" },
-    { id: "clan", label: "Clan", type: "select", options: "clans" },
-    { id: "element", label: "Chakra-Natur", type: "select", options: ["Feuer", "Wind", "Wasser", "Blitz", "Erde"] },
-    { id: "aussehen", label: "Aussehen", type: "textarea" },
-    { id: "charakter", label: "Persönlichkeit", type: "textarea" },
-    { id: "staerken", label: "Stärken", type: "textarea" },
-    { id: "schwaechen", label: "Schwächen", type: "textarea" },
-    { id: "geschichte", label: "Vorgeschichte", type: "textarea", rows: 7 },
-    { id: "ziel", label: "Ziel", type: "text", placeholder: "Was will dein Charakter erreichen?" }
+  /* ------------------------------------------------------------ SOCIAL MEDIA
+     url leer = Karte zeigt "Folgt bald". platform: Discord, TikTok, YouTube, Instagram, Twitch, X
+     { platform: "TikTok", url: "https://www.tiktok.com/@name", handle: "@name", text: "Clips & Highlights" } */
+  socials: [
+    { platform: "Discord", url: "", handle: "", text: "Community, Support und alle Ankündigungen" },
+    { platform: "TikTok", url: "", handle: "", text: "Clips und Highlights vom Server" },
+    { platform: "YouTube", url: "", handle: "", text: "Trailer, Events und Videos" },
+    { platform: "Instagram", url: "", handle: "", text: "Bilder und Neuigkeiten" },
+    { platform: "Twitch", url: "", handle: "", text: "Live dabei sein" }
   ],
 
   /* ------------------------------------------------------------ DORF-TEST (Mitmachen)

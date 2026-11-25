@@ -441,41 +441,7 @@ footer .legal { margin-top: 34px; font-size: .8rem; color: #6a6252; max-width: n
 @media (max-width: 1200px) { .nav-tools { order: 2; margin-left: auto; } }
 
 /* ======================================================================
-   MITMACHEN: Steckbrief-Generator
-   ====================================================================== */
-.tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 40px; }
-.form-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 48px; align-items: start; }
-.fields { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 20px; }
-.field { display: flex; flex-direction: column; gap: 7px; }
-.field.wide { grid-column: 1 / -1; }
-.field label { font-weight: 700; font-size: .92rem; }
-.field label .req { color: var(--gold); }
-.field input, .field select, .field textarea {
-  font: inherit; font-size: 1rem; color: var(--text); background: #0d0a06; border: 1px solid #3a2f17; padding: 12px 14px; width: 100%;
-}
-.field textarea { resize: vertical; min-height: 92px; line-height: 1.55; }
-.field select { appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--gold) 50%), linear-gradient(135deg, var(--gold) 50%, transparent 50%); background-position: calc(100% - 20px) 52%, calc(100% - 14px) 52%; background-size: 6px 6px; background-repeat: no-repeat; padding-right: 38px; }
-.field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(255,196,0,.12); }
-.form-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 26px; align-items: center; }
-.form-actions .hint { color: var(--ash); font-size: .92rem; margin: 0; }
-
-.idcard {
-  position: sticky; top: 110px; padding: 28px; background: linear-gradient(160deg, #1c160c, #0a0805 70%);
-  border: 1px solid rgba(255,196,0,.45); box-shadow: 0 30px 60px rgba(0,0,0,.6), inset 0 0 0 6px #0a0805, inset 0 0 0 7px rgba(255,196,0,.18);
-}
-.idcard-head { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,196,0,.25); padding-bottom: 14px; margin-bottom: 20px; }
-.idcard-head span { font: 400 1.25rem/1 var(--display); letter-spacing: .06em; color: var(--gold); }
-.idcard-head img { width: 46px; }
-.idcard-body { display: grid; grid-template-columns: 110px 1fr; gap: 20px; }
-.idcard .photo { aspect-ratio: 3/4; background: #0d0a06 url("../img/logo-small.png") center/70% no-repeat; border: 1px solid #3a2f17; opacity: .9; }
-.idcard h3 { font-size: 2.4rem; margin: 0 0 12px; word-break: break-word; }
-.idcard dl { display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; margin: 0; font-size: .95rem; }
-.idcard dt { color: var(--ash); }
-.idcard dd { margin: 0; color: var(--text); font-weight: 600; }
-.idcard .story { margin-top: 20px; padding-top: 16px; border-top: 1px solid rgba(255,196,0,.15); color: var(--ash); font-size: .92rem; max-height: 9.5em; overflow: hidden; -webkit-mask-image: linear-gradient(#000 70%, transparent); mask-image: linear-gradient(#000 70%, transparent); }
-
-/* ======================================================================
-   MITMACHEN: Dorf-Test
+   DORF-TEST
    ====================================================================== */
 .dorftest { max-width: 860px; }
 .result { --vc: var(--gold); text-align: left; }
@@ -557,13 +523,9 @@ footer .legal { margin-top: 34px; font-size: .8rem; color: #6a6252; max-width: n
 .teaser .dots i { width: 12px; height: 12px; border-radius: 50%; background: var(--c); box-shadow: 0 0 10px var(--c); }
 
 @media (max-width: 1023px) {
-  .form-grid { grid-template-columns: 1fr; }
-  .idcard { position: static; }
   .jutsu-tools { grid-template-columns: 1fr; }
 }
 @media (max-width: 700px) {
-  .fields { grid-template-columns: 1fr; }
-  .idcard-body { grid-template-columns: 80px 1fr; }
   .teaser { grid-template-columns: 1fr; }
   .result .bar { grid-template-columns: 100px 1fr 30px; }
   .marker span { display: none; }
@@ -666,3 +628,19 @@ footer .legal { margin-top: 34px; font-size: .8rem; color: #6a6252; max-width: n
 .steps span { color: var(--ash); font-size: .92rem; }
 @media (max-width: 1100px) { .steps { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 560px) { .steps { grid-template-columns: 1fr; } }
+
+/* Social Media */
+.socials { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 18px; }
+.social { --sc: var(--gold); display: flex; gap: 20px; align-items: center; padding: 26px 26px; background: #0a0805; border: 1px solid #2f281c; color: var(--text); text-decoration: none; transition: border-color .2s, transform .2s; }
+a.social:hover { border-color: var(--gold); transform: translateY(-3px); color: var(--text); }
+.s-ico { flex: none; width: 60px; height: 60px; display: grid; place-items: center; color: var(--sc); border: 1px solid color-mix(in srgb, var(--sc) 55%, transparent); background: color-mix(in srgb, var(--sc) 10%, transparent); }
+.s-ico svg { width: 30px; height: 30px; }
+.s-txt b { display: block; font: 400 1.9rem/1 var(--display); margin-bottom: 4px; }
+.s-txt small { display: block; color: var(--gold); font-weight: 700; font-size: .9rem; }
+.s-txt em { display: block; font-style: normal; color: var(--ash); font-size: .92rem; margin-top: 6px; }
+.social.off { opacity: .55; }
+.social.off .s-txt small { color: var(--ash); }
+.f-social { display: flex; gap: 10px; margin-top: 26px; }
+.f-social a { width: 42px; height: 42px; display: grid; place-items: center; border: 1px solid #3a3326; color: var(--ash); }
+.f-social a:hover { color: var(--gold); border-color: var(--gold); }
+.f-social svg { width: 20px; height: 20px; }
