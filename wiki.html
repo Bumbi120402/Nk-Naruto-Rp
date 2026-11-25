@@ -23,7 +23,8 @@
   <div class="wrap wiki">
     <aside class="wiki-side">
       <label for="wiki-search" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Wiki durchsuchen</label>
-      <input class="search" id="wiki-search" type="search" placeholder="Wiki durchsuchen">
+      <input class="search" id="wiki-search" type="search" placeholder="Wiki durchsuchen, z. B. Sharingan">
+      <button type="button" class="btn btn-ghost wk-toggle" id="wiki-toggle" aria-expanded="false" aria-controls="wiki-nav">Alle Seiten</button>
       <nav id="wiki-nav" aria-label="Wiki-Artikel"></nav>
     </aside>
     <article class="wiki-article" id="wiki-article"></article>
@@ -31,6 +32,7 @@
 </main>
 </div>
   <script src="assets/js/content.js"></script>
+  <script src="assets/js/wiki.js"></script>
   <script src="assets/js/main.js"></script>
 </body>
 </html>

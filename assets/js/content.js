@@ -33,7 +33,7 @@ window.NK = {
   /* { name: "Uchiha", village: "Konohagakure", status: "Offen", ability: "…", text: "…" } */
   clans: [],
 
-  /* { id: "start", cat: "Erste Schritte", title: "Start-Guide", html: "<p>…</p>" } */
+  /* Das Wiki steht in einer eigenen Datei: assets/js/wiki.js */
   wiki: [],
 
   /* { title: "Allgemein", items: [ ["Regel-Titel", "Beschreibung"], … ] } */

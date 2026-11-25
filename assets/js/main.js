@@ -368,23 +368,45 @@
       draw("Alle");
     },
     wiki() {
-      const nav = $("#wiki-nav"), art = $("#wiki-article"), q = $("#wiki-search");
-      if (!D.wiki.length) {
-        nav.innerHTML = `<p class="none">Noch keine Artikel.</p>`;
+      const C = D.wiki || [], side = $("#wiki-nav"), art = $("#wiki-article"), q = $("#wiki-search");
+      const pages = C.flatMap((c) => c.pages.map((p) => ({ ...p, cat: c })));
+      if (!pages.length) {
+        side.innerHTML = `<p class="none">Noch keine Artikel.</p>`;
         art.innerHTML = sealed("Das Wiki ist noch leer", "Sobald die ersten Artikel stehen, findest du sie links und kannst sie durchsuchen.");
         q.disabled = true; return;
       }
-      const id = () => location.hash.slice(1) || D.wiki[0].id;
-      const drawNav = (f = "") => {
-        f = f.toLowerCase();
-        const items = D.wiki.filter((w) => !f || (w.title + " " + w.html.replace(/<[^>]+>/g, " ")).toLowerCase().includes(f));
-        const cats = [...new Set(items.map((w) => w.cat))];
-        nav.innerHTML = cats.map((c) => `<h4>${esc(c)}</h4>` + items.filter((w) => w.cat === c).map((w) => `<a href="#${esc(w.id)}"${w.id === id() ? ' aria-current="true"' : ""}>${esc(w.title)}</a>`).join("")).join("") || `<p class="none">Nichts gefunden.</p>`;
+      const plain = (h) => h.replace(/<[^>]+>/g, " ").replace(/&amp;/g, "&").replace(/\s+/g, " ");
+      const cur = () => pages.find((p) => p.id === decodeURIComponent(location.hash.slice(1))) || pages[0];
+      const toggle = $("#wiki-toggle");
+      const drawNav = () => {
+        const term = q.value.trim().toLowerCase(), now = cur();
+        if (term) {
+          const hits = pages.filter((p) => (p.title + " " + plain(p.html)).toLowerCase().includes(term));
+          side.innerHTML = hits.length
+            ? `<p class="none">${hits.length} Treffer</p><ul class="wk-hits">${hits.map((p) => `<li><a href="#${p.id}">${esc(p.title)}<small>${esc(p.cat.name)}</small></a></li>`).join("")}</ul>`
+            : `<p class="none">Nichts gefunden für „${esc(q.value)}“.</p>`;
+          return;
+        }
+        side.innerHTML = C.map((c) => `<div class="wk-cat${c.id === now.cat.id ? " open" : ""}"><button type="button" aria-expanded="${c.id === now.cat.id}">${esc(c.name)}<span>${c.pages.length}</span></button>
+          <ul>${c.pages.map((p) => `<li><a href="#${p.id}"${p.id === now.id ? ' aria-current="page"' : ""}>${esc(p.title)}</a></li>`).join("")}</ul></div>`).join("");
       };
-      const show = () => { const w = D.wiki.find((x) => x.id === id()) || D.wiki[0];
-        art.innerHTML = `<h1>${esc(w.title)}</h1>${w.html}`; document.title = `${w.title} · Wiki · ${S.name}`; drawNav(q.value); };
-      q.addEventListener("input", () => drawNav(q.value));
-      addEventListener("hashchange", show); show();
+      side.addEventListener("click", (e) => {
+        const b = e.target.closest(".wk-cat > button");
+        if (b) { const c = b.parentElement, o = !c.classList.contains("open"); c.classList.toggle("open", o); b.setAttribute("aria-expanded", o); }
+        if (e.target.closest("a")) { document.body.classList.remove("wk-open"); if (toggle) toggle.setAttribute("aria-expanded", "false"); }
+      });
+      const show = (scroll) => {
+        const p = cur(), i = pages.indexOf(p), prev = pages[i - 1], next = pages[i + 1];
+        art.innerHTML = `<div class="crumbs">${esc(p.cat.name)}</div><h1>${esc(p.title)}</h1>${p.html}
+          <nav class="wk-pager" aria-label="Blättern">${prev ? `<a href="#${prev.id}"><small>Zurück</small>${esc(prev.title)}</a>` : "<span></span>"}${next ? `<a class="next" href="#${next.id}"><small>Weiter</small>${esc(next.title)}</a>` : ""}</nav>`;
+        document.title = `${p.title} · Wiki · ${S.name}`;
+        drawNav();
+        if (scroll) window.scrollTo({ top: $(".wiki").offsetTop - 90, behavior: "smooth" });
+      };
+      q.addEventListener("input", () => { if (q.value) document.body.classList.add("wk-open"); drawNav(); });
+      if (toggle) toggle.addEventListener("click", () => { const o = document.body.classList.toggle("wk-open"); toggle.setAttribute("aria-expanded", o); });
+      addEventListener("hashchange", () => show(true));
+      show(false);
     },
     regelwerk() {
       $("#rules").innerHTML = D.rules.length

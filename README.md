@@ -12,7 +12,7 @@ Die Schriften liegen direkt im Repo (`assets/fonts`), es werden also keine Googl
 | `index.html` | Start: Wappen, Countdown (sobald Datum steht), News, Leaks, Ninja des Monats, Dorf-Test |
 | `news.html` | News (angepinnte oben) |
 | `welt.html` | Welt: interaktive Karte, Dörfer (mit eigener Farbe), Clans, Zeitleiste |
-| `wiki.html` | Durchsuchbares Wiki |
+| `wiki.html` | Wiki mit 72 Seiten in 10 Kategorien, Suche, Zurück/Weiter. Inhalte in `assets/js/wiki.js` |
 | `regelwerk.html` | Regelwerk mit Paragraphen |
 | `team.html` | Team nach Gruppen |
 | `galerie.html` | Galerie, Klick öffnet das Bild groß |
