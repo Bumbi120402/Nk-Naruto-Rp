@@ -9,24 +9,28 @@
   const discordSvg = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.3 4.4A19.8 19.8 0 0 0 15.4 3l-.6 1.3a18.4 18.4 0 0 0-5.5 0L8.6 3a19.7 19.7 0 0 0-4.9 1.5C.6 9.1-.3 13.6.1 18.1a19.9 19.9 0 0 0 6 3l1.3-2.1a12.9 12.9 0 0 1-2-1l.5-.4a14.2 14.2 0 0 0 12.2 0l.5.4c-.6.4-1.3.7-2 1l1.3 2.1a19.8 19.8 0 0 0 6-3c.5-5.2-.8-9.7-3.6-13.7ZM8 15.4c-1.2 0-2.2-1.1-2.2-2.4S6.8 10.6 8 10.6s2.2 1.1 2.2 2.4-1 2.4-2.2 2.4Zm8 0c-1.2 0-2.2-1.1-2.2-2.4s1-2.4 2.2-2.4 2.2 1.1 2.2 2.4-1 2.4-2.2 2.4Z"/></svg>';
 
   const ICON = {
-    home: '<path d="M3 11 12 4l9 7"/><path d="M5 10v10h5v-6h4v6h5V10"/>',
-    news: '<path d="M3 10v4h3l8 5V5L6 10H3z"/><path d="M18 9.5a3.5 3.5 0 0 1 0 5"/>',
-    leaks: '<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
-    lore: '<path d="M2 20 9 7l4 6 3-4 6 11z"/><path d="M7.5 9.5 9 11l1.5-1.5"/>',
-    wiki: '<path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M5 17a3 3 0 0 1 3-3h11"/>',
-    regeln: '<path d="M12 3 4 6v6c0 5 3.4 8 8 9 4.6-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/>',
+    home: '<path d="M3 5c6 1.3 12 1.3 18 0"/><path d="M5 9h14"/><path d="M7 6.5V21M17 6.5V21"/><path d="M12 9v3"/>',
+    news: '<rect x="4" y="3" width="13" height="18" rx="1.5"/><path d="M17 8h3v11a2 2 0 0 1-2 2"/><path d="M7.5 7h6M7.5 11h6M7.5 15h4"/>',
+    welt: '<circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/>',
+    wiki: '<path d="M6 3h11a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H6z"/><path d="M6 3v18M9.5 8h5M9.5 12h5"/>',
+    regelwerk: '<path d="M5 4h14M5 20h14"/><rect x="7" y="4" width="10" height="16"/><path d="M10 9h4M10 13h4"/>',
     team: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M21.5 20c0-2.9-1.7-5-4.5-5.7"/>',
+    galerie: '<rect x="3" y="4" width="18" height="16" rx="1.5"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-9 9"/>',
+    quiz: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.3"/>',
+    faq: '<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5v.7"/><path d="M12 17h.01"/>',
     lock: '<rect x="5" y="11" width="14" height="10" rx="1"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>'
   };
-  const icon = (k) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[k]}</svg>`;
+  const icon = (k) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[k]}</svg>`;
   const PAGES = [
-    ["index.html", "Start", "", "home"],
-    ["news.html", "Ankündigungen", "", "news"],
-    ["leaks.html", "Leaks", "", "leaks"],
-    ["lore.html", "Lore", "", "lore"],
-    ["wiki.html", "Wiki", "", "wiki"],
-    ["regeln.html", "Regeln & FAQ", "", "regeln"],
-    ["team.html", "Team", "", "team"]
+    ["index.html", "Start", "home"],
+    ["news.html", "News", "news"],
+    ["welt.html", "Welt", "welt"],
+    ["wiki.html", "Wiki", "wiki"],
+    ["regelwerk.html", "Regelwerk", "regelwerk"],
+    ["team.html", "Team", "team"],
+    ["galerie.html", "Galerie", "galerie"],
+    ["quiz.html", "Quiz", "quiz"],
+    ["faq.html", "FAQ", "faq"]
   ];
   const cur = (p) => (p === page ? ' aria-current="page"' : "");
 
@@ -37,24 +41,23 @@
       : `<span class="${cls}" aria-disabled="true">${discordSvg}Discord-Link folgt</span>`;
 
   /* ---------------- Navigation ---------------- */
-  const rail = document.createElement("aside");
-  rail.className = "rail";
-  rail.innerHTML = `
-    <a class="rail-logo" href="index.html" aria-label="${esc(S.name)} Startseite"><img src="assets/img/logo-small.png" alt=""></a>
-    <nav aria-label="Hauptmenü">${PAGES.map(([h, l, k, p]) => `<a href="${h}"${cur(p)}>${icon(p)}<small>${l}</small></a>`).join("")}</nav>
-    ${S.discord ? `<a class="rail-discord" href="${esc(S.discord)}" target="_blank" rel="noopener" aria-label="Discord">${discordSvg}</a>` : `<span class="rail-discord" style="opacity:.35" title="Discord-Link folgt">${discordSvg}</span>`}`;
-  const top = document.createElement("div");
-  top.className = "topbar";
-  top.innerHTML = `<a href="index.html" aria-label="Startseite"><img src="assets/img/logo-small.png" alt=""></a><button type="button" aria-expanded="false" aria-controls="sheet">Menü</button>`;
-  const sheet = document.createElement("nav");
-  sheet.className = "sheet"; sheet.id = "sheet"; sheet.setAttribute("aria-label", "Menü");
-  sheet.innerHTML = `<button type="button" class="btn btn-ghost close">Schließen</button>` +
-    PAGES.map(([h, l, k, p]) => `<a href="${h}"${cur(p)}>${icon(p)}${l}</a>`).join("") +
-    `<div style="margin-top:30px">${discordBtn()}</div>`;
-  document.body.prepend(rail, top, sheet);
-  const toggle = (open) => { sheet.classList.toggle("open", open); top.querySelector("button").setAttribute("aria-expanded", open); document.body.style.overflow = open ? "hidden" : ""; };
-  top.querySelector("button").addEventListener("click", () => toggle(true));
-  sheet.querySelector(".close").addEventListener("click", () => toggle(false));
+  const nav = document.createElement("header");
+  nav.className = "nav";
+  nav.innerHTML = `<div class="nav-in">
+    <a class="nav-logo" href="index.html" aria-label="${esc(S.name)} Startseite"><img src="assets/img/logo-small.png" alt=""></a>
+    <nav class="nav-links" aria-label="Kategorien">${PAGES.map(([h, l, p]) => `<a href="${h}"${cur(p)}>${icon(p)}${l}</a>`).join("")}</nav>
+    ${S.discord ? `<a class="nav-discord" href="${esc(S.discord)}" target="_blank" rel="noopener">${discordSvg}Discord</a>` : `<span class="nav-discord" aria-disabled="true">${discordSvg}Discord</span>`}
+  </div>`;
+  document.body.prepend(nav);
+  const act = nav.querySelector('[aria-current="page"]');
+  const bar = nav.querySelector(".nav-links");
+  const centerActive = () => {
+    if (!act || bar.scrollWidth <= bar.clientWidth) return;
+    const a = act.getBoundingClientRect(), b = bar.getBoundingClientRect();
+    bar.scrollLeft += (a.left + a.width / 2) - (b.left + b.width / 2);
+  };
+  centerActive(); addEventListener("load", centerActive);
+  if (document.fonts) document.fonts.ready.then(centerActive);
 
   /* ---------------- Footer ---------------- */
   const footer = document.createElement("footer");
@@ -117,7 +120,7 @@
   const R = {
     home() {
       $("#hero-sub").textContent = S.slogan || "";
-      $("#hero-actions").innerHTML = discordBtn() + `<a class="btn btn-ghost" href="regeln.html">Regeln lesen</a>`;
+      $("#hero-actions").innerHTML = discordBtn() + `<a class="btn btn-ghost" href="regelwerk.html">Zum Regelwerk</a>`;
       countdownTag($("#tag-cd"));
       $("#home-news").innerHTML = D.news.length
         ? `<div class="scroll">${newsSorted().slice(0, 3).map(newsHTML).join("")}</div>`
@@ -136,7 +139,7 @@
       $("#list").innerHTML = D.leaks.length ? `<div class="leaks">${D.leaks.map(leakHTML).join("")}</div>`
         : sealed("Noch nichts geleakt", "Sobald es erste Einblicke gibt, liegen sie hier verdeckt. Ein Klick deckt sie auf, gesperrte öffnen sich zum angegebenen Zeitpunkt.");
     },
-    lore() {
+    welt() {
       $("#villages").innerHTML = D.villages.length ? D.villages.map(villageHTML).join("")
         : sealed("Die Dörfer werden noch geschrieben", "Hier stellen sich bald die Dörfer vor, aus denen eure Charaktere stammen können.");
       if (!D.clans.length) { $("#clans").innerHTML = sealed("Clans folgen", "Jeder Clan bekommt hier seine Fähigkeiten, seine Geschichte und den Hinweis, ob er frei spielbar ist."); return; }
@@ -167,13 +170,55 @@
       q.addEventListener("input", () => drawNav(q.value));
       addEventListener("hashchange", show); show();
     },
-    regeln() {
+    regelwerk() {
       $("#rules").innerHTML = D.rules.length
         ? `<div class="chips">${D.rules.map((s, i) => `<a class="chip" href="#r${i + 1}">§${i + 1} ${esc(s.title)}</a>`).join("")}</div><div class="scroll">${D.rules.map((s, i) =>
           `<section class="rules-sec" id="r${i + 1}"><h2><span class="para">§${i + 1}</span>${esc(s.title)}</h2>${s.items.map(([t, d], j) => `<div class="rule"><div class="n">${i + 1}.${j + 1}</div><div><b>${esc(t)}</b><p>${esc(d)}</p></div></div>`).join("")}</section>`).join("")}</div>`
-        : sealed("Die Regeln werden gerade verfasst", "Hier steht bald alles, was auf dem Server gilt, sortiert nach Paragraphen.");
-      $("#faq-list").innerHTML = D.faq.length ? D.faq.map(([q, a]) => `<details><summary>${esc(q)}</summary><div class="a">${esc(a)}</div></details>`).join("")
+        : sealed("Das Regelwerk wird gerade verfasst", "Hier steht bald alles, was auf dem Server gilt, sortiert nach Paragraphen.");
+    },
+    faq() {
+      $("#faq-list").innerHTML = D.faq.length ? `<div class="faq">${D.faq.map(([q, a]) => `<details><summary>${esc(q)}</summary><div class="a">${esc(a)}</div></details>`).join("")}</div>`
         : sealed("Noch keine Fragen beantwortet", "Häufige Fragen sammeln wir hier, sobald sie im Discord auftauchen.");
+    },
+    galerie() {
+      const G = D.gallery || [];
+      if (!G.length) { $("#gallery").innerHTML = sealed("Die Galerie ist noch leer", "Screenshots, Artworks und Event-Bilder landen hier. Ein Klick öffnet sie groß."); return; }
+      $("#gallery").innerHTML = `<div class="gallery">${G.map((g, i) => `<button type="button" data-i="${i}"><img src="${esc(g.image)}" alt="${esc(g.title || "")}" loading="lazy">${g.title ? `<figcaption>${esc(g.title)}</figcaption>` : ""}</button>`).join("")}</div>`;
+      $("#gallery").addEventListener("click", (e) => {
+        const b = e.target.closest("button[data-i]"); if (!b) return;
+        const g = G[+b.dataset.i], box = document.createElement("div");
+        box.className = "lightbox"; box.innerHTML = `<div><img src="${esc(g.image)}" alt="">${g.title ? `<p>${esc(g.title)}</p>` : ""}</div>`;
+        const close = () => { box.remove(); removeEventListener("keydown", key); };
+        const key = (ev) => { if (ev.key === "Escape") close(); };
+        box.addEventListener("click", close); addEventListener("keydown", key); document.body.append(box);
+      });
+    },
+    quiz() {
+      const Q = D.quiz || [], el = $("#quiz");
+      if (!Q.length) { el.innerHTML = sealed("Das Quiz ist noch in Arbeit", "Bald kannst du hier testen, wie gut du dich in der Welt von NK auskennst."); return; }
+      let i = 0, score = 0;
+      const show = () => {
+        if (i >= Q.length) {
+          el.innerHTML = `<div class="scroll quiz"><p>Dein Ergebnis</p><div class="quiz-score">${score} / ${Q.length}</div>
+            <p>${score === Q.length ? "Perfekt. Du kennst dich aus." : score >= Q.length / 2 ? "Gut gemacht. Da geht noch mehr." : "Schau mal ins Wiki und versuch es nochmal."}</p>
+            <button type="button" class="btn" id="again">Nochmal spielen</button></div>`;
+          $("#again").addEventListener("click", () => { i = 0; score = 0; show(); }); return;
+        }
+        const q = Q[i];
+        el.innerHTML = `<div class="scroll quiz"><div class="quiz-top"><span>Frage ${i + 1} von ${Q.length}</span><div class="quiz-bar"><i style="width:${(i / Q.length) * 100}%"></i></div></div>
+          <h3>${esc(q.q)}</h3><div class="answers">${q.answers.map((a, k) => `<button type="button" data-k="${k}">${esc(a)}</button>`).join("")}</div>
+          <div class="quiz-foot"><p id="fb" aria-live="polite"></p></div></div>`;
+        el.querySelector(".answers").addEventListener("click", (e) => {
+          const b = e.target.closest("button"); if (!b || b.disabled) return;
+          const k = +b.dataset.k, ok = k === q.correct; if (ok) score++;
+          el.querySelectorAll(".answers button").forEach((x, j) => { x.disabled = true; if (j === q.correct) x.classList.add("right"); });
+          if (!ok) b.classList.add("wrong");
+          $("#fb").textContent = ok ? "Richtig." : `Falsch. Richtig ist: ${q.answers[q.correct]}`;
+          const n = document.createElement("button"); n.type = "button"; n.className = "btn"; n.textContent = i + 1 < Q.length ? "Nächste Frage" : "Ergebnis anzeigen";
+          n.addEventListener("click", () => { i++; show(); }); el.querySelector(".quiz-foot").append(n); n.focus();
+        });
+      };
+      show();
     },
     team() {
       $("#team").innerHTML = D.team.length ? D.team.map((g) => `<section class="team-group"><h2>${esc(g.group)}</h2><div class="members">${g.members.map((m) =>

@@ -39,6 +39,13 @@ window.NK = {
   /* [ "Frage?", "Antwort" ] */
   faq: [],
 
+  /* { image: "assets/img/galerie/bild1.jpg", title: "Erstes Event" } */
+  gallery: [],
+
+  /* { q: "Wie heißt das Dorf versteckt hinter den Blättern?", answers: ["Suna", "Konoha", "Kiri"], correct: 1 }
+     correct = Nummer der richtigen Antwort, gezählt ab 0                                     */
+  quiz: [],
+
   /* { group: "Serverleitung", members: [ { name: "DJ Reeps", role: "Serverleitung", avatar: "", text: "" } ] } */
   team: []
 };

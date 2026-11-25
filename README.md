@@ -2,20 +2,23 @@
 
 Statische Website im Schwarz-Gelb-Design mit dem NK-Wappen. Sie läuft kostenlos auf **GitHub Pages** und braucht keinen Server und keinen Build-Schritt.
 
-**Design:** tiefschwarze Nacht, Chakra-Gold aus dem Wappen, Schriftrollen- und Briefbomben-Papier mit roten Siegelstempeln. Links ist eine Icon-Navigation, alle Kopfbereiche zeigen Konoha bei Nacht, auf der Startseite zündet beim ersten Besuch das Wappen und den Countdown als Briefbomben-Zettel. Leere Bereiche zeigen automatisch eine versiegelte Schriftrolle.
+**Design:** tiefschwarze Nacht, Chakra-Gold aus dem Wappen, dunkle Felder mit Goldkante und NK-Siegel. Oben ist eine Kategorie-Leiste mit Icons, alle Kopfbereiche zeigen Konoha bei Nacht, auf der Startseite zündet beim ersten Besuch das Wappen und den Countdown als Briefbomben-Zettel. Leere Bereiche zeigen automatisch eine versiegelte Schriftrolle.
 
 Die Schriften liegen direkt im Repo (`assets/fonts`), es werden also keine Google-Server geladen. Lizenz: SIL Open Font License (Anton, Bitter).
 
-## Seiten
+## Seiten (Kategorien oben im Menü)
 | Datei | Inhalt |
 |---|---|
-| `index.html` | Startseite: Logo, Release-Countdown, Discord-Button, Features, Dörfer, neueste News und Leaks |
-| `news.html` | Ankündigungen (angepinnte News oben) |
-| `leaks.html` | Leaks: verschwommen bis zum Klick, gesperrte schalten sich zum Datum automatisch frei |
-| `lore.html` | Die fünf Großdörfer und alle Clans mit Filter |
-| `wiki.html` | Durchsuchbares Wiki (Start-Guide, Ränge, Jutsu, Missionen …) |
-| `regeln.html` | Regeln (§1, §2 …) und FAQ |
+| `index.html` | Start: Wappen, Release-Countdown, Discord, neueste News und Leaks |
+| `news.html` | News (angepinnte oben) |
+| `welt.html` | Welt: Dörfer und Clans mit Filter |
+| `wiki.html` | Durchsuchbares Wiki |
+| `regelwerk.html` | Regelwerk mit Paragraphen |
 | `team.html` | Team nach Gruppen |
+| `galerie.html` | Galerie, Klick öffnet das Bild groß |
+| `quiz.html` | Quiz mit Auswertung am Ende |
+| `faq.html` | Häufige Fragen |
+| `leaks.html` | Leaks (verlinkt von der Startseite) |
 
 ## Inhalte ändern – nur eine Datei
 **Alle Texte stehen in `assets/js/content.js`.** Datei öffnen, Text ändern, speichern, hochladen. Fertig.
