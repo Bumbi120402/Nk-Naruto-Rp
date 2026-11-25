@@ -39,6 +39,24 @@
     ["social.html", "Social Media", "social"]
   ];
   const cur = (p) => (p === page ? ' aria-current="page"' : "");
+  /* Hauptkategorien mit Unterkategorien: [Name, Icon, Link] oder [Name, Icon, [[Datei, Name, Icon, Beschreibung], …]] */
+  const NAV = [
+    ["Start", "home", "index.html"],
+    ["Neuigkeiten", "news", [
+      ["news.html", "News", "news", "Updates, Events und Ankündigungen"],
+      ["changelog.html", "Changelog", "changelog", "Jede Änderung am Server"]]],
+    ["Welt", "welt", [
+      ["welt.html", "Karte & Dörfer", "welt", "Weltkarte, Dörfer, Clans und Zeitleiste"],
+      ["wiki.html", "Wiki", "wiki", "Alles über Welt, Clans und Chakra"],
+      ["jutsu.html", "Jutsu", "jutsu", "Alle Techniken durchsuchen"]]],
+    ["Server", "regelwerk", [
+      ["regelwerk.html", "Regelwerk", "regelwerk", "Was auf dem Server gilt"],
+      ["faq.html", "FAQ", "faq", "Antworten auf häufige Fragen"],
+      ["team.html", "Team", "team", "Die Leute hinter NK"]]],
+    ["Community", "social", [
+      ["dorftest.html", "Dorf-Test", "dorftest", "Welches Dorf passt zu dir?"],
+      ["social.html", "Social Media", "social", "Alle Kanäle von NK"]]]
+  ];
 
   /* Discord-Knopf: ohne Link deaktiviert */
   const discordBtn = (cls = "btn", label = "Discord beitreten") =>
@@ -51,7 +69,9 @@
   nav.className = "nav";
   nav.innerHTML = `<div class="nav-in">
     <a class="nav-logo" href="index.html" aria-label="${esc(S.name)} Startseite"><img src="assets/img/logo-small.png" alt=""></a>
-    <nav class="nav-links" aria-label="Kategorien">${PAGES.map(([h, l, p]) => `<a href="${h}"${cur(p)}>${icon(p)}${l}</a>`).join("")}</nav>
+    <nav class="nav-links" aria-label="Kategorien">${NAV.map(([l, ic, x], gi) => Array.isArray(x)
+      ? `<button type="button" class="nav-group${x.some((s) => s[2] === page) ? " is-active" : ""}" data-g="${gi}" aria-expanded="false" aria-controls="mega">${icon(ic)}<span>${l}<i class="caret" aria-hidden="true"></i></span></button>`
+      : `<a href="${x}"${cur(ic)}>${icon(ic)}<span>${l}</span></a>`).join("")}</nav>
     <div class="nav-tools">
       <span class="visitors" hidden title="Gerade auf der Seite"><i></i><b></b></span>
       <span class="online" hidden><i></i><b></b></span>
@@ -60,8 +80,31 @@
       ${S.discord ? `<a class="nav-discord" href="${esc(S.discord)}" target="_blank" rel="noopener">${discordSvg}Discord</a>` : `<span class="nav-discord" aria-disabled="true">${discordSvg}Discord</span>`}
     </div>
   </div>`;
+  const mega = document.createElement("div");
+  mega.className = "mega"; mega.id = "mega"; mega.hidden = true;
+  nav.append(mega);
   document.body.prepend(nav);
-  const act = nav.querySelector('[aria-current="page"]');
+  let openG = null, closeT;
+  const openGroup = (gi) => {
+    clearTimeout(closeT);
+    const g = NAV[gi]; openG = gi;
+    nav.querySelectorAll(".nav-group").forEach((b) => b.setAttribute("aria-expanded", String(+b.dataset.g === gi)));
+    mega.innerHTML = `<div class="mega-in"><p class="mega-title">${g[0]}</p><div class="mega-items">${g[2].map(([h, l, ic, d]) =>
+      `<a href="${h}"${cur(ic)}>${icon(ic)}<span><b>${l}</b><small>${d}</small></span></a>`).join("")}</div></div>`;
+    mega.hidden = false;
+  };
+  const closeGroup = () => { openG = null; mega.hidden = true; nav.querySelectorAll(".nav-group").forEach((b) => b.setAttribute("aria-expanded", "false")); };
+  const hover = matchMedia("(hover: hover) and (min-width: 1024px)");
+  nav.querySelectorAll(".nav-group").forEach((b) => {
+    b.addEventListener("click", () => (openG === +b.dataset.g ? closeGroup() : openGroup(+b.dataset.g)));
+    b.addEventListener("mouseenter", () => { if (hover.matches) openGroup(+b.dataset.g); });
+  });
+  nav.querySelectorAll(".nav-links > a").forEach((a) => a.addEventListener("mouseenter", () => { if (hover.matches) closeGroup(); }));
+  nav.addEventListener("mouseleave", () => { if (hover.matches) closeT = setTimeout(closeGroup, 180); });
+  mega.addEventListener("mouseenter", () => clearTimeout(closeT));
+  document.addEventListener("click", (e) => { if (!nav.contains(e.target)) closeGroup(); });
+  addEventListener("keydown", (e) => { if (e.key === "Escape" && openG !== null) { const b = nav.querySelector(`.nav-group[data-g="${openG}"]`); closeGroup(); b && b.focus(); } });
+  const act = nav.querySelector('.nav-links [aria-current="page"], .nav-group.is-active');
   const bar = nav.querySelector(".nav-links");
   const centerActive = () => {
     if (!act || bar.scrollWidth <= bar.clientWidth) return;
