@@ -26,6 +26,18 @@
     lock: '<rect x="5" y="11" width="14" height="10" rx="1"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>'
   };
   const icon = (k) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[k]}</svg>`;
+  /* ---------------- Social-Media-Icons ---------------- */
+  const sv = (p, fill) => `<svg viewBox="0 0 24 24" ${fill ? 'fill="currentColor"' : 'fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"'} aria-hidden="true">${p}</svg>`;
+  const SOC = {
+    discord: { c: "#5865f2", i: discordSvg },
+    tiktok: { c: "#ff2a55", i: sv('<path d="M14 3v11.5a3.5 3.5 0 1 1-3.5-3.5"/><path d="M14 3c.4 2.6 2.3 4.4 5 4.6"/>') },
+    youtube: { c: "#ff3b30", i: sv('<rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="m10 9.2 5 2.8-5 2.8z" fill="currentColor"/>') },
+    instagram: { c: "#e4405f", i: sv('<rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".6" fill="currentColor"/>') },
+    twitch: { c: "#9146ff", i: sv('<path d="M5 3 3.5 6.5V19H8v2.5h2.5L13 19h3.5L20.5 15V3z"/><path d="M11 7.5v4M15.5 7.5v4"/>') },
+    x: { c: "#e8e6e0", i: sv('<path d="M4 4l16 16M20 4 4 20"/>') },
+    link: { c: "#ffc400", i: sv('<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>') }
+  };
+
   const PAGES = [
     ["index.html", "Start", "home"],
     ["news.html", "News", "news"],
@@ -192,18 +204,6 @@
       draw(d.online ? "online" : "offline", d.online && typeof d.players === "number" ? `${d.players}${d.max ? " / " + d.max : ""} Spieler` : "");
     }).catch(() => {});
   }
-
-  /* ---------------- Social-Media-Icons ---------------- */
-  const sv = (p, fill) => `<svg viewBox="0 0 24 24" ${fill ? 'fill="currentColor"' : 'fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"'} aria-hidden="true">${p}</svg>`;
-  const SOC = {
-    discord: { c: "#5865f2", i: discordSvg },
-    tiktok: { c: "#ff2a55", i: sv('<path d="M14 3v11.5a3.5 3.5 0 1 1-3.5-3.5"/><path d="M14 3c.4 2.6 2.3 4.4 5 4.6"/>') },
-    youtube: { c: "#ff3b30", i: sv('<rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="m10 9.2 5 2.8-5 2.8z" fill="currentColor"/>') },
-    instagram: { c: "#e4405f", i: sv('<rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".6" fill="currentColor"/>') },
-    twitch: { c: "#9146ff", i: sv('<path d="M5 3 3.5 6.5V19H8v2.5h2.5L13 19h3.5L20.5 15V3z"/><path d="M11 7.5v4M15.5 7.5v4"/>') },
-    x: { c: "#e8e6e0", i: sv('<path d="M4 4l16 16M20 4 4 20"/>') },
-    link: { c: "#ffc400", i: sv('<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>') }
-  };
 
   /* ---------------- Spielbare Dörfer ---------------- */
   const PLAY = S.playable || [];
