@@ -189,10 +189,10 @@ window.NK = {
         "title": "Die Namen der Vermissten",
         "color": "#6fbf4a",
         "text": [
-          "Nach Tobirama Senjus Tod übernahm die Dritte Hokage die Führung des Dorfes. Während des Krieges hatte sie die Evakuierung mehrerer Grenzsiedlungen geleitet. Viele Familien verdankten ihr die Rückkehr ihrer Angehörigen. Bei ihrer Ernennung versprach sie, auch nach jenen suchen zu lassen, die das Dorf längst für tot erklärt hatte.",
+          "Nach Tobirama Senjus Tod übernahm der Dritte Hokage die Führung des Dorfes. Während des Krieges hatte er die Evakuierung mehrerer Grenzsiedlungen geleitet. Viele Familien verdankten ihm die Rückkehr ihrer Angehörigen. Bei seiner Ernennung versprach er, auch nach jenen suchen zu lassen, die das Dorf längst für tot erklärt hatte.",
           "Die ersten Nachforschungen führten die Suchtrupps zurück in Konohas eigenes Archiv. In den letzten Wochen des Krieges waren mehrere Einheiten unter falschen Namen an die Grenze geschickt worden. Einige dieser Shinobi galten offiziell als Deserteure, obwohl ihre Einsatzbefehle das Siegel des Hokage trugen.",
           "Die Uchiha fordern, dass die ursprünglichen Befehle veröffentlicht und die betroffenen Familien entschädigt werden. Älteste der Senju drängen darauf, zuerst die Überlebenden zu finden. Unter den falschen Namen geführte Shinobi könnten noch immer im Ausland leben. Die Yamanaka, die die Angehörigen befragen, haben inzwischen ein anderes Problem. Drei Familien erhielten noch nach dem Waffenstillstand Briefe von Vermissten. Alle drei Briefe wurden in Kagerō aufgegeben.",
-          "Die Hokage ließ die Briefe versiegeln und setzte einen Suchtrupp auf die Spur. Zwei Mitglieder dieses Trupps sollten den ersten Konvoi begleiten."
+          "Der Hokage ließ die Briefe versiegeln und setzte einen Suchtrupp auf die Spur. Zwei Mitglieder dieses Trupps sollten den ersten Konvoi begleiten."
         ]
       },
       {
@@ -200,10 +200,10 @@ window.NK = {
         "title": "Wem gehört das Wasser?",
         "color": "#d9a441",
         "text": [
-          "In Suna dauerte die Wahl eines neuen Kazekage bis weit in den ersten Sommer nach dem Krieg. Schließlich einigten sich die Clans auf … Sabaku, der während der Belagerung die Versorgung des Dorfes organisiert hatte. Sein erster Erlass stellte die großen Zisternen unter die Verwaltung des Dorfes. Bis dahin hatten die Clans selbst entschieden, wem sie in Zeiten der Dürre Wasser abgaben.",
-          "In den unteren Vierteln fand der Erlass breite Zustimmung. Dort hatten Familien während des Krieges ganze Wochen von den Lieferungen aus dem Tempel gelebt. Mehrere Clanälteste weigern sich jedoch bis heute, ihre Schlüssel herauszugeben. Sie erinnern … bei jeder Ratssitzung daran, wer die Zisternen gebaut und ihre Wachen bezahlt hat.",
+          "In Suna dauerte die Wahl eines neuen Kazekage bis weit in den ersten Sommer nach dem Krieg. Schließlich einigten sich die Clans auf den Shinobi, der während der Belagerung die Versorgung des Dorfes organisiert hatte. Sein erster Erlass stellte die großen Zisternen unter die Verwaltung des Dorfes. Bis dahin hatten die Clans selbst entschieden, wem sie in Zeiten der Dürre Wasser abgaben.",
+          "In den unteren Vierteln fand der Erlass breite Zustimmung. Dort hatten Familien während des Krieges ganze Wochen von den Lieferungen aus dem Tempel gelebt. Mehrere Clanälteste weigern sich jedoch bis heute, ihre Schlüssel herauszugeben. Sie erinnern den Kazekage bei jeder Ratssitzung daran, wer die Zisternen gebaut und ihre Wachen bezahlt hat.",
           "Auch die Shirogane geraten unter Druck. Bei der Übernahme einer Zisterne fanden Dorfwachen darunter Werkstätten, in denen während des Krieges Puppen für geheime Einsätze gebaut worden waren. Laut Werkstattbuch ging eine Lieferung kurz nach dem Waffenstillstand an einen Auftraggeber in Kagerō. Die Bezahlung wurde quittiert. Die Unterschrift gehört einem Shinobi, dessen Name seit zwei Jahren auf Sunas Gedenkstein steht.",
-          "… schickte eine Puppenspielerin mit dem Konvoi, um die Lieferung zurückzuverfolgen. Ihrer Familie teilte man mit, sie solle unterwegs beschädigte Wagen reparieren."
+          "Der Kazekage schickte eine Puppenspielerin mit dem Konvoi, um die Lieferung zurückzuverfolgen. Ihrer Familie teilte man mit, sie solle unterwegs beschädigte Wagen reparieren."
         ]
       },
       {
