@@ -160,5 +160,56 @@ window.NK = {
   /* ------------------------------------------------------------ DATENSCHUTZ & NUTZUNGSBEDINGUNGEN
      Die Texte stehen in main.js und passen sich automatisch an (z. B. Discord-Anzeige nur, wenn aktiv).
      authority: optional eure Datenschutz-Aufsichtsbehörde, z. B. "Landesbeauftragte für Datenschutz Niedersachsen" */
-  legal: { updated: "November 2026", authority: "" }
+  legal: { updated: "November 2026", authority: "" },
+
+  /* ------------------------------------------------------------ SERVER-LORE (Welt-Seite, ganz oben)
+     Jedes Kapitel: place = Ort, title, color, text = Absätze.
+     Ein Absatz mit "> " am Anfang wird als großes Zitat hervorgehoben. "…" = Name folgt noch. */
+  lore: {
+  "title": "Der Frieden von Kagerō",
+  "chapters": [
+    {
+      "place": "Die Shinobi-Welt",
+      "title": "Der Frieden von Kagerō",
+      "color": "#ffc400",
+      "text": [
+        "Seit dem Ende des Ersten Ninja-Weltkriegs sind sieben Monate vergangen. Zum ersten Mal sollen Shinobi aus Konoha und Suna wieder Seite an Seite einen Auftrag erfüllen.",
+        "Der Waffenstillstand von Kagerō wurde in einem kleinen Grenzort geschlossen, dessen Brücke im Krieg von beiden Seiten zerstört worden war. Konoha versprach Getreide und Heilkräuter für die Dörfer im Windreich. Suna öffnete im Gegenzug seine Handelswege und sagte Hilfe beim Wiederaufbau der Grenzbrücke zu. Sobald sie wieder begehbar wäre, sollte ein gemeinsamer Konvoi die ersten Vorräte über die Grenze bringen.",
+        "> Die Brücke steht inzwischen. Der Konvoi ist nie angekommen."
+      ]
+    },
+    {
+      "place": "Konohagakure",
+      "title": "Die Namen der Vermissten",
+      "color": "#6fbf4a",
+      "text": [
+        "Nach Tobirama Senjus Tod übernahm … Sarutobi als Dritte Hokage die Führung des Dorfes. Während des Krieges hatte sie die Evakuierung mehrerer Grenzsiedlungen geleitet. Viele Familien verdankten ihr die Rückkehr ihrer Angehörigen. Bei ihrer Ernennung versprach sie, auch nach jenen suchen zu lassen, die das Dorf längst für tot erklärt hatte.",
+        "Die ersten Nachforschungen führten die Suchtrupps zurück in Konohas eigenes Archiv. In den letzten Wochen des Krieges waren mehrere Einheiten unter falschen Namen an die Grenze geschickt worden. Einige dieser Shinobi galten offiziell als Deserteure, obwohl ihre Einsatzbefehle das Siegel des Hokage trugen.",
+        "Die Uchiha fordern, dass die ursprünglichen Befehle veröffentlicht und die betroffenen Familien entschädigt werden. Älteste der Senju drängen darauf, zuerst die Überlebenden zu finden. Unter den falschen Namen geführte Shinobi könnten noch immer im Ausland leben. Die Yamanaka, die die Angehörigen befragen, haben inzwischen ein anderes Problem. Drei Familien erhielten noch nach dem Waffenstillstand Briefe von Vermissten. Alle drei Briefe wurden in Kagerō aufgegeben.",
+        "… ließ die Briefe versiegeln und setzte einen Suchtrupp auf die Spur. Zwei Mitglieder dieses Trupps sollten den ersten Konvoi begleiten."
+      ]
+    },
+    {
+      "place": "Sunagakure",
+      "title": "Wem gehört das Wasser?",
+      "color": "#d9a441",
+      "text": [
+        "In Suna dauerte die Wahl eines neuen Kazekage bis weit in den ersten Sommer nach dem Krieg. Schließlich einigten sich die Clans auf … Sabaku, der während der Belagerung die Versorgung des Dorfes organisiert hatte. Sein erster Erlass stellte die großen Zisternen unter die Verwaltung des Dorfes. Bis dahin hatten die Clans selbst entschieden, wem sie in Zeiten der Dürre Wasser abgaben.",
+        "In den unteren Vierteln fand der Erlass breite Zustimmung. Dort hatten Familien während des Krieges ganze Wochen von den Lieferungen aus dem Tempel gelebt. Mehrere Clanälteste weigern sich jedoch bis heute, ihre Schlüssel herauszugeben. Sie erinnern … bei jeder Ratssitzung daran, wer die Zisternen gebaut und ihre Wachen bezahlt hat.",
+        "Auch die Shirogane geraten unter Druck. Bei der Übernahme einer Zisterne fanden Dorfwachen darunter Werkstätten, in denen während des Krieges Puppen für geheime Einsätze gebaut worden waren. Laut Werkstattbuch ging eine Lieferung kurz nach dem Waffenstillstand an einen Auftraggeber in Kagerō. Die Bezahlung wurde quittiert. Die Unterschrift gehört einem Shinobi, dessen Name seit zwei Jahren auf Sunas Gedenkstein steht.",
+        "… schickte eine Puppenspielerin mit dem Konvoi, um die Lieferung zurückzuverfolgen. Ihrer Familie teilte man mit, sie solle unterwegs beschädigte Wagen reparieren."
+      ]
+    },
+    {
+      "place": "Kagerō",
+      "title": "Drei Tage bis zur Grenzversammlung",
+      "color": "#e8c77a",
+      "text": [
+        "Am Morgen nach dem Verschwinden des Konvois fand ein Fährmann die Wagen auf der alten Uferstraße. Die Vorräte waren unberührt. Von den Fahrern und ihren Begleitern fehlte jede Spur. Auf der letzten Ladefläche lag ein Bündel Soldbücher. Darin standen Namen vermisster Shinobi aus beiden Dörfern, mit quittierten Auszahlungen bis in die vergangene Woche.",
+        "In drei Tagen sollen sich die Gesandten Konohas und Sunas auf der neuen Brücke treffen. Sunas Rat hat bereits angekündigt, den Grenzübergang zu schließen, falls seine Leute bis dahin verschwunden bleiben. Konohas Garnison hat Verstärkung angefordert. Im Ort selbst sind die Herbergen voll mit Angehörigen, die hoffen, in den Soldbüchern endlich einen Namen zu finden."
+      ]
+    }
+  ],
+  "hook": "Hier beginnt euer RP. Während die Kage über den Waffenstillstand verhandeln, suchen junge Shinobi das Flussufer ab, die Clans schicken eigene Unterhändler nach Kagerō und Händler versuchen, ihre Vorräte durch die Grenze zu bringen. Wer einen Vermissten findet, muss entscheiden, wem er davon erzählt. Für manche Familien ist es die erste Hoffnung seit Jahren. Für jemanden in Kagerō ist es der Grund, die Soldbücher vor der Grenzversammlung zurückzubekommen."
+}
 };

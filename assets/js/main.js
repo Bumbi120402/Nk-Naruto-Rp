@@ -47,7 +47,7 @@
       ["news.html", "News", "news", "Updates, Events und Ankündigungen"],
       ["changelog.html", "Changelog", "changelog", "Jede Änderung am Server"]]],
     ["Welt", "welt", [
-      ["welt.html", "Karte & Dörfer", "welt", "Weltkarte, Dörfer, Clans und Zeitleiste"],
+      ["welt.html", "Lore & Karte", "welt", "Die Geschichte, Weltkarte, Dörfer und Clans"],
       ["wiki.html", "Wiki", "wiki", "Alles über Welt, Clans und Chakra"],
       ["jutsu.html", "Jutsu", "jutsu", "Alle Techniken durchsuchen"]]],
     ["Server", "regelwerk", [
@@ -325,6 +325,7 @@
       (D.faq || []).forEach(([q, a], k) => I.push({ type: "FAQ", title: q, text: a, url: `faq.html#faq-${k + 1}` }));
       (D.news || []).forEach((n) => I.push({ type: "News", sub: n.date, title: n.title, text: n.text, url: "news.html" }));
       (D.changelog || []).forEach((v) => I.push({ type: "Changelog", sub: v.version && "Version " + v.version, title: v.title || "Version " + v.version, text: (v.changes || []).map((c) => c[1]).join(" "), url: "changelog.html" }));
+      ((D.lore || {}).chapters || []).forEach((c) => I.push({ type: "Lore", sub: c.place, title: c.title, text: (c.text || []).join(" ").replace(/^> /gm, ""), url: "welt.html#lore-" + String(c.place).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") }));
       (D.villages || []).forEach((v) => I.push({ type: "Welt", title: v.name, text: [v.alias, v.text].join(" "), url: `welt.html#${encodeURIComponent(v.name)}` }));
       (D.clans || []).forEach((c) => I.push({ type: "Clan", title: c.name, text: [c.ability, c.text].join(" "), url: "welt.html" }));
       ((D.map || {}).markers || []).forEach((mk) => I.push({ type: "Karte", sub: mk.realm, title: mk.name, text: mk.text, url: mk.link || "welt.html" }));
@@ -527,6 +528,18 @@
         : sealed("Noch nichts geleakt", "Sobald es erste Einblicke gibt, liegen sie hier verdeckt. Ein Klick deckt sie auf, gesperrte öffnen sich zum angegebenen Zeitpunkt.");
     },
     welt() {
+      const LO = D.lore;
+      if (LO && (LO.chapters || []).length) {
+        const slug = (s) => "lore-" + String(s).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+        $("#lore").innerHTML = `<div class="lore">
+          <aside class="lore-nav" aria-label="Kapitel"><p class="lore-kicker">Server-Lore</p><h2>${esc(LO.title)}</h2>
+            <ol>${LO.chapters.map((c, i) => `<li><a href="#${slug(c.place)}" style="--lc:${esc(c.color || "#ffc400")}"><span>${esc(c.place)}</span>${esc(c.title)}</a></li>`).join("")}${LO.hook ? `<li><a href="#lore-start" style="--lc:#ffc400"><span>Euer Einstieg</span>Hier beginnt euer RP</a></li>` : ""}</ol></aside>
+          <div class="lore-text">${LO.chapters.map((c) => `<article class="lore-ch" id="${slug(c.place)}" style="--lc:${esc(c.color || "#ffc400")}">
+            <p class="lore-place">${esc(c.place)}</p><h3>${esc(c.title)}</h3>
+            ${(c.text || []).map((p, k) => p.startsWith("> ") ? `<blockquote>${esc(p.slice(2))}</blockquote>` : `<p${k === 0 ? ' class="first"' : ""}>${esc(p)}</p>`).join("")}</article>`).join("")}
+            ${LO.hook ? `<div class="lore-hook" id="lore-start"><p class="lore-place">Euer Einstieg</p>${esc(LO.hook).replace(/^Hier beginnt euer RP\./, "<b>Hier beginnt euer RP.</b>")}</div>` : ""}
+          </div></div>`;
+      } else $("#lore-band").remove();
       $("#map").insertAdjacentHTML("beforebegin", playNote());
       renderMap($("#map"));
       $("#timeline").innerHTML = D.timeline.length
