@@ -13,7 +13,7 @@ window.NK = {
     name: "NK",
     title: "Naruto Roleplay",
     slogan: "",          // Satz unter dem Logo auf der Startseite
-    discord: "",         // z. B. "https://discord.gg/abc123"
+    discord: "https://discord.gg/66X6vCe9SZ",
     /* Live-Anzeige "X auf der Seite" über Supabase (kostenlos, Server in Frankfurt).
        Beide Werte stehen in Supabase unter Project Settings -> API. Leer = Anzeige aus. */
     live: { url: "", key: "" },   // url z. B. "https://abcdefgh.supabase.co", key = anon / publishable key
@@ -98,7 +98,7 @@ window.NK = {
      url leer = Karte zeigt "Folgt bald". platform: Discord, TikTok, YouTube, Instagram, Twitch, X
      { platform: "TikTok", url: "https://www.tiktok.com/@name", handle: "@name", text: "Clips & Highlights" } */
   socials: [
-    { platform: "Discord", url: "", handle: "", text: "Community, Support und alle Ankündigungen" },
+    { platform: "Discord", url: "https://discord.gg/66X6vCe9SZ", handle: "Jetzt beitreten", text: "Community, Support und alle Ankündigungen" },
     { platform: "TikTok", url: "", handle: "", text: "Clips und Highlights vom Server" },
     { platform: "YouTube", url: "", handle: "", text: "Trailer, Events und Videos" },
     { platform: "Instagram", url: "", handle: "", text: "Bilder und Neuigkeiten" },
