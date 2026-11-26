@@ -163,53 +163,168 @@ window.NK = {
   legal: { updated: "November 2026", authority: "" },
 
   /* ------------------------------------------------------------ SERVER-LORE (Welt-Seite, ganz oben)
-     Jedes Kapitel: place = Ort, title, color, text = Absätze.
-     Ein Absatz mit "> " am Anfang wird als großes Zitat hervorgehoben. "…" = Name folgt noch. */
-  lore: {
-  "title": "Der Frieden von Kagerō",
-  "chapters": [
-    {
-      "place": "Die Shinobi-Welt",
-      "title": "Der Frieden von Kagerō",
-      "color": "#ffc400",
-      "text": [
-        "Seit dem Ende des Ersten Ninja-Weltkriegs sind sieben Monate vergangen. Zum ersten Mal sollen Shinobi aus Konoha und Suna wieder Seite an Seite einen Auftrag erfüllen.",
-        "Der Waffenstillstand von Kagerō wurde in einem kleinen Grenzort geschlossen, dessen Brücke im Krieg von beiden Seiten zerstört worden war. Konoha versprach Getreide und Heilkräuter für die Dörfer im Windreich. Suna öffnete im Gegenzug seine Handelswege und sagte Hilfe beim Wiederaufbau der Grenzbrücke zu. Sobald sie wieder begehbar wäre, sollte ein gemeinsamer Konvoi die ersten Vorräte über die Grenze bringen.",
-        "> Die Brücke steht inzwischen. Der Konvoi ist nie angekommen."
-      ]
-    },
-    {
-      "place": "Konohagakure",
-      "title": "Die Namen der Vermissten",
-      "color": "#6fbf4a",
-      "text": [
-        "Nach Tobirama Senjus Tod übernahm … Sarutobi als Dritte Hokage die Führung des Dorfes. Während des Krieges hatte sie die Evakuierung mehrerer Grenzsiedlungen geleitet. Viele Familien verdankten ihr die Rückkehr ihrer Angehörigen. Bei ihrer Ernennung versprach sie, auch nach jenen suchen zu lassen, die das Dorf längst für tot erklärt hatte.",
-        "Die ersten Nachforschungen führten die Suchtrupps zurück in Konohas eigenes Archiv. In den letzten Wochen des Krieges waren mehrere Einheiten unter falschen Namen an die Grenze geschickt worden. Einige dieser Shinobi galten offiziell als Deserteure, obwohl ihre Einsatzbefehle das Siegel des Hokage trugen.",
-        "Die Uchiha fordern, dass die ursprünglichen Befehle veröffentlicht und die betroffenen Familien entschädigt werden. Älteste der Senju drängen darauf, zuerst die Überlebenden zu finden. Unter den falschen Namen geführte Shinobi könnten noch immer im Ausland leben. Die Yamanaka, die die Angehörigen befragen, haben inzwischen ein anderes Problem. Drei Familien erhielten noch nach dem Waffenstillstand Briefe von Vermissten. Alle drei Briefe wurden in Kagerō aufgegeben.",
-        "… ließ die Briefe versiegeln und setzte einen Suchtrupp auf die Spur. Zwei Mitglieder dieses Trupps sollten den ersten Konvoi begleiten."
-      ]
-    },
-    {
-      "place": "Sunagakure",
-      "title": "Wem gehört das Wasser?",
-      "color": "#d9a441",
-      "text": [
-        "In Suna dauerte die Wahl eines neuen Kazekage bis weit in den ersten Sommer nach dem Krieg. Schließlich einigten sich die Clans auf … Sabaku, der während der Belagerung die Versorgung des Dorfes organisiert hatte. Sein erster Erlass stellte die großen Zisternen unter die Verwaltung des Dorfes. Bis dahin hatten die Clans selbst entschieden, wem sie in Zeiten der Dürre Wasser abgaben.",
-        "In den unteren Vierteln fand der Erlass breite Zustimmung. Dort hatten Familien während des Krieges ganze Wochen von den Lieferungen aus dem Tempel gelebt. Mehrere Clanälteste weigern sich jedoch bis heute, ihre Schlüssel herauszugeben. Sie erinnern … bei jeder Ratssitzung daran, wer die Zisternen gebaut und ihre Wachen bezahlt hat.",
-        "Auch die Shirogane geraten unter Druck. Bei der Übernahme einer Zisterne fanden Dorfwachen darunter Werkstätten, in denen während des Krieges Puppen für geheime Einsätze gebaut worden waren. Laut Werkstattbuch ging eine Lieferung kurz nach dem Waffenstillstand an einen Auftraggeber in Kagerō. Die Bezahlung wurde quittiert. Die Unterschrift gehört einem Shinobi, dessen Name seit zwei Jahren auf Sunas Gedenkstein steht.",
-        "… schickte eine Puppenspielerin mit dem Konvoi, um die Lieferung zurückzuverfolgen. Ihrer Familie teilte man mit, sie solle unterwegs beschädigte Wagen reparieren."
-      ]
-    },
-    {
-      "place": "Kagerō",
-      "title": "Drei Tage bis zur Grenzversammlung",
-      "color": "#e8c77a",
-      "text": [
-        "Am Morgen nach dem Verschwinden des Konvois fand ein Fährmann die Wagen auf der alten Uferstraße. Die Vorräte waren unberührt. Von den Fahrern und ihren Begleitern fehlte jede Spur. Auf der letzten Ladefläche lag ein Bündel Soldbücher. Darin standen Namen vermisster Shinobi aus beiden Dörfern, mit quittierten Auszahlungen bis in die vergangene Woche.",
-        "In drei Tagen sollen sich die Gesandten Konohas und Sunas auf der neuen Brücke treffen. Sunas Rat hat bereits angekündigt, den Grenzübergang zu schließen, falls seine Leute bis dahin verschwunden bleiben. Konohas Garnison hat Verstärkung angefordert. Im Ort selbst sind die Herbergen voll mit Angehörigen, die hoffen, in den Soldbüchern endlich einen Namen zu finden."
-      ]
-    }
-  ],
-  "hook": "Hier beginnt euer RP. Während die Kage über den Waffenstillstand verhandeln, suchen junge Shinobi das Flussufer ab, die Clans schicken eigene Unterhändler nach Kagerō und Händler versuchen, ihre Vorräte durch die Grenze zu bringen. Wer einen Vermissten findet, muss entscheiden, wem er davon erzählt. Für manche Familien ist es die erste Hoffnung seit Jahren. Für jemanden in Kagerō ist es der Grund, die Soldbücher vor der Grenzversammlung zurückzubekommen."
-}
+     Mehrere Geschichten als Reiter. Jede: id, tab (Reitername), color, title, intro (Einleitung),
+     chapters (place, title, text = Absätze; "> " am Anfang = großes Zitat), hook = Absätze zu "Hier beginnt euer RP".
+     "…" = Name folgt noch. Direkt-Link auf einen Reiter: welt.html#konoha */
+  lore: [
+  {
+    "id": "kagero",
+    "tab": "Die Shinobi-Welt",
+    "color": "#ffc400",
+    "title": "Der Frieden von Kagerō",
+    "intro": "",
+    "chapters": [
+      {
+        "place": "Die Shinobi-Welt",
+        "title": "Der Frieden von Kagerō",
+        "color": "#ffc400",
+        "text": [
+          "Seit dem Ende des Ersten Ninja-Weltkriegs sind sieben Monate vergangen. Zum ersten Mal sollen Shinobi aus Konoha und Suna wieder Seite an Seite einen Auftrag erfüllen.",
+          "Der Waffenstillstand von Kagerō wurde in einem kleinen Grenzort geschlossen, dessen Brücke im Krieg von beiden Seiten zerstört worden war. Konoha versprach Getreide und Heilkräuter für die Dörfer im Windreich. Suna öffnete im Gegenzug seine Handelswege und sagte Hilfe beim Wiederaufbau der Grenzbrücke zu. Sobald sie wieder begehbar wäre, sollte ein gemeinsamer Konvoi die ersten Vorräte über die Grenze bringen.",
+          "> Die Brücke steht inzwischen. Der Konvoi ist nie angekommen."
+        ]
+      },
+      {
+        "place": "Konohagakure",
+        "title": "Die Namen der Vermissten",
+        "color": "#6fbf4a",
+        "text": [
+          "Nach Tobirama Senjus Tod übernahm … Sarutobi als Dritte Hokage die Führung des Dorfes. Während des Krieges hatte sie die Evakuierung mehrerer Grenzsiedlungen geleitet. Viele Familien verdankten ihr die Rückkehr ihrer Angehörigen. Bei ihrer Ernennung versprach sie, auch nach jenen suchen zu lassen, die das Dorf längst für tot erklärt hatte.",
+          "Die ersten Nachforschungen führten die Suchtrupps zurück in Konohas eigenes Archiv. In den letzten Wochen des Krieges waren mehrere Einheiten unter falschen Namen an die Grenze geschickt worden. Einige dieser Shinobi galten offiziell als Deserteure, obwohl ihre Einsatzbefehle das Siegel des Hokage trugen.",
+          "Die Uchiha fordern, dass die ursprünglichen Befehle veröffentlicht und die betroffenen Familien entschädigt werden. Älteste der Senju drängen darauf, zuerst die Überlebenden zu finden. Unter den falschen Namen geführte Shinobi könnten noch immer im Ausland leben. Die Yamanaka, die die Angehörigen befragen, haben inzwischen ein anderes Problem. Drei Familien erhielten noch nach dem Waffenstillstand Briefe von Vermissten. Alle drei Briefe wurden in Kagerō aufgegeben.",
+          "… ließ die Briefe versiegeln und setzte einen Suchtrupp auf die Spur. Zwei Mitglieder dieses Trupps sollten den ersten Konvoi begleiten."
+        ]
+      },
+      {
+        "place": "Sunagakure",
+        "title": "Wem gehört das Wasser?",
+        "color": "#d9a441",
+        "text": [
+          "In Suna dauerte die Wahl eines neuen Kazekage bis weit in den ersten Sommer nach dem Krieg. Schließlich einigten sich die Clans auf … Sabaku, der während der Belagerung die Versorgung des Dorfes organisiert hatte. Sein erster Erlass stellte die großen Zisternen unter die Verwaltung des Dorfes. Bis dahin hatten die Clans selbst entschieden, wem sie in Zeiten der Dürre Wasser abgaben.",
+          "In den unteren Vierteln fand der Erlass breite Zustimmung. Dort hatten Familien während des Krieges ganze Wochen von den Lieferungen aus dem Tempel gelebt. Mehrere Clanälteste weigern sich jedoch bis heute, ihre Schlüssel herauszugeben. Sie erinnern … bei jeder Ratssitzung daran, wer die Zisternen gebaut und ihre Wachen bezahlt hat.",
+          "Auch die Shirogane geraten unter Druck. Bei der Übernahme einer Zisterne fanden Dorfwachen darunter Werkstätten, in denen während des Krieges Puppen für geheime Einsätze gebaut worden waren. Laut Werkstattbuch ging eine Lieferung kurz nach dem Waffenstillstand an einen Auftraggeber in Kagerō. Die Bezahlung wurde quittiert. Die Unterschrift gehört einem Shinobi, dessen Name seit zwei Jahren auf Sunas Gedenkstein steht.",
+          "… schickte eine Puppenspielerin mit dem Konvoi, um die Lieferung zurückzuverfolgen. Ihrer Familie teilte man mit, sie solle unterwegs beschädigte Wagen reparieren."
+        ]
+      },
+      {
+        "place": "Kagerō",
+        "title": "Drei Tage bis zur Grenzversammlung",
+        "color": "#e8c77a",
+        "text": [
+          "Am Morgen nach dem Verschwinden des Konvois fand ein Fährmann die Wagen auf der alten Uferstraße. Die Vorräte waren unberührt. Von den Fahrern und ihren Begleitern fehlte jede Spur. Auf der letzten Ladefläche lag ein Bündel Soldbücher. Darin standen Namen vermisster Shinobi aus beiden Dörfern, mit quittierten Auszahlungen bis in die vergangene Woche.",
+          "In drei Tagen sollen sich die Gesandten Konohas und Sunas auf der neuen Brücke treffen. Sunas Rat hat bereits angekündigt, den Grenzübergang zu schließen, falls seine Leute bis dahin verschwunden bleiben. Konohas Garnison hat Verstärkung angefordert. Im Ort selbst sind die Herbergen voll mit Angehörigen, die hoffen, in den Soldbüchern endlich einen Namen zu finden."
+        ]
+      }
+    ],
+    "hook": [
+      "Während die Kage über den Waffenstillstand verhandeln, suchen junge Shinobi das Flussufer ab, die Clans schicken eigene Unterhändler nach Kagerō und Händler versuchen, ihre Vorräte durch die Grenze zu bringen. Wer einen Vermissten findet, muss entscheiden, wem er davon erzählt. Für manche Familien ist es die erste Hoffnung seit Jahren. Für jemanden in Kagerō ist es der Grund, die Soldbücher vor der Grenzversammlung zurückzubekommen."
+    ]
+  },
+  {
+    "id": "konoha",
+    "tab": "Konohagakure",
+    "color": "#6fbf4a",
+    "title": "Das Dorf verborgen hinter den Blättern",
+    "place": "Konohagakure",
+    "intro": "Als die Akademie nach dem Krieg wieder ihre Tore öffnete, mussten einige Klassen zusammengelegt werden. Zu viele ihrer Lehrer waren von der Front nicht zurückgekehrt. Über den Dächern des Dorfes blickten die steinernen Gesichter der ersten beiden Hokage auf einen Schulhof, der wieder voller Kinder war.",
+    "chapters": [
+      {
+        "place": "Konohagakure",
+        "title": "Hashirama und der Frieden zwischen den Clans",
+        "color": "#6fbf4a",
+        "text": [
+          "Lange vor der Gründung Konohas kämpften die Shinobi des Feuerreichs unter den Bannern ihrer Clans. Die Senju und die Uchiha gehörten zu den mächtigsten unter ihnen. Ihre Fehde währte so lange, dass bereits Kinder für Schlachten ausgebildet wurden, deren Ursprung kaum jemand noch kannte.",
+          "In dieser Zeit begegneten sich Hashirama Senju und Madara Uchiha an einem Fluss. Als Jungen erzählten sie einander von einem Ort, an dem ihre jüngeren Geschwister aufwachsen könnten, ohne in den Krieg ziehen zu müssen. Jahre später standen sie sich als Oberhäupter ihrer Clans gegenüber. Erst nach weiteren Verlusten legten sie die Waffen nieder und schlossen das Bündnis, aus dem Konohagakure hervorging.",
+          "Unter Hashirama, dem Ersten Hokage, schlossen sich weitere Clans dem Dorf an. Wo früher jede Familie ihre eigenen Wachen gestellt hatte, standen nun Shinobi verschiedener Clans gemeinsam am Tor. Selbst nachdem Madara das Dorf verlassen hatte und der Konflikt mit Hashirama im Tal des Endes gipfelte, hielt das Bündnis. Die Frage, wie viel Mitsprache jeder Clan in der gemeinsamen Heimat haben sollte, blieb offen."
+        ]
+      },
+      {
+        "place": "Konohagakure",
+        "title": "Tobiramas Vermächtnis",
+        "color": "#6fbf4a",
+        "text": [
+          "Nach Hashiramas Tod übernahm sein Bruder Tobirama Senju als Zweiter Hokage die Führung. Unter ihm erhielt Konoha feste Strukturen für die Ausbildung, die Vergabe von Missionen und den Schutz des Dorfes. An der Ninja-Akademie lernten Kinder verschiedener Clans im selben Klassenzimmer. Viele von ihnen gingen später gemeinsam auf ihre erste Mission.",
+          "Tobirama übertrug den Uchiha die Verantwortung für die Dorfpolizei. Einige nahmen die Aufgabe als Zeichen des Vertrauens an. Andere fragten sich, weshalb ihre Stimmen bei Entscheidungen des Dorfes so wenig Gewicht hatten, obwohl sie täglich für dessen Sicherheit einstanden. Der Streit blieb bestehen, als der Erste Ninja-Weltkrieg Konoha erreichte.",
+          "Während eines Einsatzes gegen Shinobi aus Kumogakure befahl Tobirama seiner Einheit den Rückzug und blieb zurück, um ihr Zeit zu verschaffen. Seine Schüler kehrten ins Feuerreich zurück. Der Zweite Hokage fiel, und zum ersten Mal seit der Gründung musste Konoha seine Führung ohne einen der beiden Senju-Brüder bestimmen."
+        ]
+      },
+      {
+        "place": "Konohagakure",
+        "title": "Die Wahl des Dritten Hokage",
+        "color": "#6fbf4a",
+        "text": [
+          "Nach mehreren Sitzungen einigte sich der Rat auf einen erfahrenen Shinobi, der während des Krieges die Evakuierung mehrerer Grenzsiedlungen geleitet hatte. Viele Familien kannten ihn aus jener Zeit. Die Akimichi unterstützten seine Wahl, weil sie erlebt hatten, wie er selbst unter schwierigen Bedingungen die Versorgung der Flüchtlinge aufrechterhalten hatte. Die Uchiha erwarteten von ihm, dass er ihnen mehr Mitsprache einräumen würde. Unter den Senju blieb umstritten, wer künftig über die geheimen Befehle aus Tobiramas Amtszeit verfügen durfte.",
+          "Der neue Hokage versprach, nach den Vermissten des Krieges suchen zu lassen. Dabei stießen seine Shinobi im Dorfarchiv auf Einsatzbefehle für Männer und Frauen, die offiziell als desertiert galten. Sie waren unter falschen Namen an die Grenze geschickt worden. Als die ersten Familien von den Befehlen erfuhren, verlangten sie Antworten. Einige hatten jahrelang geglaubt, ihre Angehörigen hätten das Dorf im Stich gelassen."
+        ]
+      },
+      {
+        "place": "Konohagakure",
+        "title": "Der Zweikampf an der Grenze",
+        "color": "#6fbf4a",
+        "text": [
+          "Der Waffenstillstand mit Sunagakure gab beiden Dörfern Zeit für den Wiederaufbau. An der Grenze gingen die Überfälle auf Karawanen weiter, und nach einem gescheiterten Einsatz trafen Shinobi aus beiden Dörfern auf neutralem Boden aufeinander. Der Dritte Kazekage forderte das dort anwesende Oberhaupt der Senju zum Zweikampf.",
+          "Der Senju kehrte nach Konoha zurück. Der Kazekage wurde schwer verwundet nach Sunagakure gebracht. Wenig später meldete Suna seinen Tod. Seitdem kommen die Patrouillen beider Dörfer mit widersprüchlichen Berichten zurück. In Konoha streitet der Rat darüber, ob er eine Gesandtschaft schicken oder die Grenzposten verstärken soll."
+        ]
+      }
+    ],
+    "hook": [
+      "Sunagakure hat inzwischen einen neuen Kazekage gewählt. In Konoha muss der Dritte Hokage entscheiden, wie er auf den Machtwechsel reagiert. Die Familien der Vermissten hoffen, dass die Grenze offen bleibt und die Suche weitergehen kann. Andere haben im letzten Krieg genug verloren und verlangen, dass er zuerst die Dörfer im Feuerreich schützt. Während der Rat berät, stehen die ersten jungen Shinobi seit Wiedereröffnung der Akademie vor ihrer Abschlussprüfung.",
+      "Wird der neue Hokage Konoha zu neuem Ruhm führen oder das Dorf in einen Krieg treiben, der es zugrunde richtet? Wie ihr den Willen des Feuers weitertragt, liegt in euren Händen."
+    ]
+  },
+  {
+    "id": "suna",
+    "tab": "Sunagakure",
+    "color": "#d9a441",
+    "title": "Das Dorf verborgen im Sand",
+    "place": "Sunagakure",
+    "intro": "Am Morgen nach dem Duell öffneten sich die Tore Sunagakures für eine Trage. Bis zum Abend hatte sich im Dorf herumgesprochen, dass der Dritte Kazekage darauf gelegen hatte.",
+    "chapters": [
+      {
+        "place": "Sunagakure",
+        "title": "Reto und die Gründung Sunagakures",
+        "color": "#d9a441",
+        "text": [
+          "Lange bevor Sunagakure auf den Karten des Windreichs stand, zogen die Clans der Wüste zwischen Brunnen, Oasen und Handelsplätzen umher. In guten Jahren teilten sie die Wege. In schlechten Jahren stritten sie darum, wer die wenigen Wasserstellen bewachen und wer aus ihnen trinken durfte.",
+          "Reto brachte die verfeindeten Clans an einen Tisch. Unter seiner Führung verpflichteten sie sich, die Brunnen und Karawanen gemeinsam zu schützen. Aus dem Bündnis entstand Sunagakure, und Reto wurde sein Erster Kazekage. Die Shinobi des jungen Dorfes entwickelten eigene Techniken für den Kampf im Sand. Ihre Späher kannten Pfade durch die Dünen, die auf keiner Karte verzeichnet waren.",
+          "Mit den ersten dauerhaften Siedlungen kamen neue Streitfragen auf. Wer durfte über die Vorräte bestimmen? Welche Clans sollten ihre Shinobi an die Grenze schicken? Als Reto unter ungeklärten Umständen ermordet wurde, musste der Rat zum ersten Mal ohne den Mann auskommen, der das Bündnis geschlossen hatte."
+        ]
+      },
+      {
+        "place": "Sunagakure",
+        "title": "Shamon und das Erbe des Einschwänzigen",
+        "color": "#d9a441",
+        "text": [
+          "Shamon, der Zweite Kazekage, übernahm ein Dorf, dessen Nachbarn im Krieg immer mehr Macht gewannen. Während andere Großmächte begannen, die Kräfte der Bijū für sich zu nutzen, ließ er alte Aufzeichnungen über Shukaku, den Einschwänzigen, zusammentragen. Er wollte herausfinden, wie sich dessen Chakra in einem Jinchūriki binden ließe.",
+          "Für sein Vorhaben wählte Shamon ein Kind aus Sunagakure aus, dessen Chakra bei den ersten Untersuchungen ungewöhnlich auf die Siegel reagierte. Im Dorf wussten nur wenige, warum das Kind regelmäßig zu ihm gebracht wurde. Die Familie bekam zu hören, dass seine Ausbildung unter dem persönlichen Schutz des Kazekage stünde.",
+          "Dann wurde Shamon ermordet. In den Tagen danach stritt der Rat darüber, wer seine Aufzeichnungen verwahren und die Verantwortung für das Kind übernehmen sollte. Als schließlich eine Wache zu seinem Quartier geschickt wurde, war es verschwunden."
+        ]
+      },
+      {
+        "place": "Sunagakure",
+        "title": "Die Lanze in den Dünen",
+        "color": "#d9a441",
+        "text": [
+          "Mehrere Suchtrupps folgten den Wegen aus dem Dorf. In einer Senke abseits der Karawanenroute fanden sie zerbrochenen Fels, Furchen im Boden und mitten darin eine Lanze, die tief im Sand steckte. Die Familie erkannte sie an einer Kerbe unterhalb der Spitze. Sie hatte dem Kind gehört.",
+          "Die Suchtrupps kehrten ohne das Kind zurück. Seine Familie bewahrte die Lanze auf und bat den Rat jedes Jahr um eine neue Suche. Bei den Shinobi, die damals in der Senke gewesen waren, hielt sich unterdessen eine Frage. Der Fundort lag eine Tagesreise von den Toren entfernt. Wie hatte das Kind ihn in der Nacht seines Verschwindens erreicht?"
+        ]
+      },
+      {
+        "place": "Sunagakure",
+        "title": "Der Dritte Kazekage",
+        "color": "#d9a441",
+        "text": [
+          "Nach Shamons Tod brauchte der Rat Wochen, um sich auf einen Nachfolger zu einigen. Die Wahl fiel schließlich auf den Shinobi, der während der letzten Belagerung die Versorgung des Dorfes organisiert hatte. Als Dritter Kazekage stellte er die Zisternen unter die Verwaltung Sunagakures. In den unteren Vierteln gab es daraufhin zum ersten Mal seit Monaten regelmäßige Wasserlieferungen. Einige Clanälteste behielten trotzdem die Schlüssel zu ihren Brunnen.",
+          "An der Grenze zum Feuerreich häuften sich derweil die Überfälle auf Karawanen. Nach einem gescheiterten Einsatz gerieten Shinobi aus Suna und Konoha auf neutralem Boden aneinander. Um eine weitere Auseinandersetzung zwischen ihren Einheiten zu verhindern, forderte der Kazekage das anwesende Oberhaupt der Senju zum Zweikampf.",
+          "Der Senju verließ den Kampfplatz aus eigener Kraft. Der Kazekage wurde schwer verletzt nach Sunagakure zurückgebracht. Noch in derselben Nacht meldete der Rat seinen Tod. Am nächsten Morgen stand vor dem Krankenzimmer weiterhin eine Wache, und den Angehörigen wurde der Zutritt verweigert."
+        ]
+      }
+    ],
+    "hook": [
+      "Nach dem Tod des Dritten Kazekage hat der Rat von Sunagakure einen Nachfolger gewählt. Als der neue Kazekage zum ersten Mal vor sein Dorf tritt, haben sich die Clanältesten, die Händler und die Familien der Vermissten vor seinem Amtssitz versammelt. Die einen wollen ihre Brunnen zurück, die anderen fordern sichere Handelswege. Und die Familien warten noch immer darauf, dass jemand Shamons versiegelte Aufzeichnungen öffnet.",
+      "Jenseits der Dünen hält der Waffenstillstand mit Konoha. Doch seit dem Duell reicht an der Grenze schon eine verspätete Patrouille, um Gerüchte über einen neuen Angriff auszulösen. Die erste Entscheidung des Kazekage wird zeigen, wem er vertraut und wer bereit ist, ihm zu folgen.",
+      "Wird der neue Kazekage Sunagakure zu neuem Ruhm führen oder das Dorf in den Untergang stürzen? Was aus dem Dorf im Sand wird, liegt auch in euren Händen."
+    ]
+  }
+]
 };

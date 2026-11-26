@@ -789,3 +789,17 @@ code { font-size: .9em; color: var(--gold); background: rgba(255,196,0,.08); pad
   .lore { grid-template-columns: 1fr; }
   .lore-nav { position: static; }
 }
+
+/* Lore-Reiter */
+.lore-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 44px; border-bottom: 1px solid var(--line); }
+.lore-tabs button { position: relative; padding: 14px 22px 16px; background: none; border: 0; cursor: pointer; color: var(--ash); font: 400 1.5rem/1 var(--display); letter-spacing: .02em; }
+.lore-tabs button::after { content: ""; position: absolute; left: 12px; right: 12px; bottom: -1px; height: 3px; background: var(--lc); opacity: 0; transition: opacity .2s; box-shadow: 0 0 12px var(--lc); }
+.lore-tabs button:hover { color: var(--text); }
+.lore-tabs button[aria-selected="true"] { color: var(--lc); }
+.lore-tabs button[aria-selected="true"]::after { opacity: 1; }
+.lore-nav .lore-kicker { color: var(--lc); }
+.lore-intro { font-size: 1.3rem; line-height: 1.7; color: var(--text); font-style: italic; margin: 0 0 56px; padding-left: 22px; border-left: 3px solid var(--lc); max-width: 680px; }
+.lore-hook { border-color: color-mix(in srgb, var(--lc, var(--gold)) 55%, transparent); background: linear-gradient(135deg, color-mix(in srgb, var(--lc, var(--gold)) 12%, transparent), transparent 60%); }
+.lore-hook b { color: var(--lc, var(--gold)); }
+.lore-hook p { color: #e6dfcf; margin: 0 0 1em; }
+.lore-hook p.lore-close { margin: 1.4em 0 0; padding-top: 1.1em; border-top: 1px solid color-mix(in srgb, var(--lc, var(--gold)) 35%, transparent); font: 400 1.6rem/1.25 var(--display); color: var(--text); letter-spacing: .01em; }

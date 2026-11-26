@@ -325,7 +325,9 @@
       (D.faq || []).forEach(([q, a], k) => I.push({ type: "FAQ", title: q, text: a, url: `faq.html#faq-${k + 1}` }));
       (D.news || []).forEach((n) => I.push({ type: "News", sub: n.date, title: n.title, text: n.text, url: "news.html" }));
       (D.changelog || []).forEach((v) => I.push({ type: "Changelog", sub: v.version && "Version " + v.version, title: v.title || "Version " + v.version, text: (v.changes || []).map((c) => c[1]).join(" "), url: "changelog.html" }));
-      ((D.lore || {}).chapters || []).forEach((c) => I.push({ type: "Lore", sub: c.place, title: c.title, text: (c.text || []).join(" ").replace(/^> /gm, ""), url: "welt.html#lore-" + String(c.place).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") }));
+      (Array.isArray(D.lore) ? D.lore : D.lore ? [D.lore] : []).forEach((L) => { const sl = (s) => String(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+        (L.chapters || []).forEach((c, k) => I.push({ type: "Lore", sub: L.tab, title: c.title, text: (c.text || []).join(" ").replace(/^> /gm, ""), url: `welt.html#${L.id}-${sl(c.title || k)}` }));
+        if ((L.hook || []).length) I.push({ type: "Lore", sub: L.tab, title: "Hier beginnt euer RP", text: L.hook.join(" "), url: `welt.html#${L.id}-start` }); });
       (D.villages || []).forEach((v) => I.push({ type: "Welt", title: v.name, text: [v.alias, v.text].join(" "), url: `welt.html#${encodeURIComponent(v.name)}` }));
       (D.clans || []).forEach((c) => I.push({ type: "Clan", title: c.name, text: [c.ability, c.text].join(" "), url: "welt.html" }));
       ((D.map || {}).markers || []).forEach((mk) => I.push({ type: "Karte", sub: mk.realm, title: mk.name, text: mk.text, url: mk.link || "welt.html" }));
@@ -504,7 +506,8 @@
         : sealed("Noch kein Ninja des Monats", "Hier ehren wir regelmäßig Spieler, die mit ihrem Roleplay herausgestochen sind.");
       $("#playable").innerHTML = PLAY.length ? `<div class="play-cards">${PLAY.map((n) => {
         const mk = ((D.map || {}).markers || []).find((m) => m.name === n) || {};
-        return `<a class="play-card" style="--vc:${esc(villageColor(n))}" href="${esc(mk.link || "welt.html")}"><small>${esc(mk.realm || "")}</small><h3>${esc(n)}</h3><p>${esc(mk.text || "")}</p><span class="badge yes">Zum Start spielbar</span></a>`;
+        const lo = (Array.isArray(D.lore) ? D.lore : []).find((L) => L.tab === n);
+        return `<a class="play-card" style="--vc:${esc(villageColor(n))}" href="${lo ? "welt.html#" + esc(lo.id) : esc(mk.link || "welt.html")}"><small>${esc(mk.realm || "")}</small><h3>${esc(n)}</h3><p>${esc(mk.text || "")}</p><span class="badge yes">Zum Start spielbar</span></a>`;
       }).join("")}</div>` : "";
       if (!PLAY.length) $("#playable").closest("section").remove();
       const res = Object.values((D.dorftest || {}).results || {});
@@ -528,17 +531,41 @@
         : sealed("Noch nichts geleakt", "Sobald es erste Einblicke gibt, liegen sie hier verdeckt. Ein Klick deckt sie auf, gesperrte öffnen sich zum angegebenen Zeitpunkt.");
     },
     welt() {
-      const LO = D.lore;
-      if (LO && (LO.chapters || []).length) {
-        const slug = (s) => "lore-" + String(s).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-        $("#lore").innerHTML = `<div class="lore">
-          <aside class="lore-nav" aria-label="Kapitel"><p class="lore-kicker">Server-Lore</p><h2>${esc(LO.title)}</h2>
-            <ol>${LO.chapters.map((c, i) => `<li><a href="#${slug(c.place)}" style="--lc:${esc(c.color || "#ffc400")}"><span>${esc(c.place)}</span>${esc(c.title)}</a></li>`).join("")}${LO.hook ? `<li><a href="#lore-start" style="--lc:#ffc400"><span>Euer Einstieg</span>Hier beginnt euer RP</a></li>` : ""}</ol></aside>
-          <div class="lore-text">${LO.chapters.map((c) => `<article class="lore-ch" id="${slug(c.place)}" style="--lc:${esc(c.color || "#ffc400")}">
-            <p class="lore-place">${esc(c.place)}</p><h3>${esc(c.title)}</h3>
-            ${(c.text || []).map((p, k) => p.startsWith("> ") ? `<blockquote>${esc(p.slice(2))}</blockquote>` : `<p${k === 0 ? ' class="first"' : ""}>${esc(p)}</p>`).join("")}</article>`).join("")}
-            ${LO.hook ? `<div class="lore-hook" id="lore-start"><p class="lore-place">Euer Einstieg</p>${esc(LO.hook).replace(/^Hier beginnt euer RP\./, "<b>Hier beginnt euer RP.</b>")}</div>` : ""}
-          </div></div>`;
+      const LORES = Array.isArray(D.lore) ? D.lore : D.lore ? [D.lore] : [];
+      if (LORES.length) {
+        const slug = (s) => String(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+        const host = $("#lore");
+        host.innerHTML = `${LORES.length > 1 ? `<div class="lore-tabs" role="tablist" aria-label="Geschichten">${LORES.map((L, i) => `<button type="button" role="tab" id="tab-${esc(L.id)}" aria-controls="lore-panel" aria-selected="false" style="--lc:${esc(L.color || "#ffc400")}" data-i="${i}">${esc(L.tab || L.title)}</button>`).join("")}</div>` : ""}<div id="lore-panel" role="tabpanel"></div>`;
+        const show = (i, jump) => {
+          const L = LORES[i], id = L.id || "lore" + i;
+          host.querySelectorAll(".lore-tabs button").forEach((b) => b.setAttribute("aria-selected", String(+b.dataset.i === i)));
+          const cid = (c, k) => `${id}-${slug(c.title || k)}`;
+          $("#lore-panel").innerHTML = `<div class="lore" style="--lc:${esc(L.color || "#ffc400")}">
+            <aside class="lore-nav" aria-label="Kapitel"><p class="lore-kicker">${esc(L.tab || "Server-Lore")}</p><h2>${esc(L.title)}</h2>
+              <ol>${L.chapters.map((c, k) => `<li><a href="#${cid(c, k)}" style="--lc:${esc(c.color || L.color || "#ffc400")}">${c.place && LORES.length < 2 || (c.place && c.place !== L.tab) ? `<span>${esc(c.place)}</span>` : ""}${esc(c.title)}</a></li>`).join("")}${(L.hook || []).length ? `<li><a href="#${id}-start" style="--lc:${esc(L.color || "#ffc400")}"><span>Euer Einstieg</span>Hier beginnt euer RP</a></li>` : ""}</ol></aside>
+            <div class="lore-text">${L.intro ? `<p class="lore-intro">${esc(L.intro)}</p>` : ""}${L.chapters.map((c, k) => `<article class="lore-ch" id="${cid(c, k)}" style="--lc:${esc(c.color || L.color || "#ffc400")}">
+              ${c.place && c.place !== L.tab ? `<p class="lore-place">${esc(c.place)}</p>` : ""}<h3>${esc(c.title)}</h3>
+              ${(c.text || []).map((p, n) => p.startsWith("> ") ? `<blockquote>${esc(p.slice(2))}</blockquote>` : `<p${n === 0 ? ' class="first"' : ""}>${esc(p)}</p>`).join("")}</article>`).join("")}
+              ${(L.hook || []).length ? `<div class="lore-hook" id="${id}-start"><b>Hier beginnt euer RP.</b>${L.hook.map((p, n) => `<p${n === L.hook.length - 1 && L.hook.length > 1 ? ' class="lore-close"' : ""}>${esc(p)}</p>`).join("")}</div>` : ""}
+            </div></div>`;
+          if (jump) { const el = jump === true ? host : document.getElementById(jump); if (el) el.scrollIntoView({ behavior: "smooth", block: "start" }); }
+        };
+        host.addEventListener("click", (e) => {
+          const b = e.target.closest(".lore-tabs button");
+          if (b) { show(+b.dataset.i, false); history.replaceState(null, "", "#" + (LORES[+b.dataset.i].id || "")); }
+        });
+        host.addEventListener("keydown", (e) => {
+          const b = e.target.closest(".lore-tabs button"); if (!b || !/Arrow(Left|Right)/.test(e.key)) return;
+          const n = (+b.dataset.i + (e.key === "ArrowRight" ? 1 : -1) + LORES.length) % LORES.length;
+          show(n, false); host.querySelector(`.lore-tabs button[data-i="${n}"]`).focus();
+        });
+        const fromHash = () => {
+          const h = decodeURIComponent(location.hash.slice(1)); if (!h) return false;
+          const i = LORES.findIndex((L) => L.id === h || h.startsWith((L.id || "") + "-"));
+          if (i < 0) return false; show(i, h === LORES[i].id ? true : h); return true;
+        };
+        if (!fromHash()) show(0, false);
+        addEventListener("hashchange", fromHash);
       } else $("#lore-band").remove();
       $("#map").insertAdjacentHTML("beforebegin", playNote());
       renderMap($("#map"));
