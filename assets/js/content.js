@@ -189,10 +189,10 @@ window.NK = {
         "title": "Die Namen der Vermissten",
         "color": "#6fbf4a",
         "text": [
-          "Nach Tobirama Senjus Tod übernahm … Sarutobi als Dritte Hokage die Führung des Dorfes. Während des Krieges hatte sie die Evakuierung mehrerer Grenzsiedlungen geleitet. Viele Familien verdankten ihr die Rückkehr ihrer Angehörigen. Bei ihrer Ernennung versprach sie, auch nach jenen suchen zu lassen, die das Dorf längst für tot erklärt hatte.",
+          "Nach Tobirama Senjus Tod übernahm die Dritte Hokage die Führung des Dorfes. Während des Krieges hatte sie die Evakuierung mehrerer Grenzsiedlungen geleitet. Viele Familien verdankten ihr die Rückkehr ihrer Angehörigen. Bei ihrer Ernennung versprach sie, auch nach jenen suchen zu lassen, die das Dorf längst für tot erklärt hatte.",
           "Die ersten Nachforschungen führten die Suchtrupps zurück in Konohas eigenes Archiv. In den letzten Wochen des Krieges waren mehrere Einheiten unter falschen Namen an die Grenze geschickt worden. Einige dieser Shinobi galten offiziell als Deserteure, obwohl ihre Einsatzbefehle das Siegel des Hokage trugen.",
           "Die Uchiha fordern, dass die ursprünglichen Befehle veröffentlicht und die betroffenen Familien entschädigt werden. Älteste der Senju drängen darauf, zuerst die Überlebenden zu finden. Unter den falschen Namen geführte Shinobi könnten noch immer im Ausland leben. Die Yamanaka, die die Angehörigen befragen, haben inzwischen ein anderes Problem. Drei Familien erhielten noch nach dem Waffenstillstand Briefe von Vermissten. Alle drei Briefe wurden in Kagerō aufgegeben.",
-          "… ließ die Briefe versiegeln und setzte einen Suchtrupp auf die Spur. Zwei Mitglieder dieses Trupps sollten den ersten Konvoi begleiten."
+          "Die Hokage ließ die Briefe versiegeln und setzte einen Suchtrupp auf die Spur. Zwei Mitglieder dieses Trupps sollten den ersten Konvoi begleiten."
         ]
       },
       {
