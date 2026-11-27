@@ -857,3 +857,12 @@ code { font-size: .9em; color: var(--gold); background: rgba(255,196,0,.08); pad
 .dept dt { font-size: .78rem; font-weight: 700; color: var(--ash); }
 .dept dd { margin: 2px 0 0; font: 400 1.2rem/1.1 var(--display); color: var(--lc); }
 .dept dd.open { color: #7a705f; }
+
+/* Posten-Tabelle im Guide */
+.posts { width: 100%; border-collapse: collapse; min-width: 560px; }
+.posts th, .posts td { text-align: left; padding: 14px 16px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.posts th { color: var(--gold); font-size: .85rem; font-weight: 700; }
+.posts td { color: #cfc8b8; }
+.posts td b { font: 400 1.35rem/1.1 var(--display); color: var(--text); letter-spacing: .01em; }
+.posts tr:hover td { background: rgba(255,196,0,.03); }
+.posts tr:last-child td { color: var(--ash); }

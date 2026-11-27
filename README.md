@@ -16,7 +16,7 @@ Die Schriften liegen direkt im Repo (`assets/fonts`), es werden also keine Googl
 | `regelwerk.html` | Regelwerk mit Paragraphen |
 | `team.html` | Team nach Gruppen |
 | `jutsu.html` | Jutsu-Datenbank mit Suche und Filtern (Element, Rang, Art) |
-| `bewerbung.html` | Bewerbungs-Guide: Ablauf, Regeln, gute und schwache Ziele, Checkliste. Inhalte in `content.js` unter `bewerbung` |
+| `bewerbung.html` | Bewerbungs-Guide für hohe Posten (Kage, Jōnin, Lehrer, Clanleitung …). Spielen geht ohne Bewerbung. Inhalte in `content.js` unter `bewerbung` |
 | `abteilungen.html` | Abteilungen in Konoha und Suna mit Zugang und Leitung. Inhalte unter `abteilungen` |
 | `faq.html` | Häufige Fragen |
 | `dorftest.html` | Dorf-Test mit Ergebnis zum Teilen |

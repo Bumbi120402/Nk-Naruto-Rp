@@ -329,72 +329,80 @@ window.NK = {
 ],
 
   /* ------------------------------------------------------------ BEWERBUNGS-GUIDE (bewerbung.html)
-     steps = Ablauf in Reihenfolge. sections = Regeln je Thema. goals = gute und schlechte Beispiele.
-     checklist = Punkte zum Abhaken vor dem Einreichen. Alles frei anpassbar.                     */
+     Auf NK kann jeder ohne Bewerbung spielen. Bewerben muss man sich nur für hohe Posten.
+     posts = welche Posten, mit Voraussetzung. steps = Ablauf. sections = worauf wir achten.
+     goals = schwache und starke Beispiele. checklist = vor dem Einreichen. Alles frei anpassbar. */
   bewerbung: {
-    intro: "Eine gute Bewerbung ist kein Aufsatz über einen Helden. Sie zeigt einen Charakter, der in unsere Welt passt und anderen Spielern etwas zum Spielen gibt. Hier steht, worauf wir achten.",
+    intro: "Auf NK brauchst du keine Bewerbung, um zu spielen. Komm in den Discord, erstell deinen Charakter und leg los. Bewerben musst du dich nur, wenn dein Charakter einen hohen Posten übernehmen soll. Diese Posten tragen Verantwortung für andere Spieler. Deshalb wollen wir vorher wissen, was du mit ihnen vorhast.",
+    posts: [
+      ["Kage", "Erfahrener Jōnin", "Führt das Dorf. Wird vom Rat gewählt, die Entscheidung fällt im RP."],
+      ["Berater des Kage", "Erfahrener Jōnin", "Engste Vertraute und Strategen des Kage."],
+      ["Jōnin-Kommandant", "Jōnin", "Führt die Jōnin und das Militär des Dorfes."],
+      ["Jōnin", "Chūnin", "Führt schwere Missionen und bildet Genin-Teams aus."],
+      ["Akademie-Lehrer", "Chūnin", "Unterrichtet die nächste Generation. Drei Posten pro Dorf."],
+      ["Clanleitung", "Mitglied des Clans", "Führt den Clan und seine zwei Mitglieder. Ein Posten pro Clan."],
+      ["Leitung einer Abteilung", "Je nach Abteilung", "Siehe Abteilungen."],
+      ["ANBU", "Keine Bewerbung", "Wer zur ANBU gehört, wird vom Kommandanten ausgewählt."]
+    ],
     steps: [
-      ["Discord beitreten", "Dort reichst du deine Bewerbung ein und bekommst Rückmeldung vom Team."],
-      ["Regelwerk und Wiki lesen", "Vor allem die Seiten zu deinem Dorf, den Rängen und den Clans."],
-      ["Charakter ausarbeiten", "Name, Herkunft, Geschichte, Persönlichkeit und Ziele. Nimm dir Zeit dafür."],
-      ["Bewerbung einreichen", "Das Team liest sie und meldet sich mit einer Zusage oder mit Verbesserungswünschen."],
-      ["Als Akademieschüler starten", "Jeder Shinobi beginnt ganz unten. Alles Weitere erspielst du dir."]
+      ["Spielen", "Jeder startet ohne Bewerbung. Sammle Erfahrung im RP und lerne das Dorf kennen."],
+      ["Rang erreichen", "Für viele Posten braucht dein Charakter einen bestimmten Rang. Den erspielst du dir."],
+      ["Freien Posten finden", "Du kannst dich nur auf einen Posten bewerben, der gerade frei ist."],
+      ["Bewerbung schreiben", "Zeig, wer dein Charakter ist und was du mit dem Posten vorhast."],
+      ["Entscheidung", "Das Team prüft deine Bewerbung. Wenn sie passt, wird die Übergabe im RP ausgespielt."]
     ],
     sections: [
-      { title: "Name", items: [
-        "Vor- und Nachname, beides selbst ausgedacht.",
-        "Keine Namen von Figuren aus Naruto, Boruto oder anderen Animes, Mangas und Spielen. Auch nicht leicht abgewandelt.",
-        "Clannamen wie Uchiha oder Hyūga nur, wenn du einen freien Clan-Platz bekommen hast.",
-        "Keine Spaß- oder Wortspielnamen."
+      { title: "Dein Charakter", items: [
+        "Wer ist dein Charakter und was hat er im RP bisher erlebt?",
+        "Warum passt gerade er zu diesem Posten?",
+        "Rang und Erfahrung passen zu dem, was der Posten verlangt."
       ]},
-      { title: "Herkunft", items: [
-        "Dein Charakter stammt aus Konohagakure oder Sunagakure. Nur diese beiden Dörfer sind zum Start spielbar.",
-        "Keine Abstammung von einem Kage oder einer bekannten Figur.",
-        "Die Figuren aus Anime und Manga gibt es nur bis zu den Zweiten Kage. Danach schreibt ihr die Geschichte. Dein Charakter ist kein Teil der Original-Handlung."
+      { title: "Deine Pläne", items: [
+        "Was willst du mit dem Posten konkret machen? Ein guter Plan beantwortet Wann, Wie und Warum.",
+        "Wie gibst du anderen Spielern damit etwas zu spielen?",
+        "Ein hoher Posten ist kein Preis. Er ist eine Aufgabe für das ganze Dorf."
       ]},
-      { title: "Geschichte", items: [
-        "Sie passt zur Lore deines Dorfes und zur aktuellen Lage, also der Zeit nach dem Krieg.",
-        "Dein Charakter weiß nur, was jemand in seinem Alter und Rang wissen kann. Geheimnisse der Führung, der ANBU oder anderer Clans kennt er nicht.",
-        "Keine besonderen Kräfte, Bluterben oder Techniken, die nicht zu seiner Herkunft passen.",
-        "Normale Menschen sind spannender als Auserwählte. Schwächen und offene Fragen machen einen Charakter lebendig."
+      { title: "Verantwortung", items: [
+        "Wie gehst du mit Streit oder schwierigen Spielern um?",
+        "Bist du bereit, Entscheidungen zu treffen, die nicht jedem gefallen?",
+        "Kannst du deinen Posten auch abgeben, wenn du keine Zeit mehr hast?"
       ]},
-      { title: "Ziele", items: [
-        "Ein gutes Ziel beantwortet drei Fragen: Wann? Wie? Warum?",
-        "Mindestens ein kurzfristiges, ein mittelfristiges und ein langfristiges Ziel.",
-        "Gute Ziele erzeugen Spiel für andere, zum Beispiel für deinen Clan, eine Abteilung oder andere Familien im Dorf.",
-        "Ziele dürfen niemanden zu etwas zwingen. Andere Spieler und Clans entscheiden selbst, ob sie mitspielen."
+      { title: "Aktivität", items: [
+        "Gib deine Spielzeiten an, zum Beispiel: Montag 18 bis 22 Uhr.",
+        "Ein Posten lebt davon, dass du regelmäßig da bist.",
+        "Wenn du länger weg bist, sag dem Team rechtzeitig Bescheid."
       ]},
-      { title: "Clans", items: [
-        "Jeder Clan hat feste Plätze: einen Clanleiter und zwei Mitglieder.",
-        "Du kannst dich nur auf einen freien Platz bewerben.",
-        "Clan-Fähigkeiten lernen nur Mitglieder des Clans."
+      { title: "Erfahrung", items: [
+        "Hast du schon einmal einen ähnlichen Posten gespielt, auf NK oder anderswo?",
+        "Was hast du dabei gelernt?",
+        "Keine Erfahrung ist kein Ausschluss. Dann zählen deine Pläne umso mehr."
       ]},
       { title: "Was wir ablehnen", items: [
-        "„Stärker als alle anderen“, „Wunderkind“, „Genie“ oder jede andere angeborene Überlegenheit.",
-        "Mehrere Chakra-Naturen oder hohe Techniken schon zu Beginn.",
-        "Verbotene Techniken, Bijū, Jinchūriki oder legendäre Waffen in der Vorgeschichte.",
-        "Ein früheres Leben als Spion, Abtrünniger oder Mitglied einer geheimen Organisation."
+        "Bewerbungen, in denen nur steht, dass du den Posten willst, aber nicht wofür.",
+        "Pläne, die nur deinem eigenen Charakter nützen.",
+        "Pläne, die andere Spieler oder Clans zu etwas zwingen.",
+        "Bewerbungen auf Posten, die gerade nicht frei sind."
       ]}
     ],
+    goalsTitle: "Pläne: schwach und stark",
     goals: {
       bad: [
-        ["Stark werden.", "Zu allgemein. Jeder will stärker werden, daraus entsteht kein Spiel."],
-        ["Kage werden.", "Zu groß für einen Start. Das entscheidet sich im RP, nicht in der Bewerbung."],
-        ["Die Chūnin-Prüfung bestehen.", "Macht jeder ohnehin. Es sagt nichts über deinen Charakter."],
-        ["Den Tod meiner Eltern rächen.", "Dreht sich nur um erfundene Figuren und gibt anderen Spielern nichts zu tun."]
+        ["Ich will Lehrer werden, weil ich gern erkläre.", "Sagt nichts darüber, was im RP passieren wird."],
+        ["Als Hokage mache ich das Dorf stärker.", "Zu allgemein. Wie genau, und was haben andere Spieler davon?"],
+        ["Ich will Clanleitung, weil ich den Clan schon lange spiele.", "Erfahrung ist gut, aber wo ist der Plan für den Clan?"]
       ],
       good: [
-        ["Nach der Akademie will meine Figur in der Medizin anfangen. Sie hat gesehen, wie viele Verletzte nach dem Krieg ohne Hilfe blieben, und will eine Sprechstunde für die Familien im Grenzviertel aufbauen.", "Sagt wann, wie und warum. Bringt andere Spieler ins Spiel."],
-        ["Im Clanviertel reden die Familien kaum noch miteinander. Mein Charakter will einmal im Monat ein gemeinsames Essen organisieren, auch wenn die Ältesten dagegen sind.", "Klein, konkret und voller Reibung. Daraus entsteht RP für viele."]
+        ["Als Akademie-Lehrer will ich einmal pro Woche eine Unterrichtsstunde im RP halten. Jeden Monat gibt es eine kleine Prüfung, bei der die Schüler im Team eine Aufgabe im Wald lösen. Wer besteht, darf beim nächsten Mal einem Jüngeren helfen.", "Fester Rhythmus, klarer Ablauf und Spiel für viele Schüler."],
+        ["Als Clanleitung der Hyūga will ich das Verhältnis zwischen Sōke und Bunke zum Thema machen. Jeden Monat gibt es eine Clanversammlung, bei der auch die Bunke sprechen darf. Die Ältesten werden das nicht mögen. Genau daraus entsteht RP.", "Greift die Lore auf, bezieht den ganzen Clan ein und schafft Reibung."]
       ]
     },
     checklist: [
-      "Vor- und Nachname sind selbst ausgedacht.",
-      "Mein Charakter kommt aus Konoha oder Suna.",
-      "Die Geschichte passt zur Lore und zur Zeit nach dem Krieg.",
-      "Mein Charakter weiß nicht mehr, als er wissen kann.",
-      "Ich habe kurz-, mittel- und langfristige Ziele mit Wann, Wie und Warum.",
-      "Meine Ziele geben anderen Spielern etwas zu tun.",
+      "Der Posten ist gerade frei.",
+      "Mein Charakter hat den nötigen Rang.",
+      "Ich habe erklärt, warum gerade mein Charakter passt.",
+      "Ich habe konkrete Pläne mit Wann, Wie und Warum.",
+      "Meine Pläne geben anderen Spielern etwas zu spielen.",
+      "Ich habe meine Spielzeiten angegeben.",
       "Ich habe die Rechtschreibung noch einmal geprüft."
     ]
   },
