@@ -863,6 +863,27 @@
     })();
   }
 
+  /* ---------------- Parallax der Kopfbilder + Auftritt der Startseite ---------------- */
+  (function motion() {
+    const layers = [...document.querySelectorAll(".hero-bg, .phead-bg")];
+    if (!reduced && layers.length) {
+      let tick = false;
+      const run = () => { const y = scrollY; layers.forEach((l) => { if (y < innerHeight * 1.3) l.style.transform = `translate3d(0, ${y * 0.22}px, 0)`; }); tick = false; };
+      addEventListener("scroll", () => { if (!tick) { tick = true; requestAnimationFrame(run); } }, { passive: true });
+      run();
+    }
+    const hero = !reduced && $(".hero");
+    if (hero) {
+      hero.classList.add("pre");
+      let done = false;
+      const go = () => { if (done) return; done = true; void hero.offsetWidth; setTimeout(() => { hero.classList.add("go"); hero.classList.remove("pre"); }, 30); };
+      setTimeout(go, 2600);
+      const intro = $(".intro");
+      if (reduced || !intro || !intro.isConnected) go();
+      else { const t0 = setInterval(() => { if (!intro.isConnected || intro.classList.contains("done")) { clearInterval(t0); setTimeout(go, intro.isConnected ? 150 : 0); } }, 60); }
+    }
+  })();
+
   /* ---------------- Intro (einmal pro Sitzung) ---------------- */
   const intro = $(".intro");
   if (intro) {
