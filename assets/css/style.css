@@ -916,3 +916,16 @@ a.clan:hover h3 { color: var(--lc); }
 .wk-title h1 { margin: 0; }
 .wk-title .crest { width: clamp(64px, 8vw, 96px); height: auto; flex: none; }
 @media (max-width: 560px) { .clan.has-crest { grid-template-columns: 64px 1fr; gap: 16px; } .clan .crest { width: 64px; height: 64px; } }
+
+/* Vorleser */
+.narrator { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin: 0 0 40px; padding: 14px 16px; border: 1px solid color-mix(in srgb, var(--lc, var(--gold)) 40%, transparent); background: #0a0805; }
+.narrator[hidden] { display: none; }
+.nr-play { display: inline-flex; align-items: center; gap: 10px; padding: 11px 18px 10px; border: 0; cursor: pointer; background: var(--lc, var(--gold)); color: #000; font: 400 1.15rem/1 var(--display); letter-spacing: .03em; }
+.nr-play svg, .nr-stop svg { width: 16px; height: 16px; }
+.nr-play:hover { filter: brightness(1.1); }
+.nr-stop { width: 40px; height: 40px; display: grid; place-items: center; background: none; border: 1px solid #3a3326; color: var(--ash); cursor: pointer; }
+.nr-stop[hidden] { display: none; }
+.nr-stop:hover { color: var(--text); border-color: var(--ash); }
+.nr-info { color: var(--ash); font-size: .9rem; }
+.lore .speaking { background: color-mix(in srgb, var(--lc, var(--gold)) 9%, transparent); box-shadow: -14px 0 0 color-mix(in srgb, var(--lc, var(--gold)) 9%, transparent), 14px 0 0 color-mix(in srgb, var(--lc, var(--gold)) 9%, transparent); border-radius: 2px; }
+.lore-nav h2.speaking { box-shadow: none; }

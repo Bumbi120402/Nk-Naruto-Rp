@@ -25,6 +25,9 @@
     search: '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/>',
     bewerbung: '<path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5"/><path d="m10 14 2 2 4-4"/>',
     abteilungen: '<rect x="3" y="9" width="18" height="12"/><path d="M7 9V5h10v4"/><path d="M3 14h18M10 14v2h4v-2"/>',
+    play: '<path d="M7 4.5v15l12.5-7.5z" fill="currentColor" stroke="none"/>',
+    pause: '<rect x="6" y="4.5" width="4" height="15" fill="currentColor" stroke="none"/><rect x="14" y="4.5" width="4" height="15" fill="currentColor" stroke="none"/>',
+    stop: '<rect x="6" y="6" width="12" height="12" fill="currentColor" stroke="none"/>',
     lock: '<rect x="5" y="11" width="14" height="10" rx="1"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>'
   };
   const icon = (k) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[k]}</svg>`;
@@ -215,6 +218,71 @@
   const villageColor = (name) => (Object.values((D.dorftest || {}).results || {}).find((r) => r.name === name) || {}).color
     || ((D.map || {}).markers || []).find((m) => m.name === name)?.color || "#ffc400";
   const playNote = () => PLAY.length ? `<div class="play-note"><b>Zum Start spielbar:</b> ${PLAY.map((n) => `<span style="--vc:${esc(villageColor(n))}">${esc(n)}</span>`).join(" und ")}. Die anderen Dörfer gibt es in der Welt, sie spielen aber erst einmal im Hintergrund.</div>` : "";
+
+
+  /* ---------------- Vorleser für die Lore (Sprachausgabe des Browsers) ---------------- */
+  const narrator = (() => {
+    const synth = window.speechSynthesis;
+    let queue = [], idx = 0, state = "idle", root = null, L = null, voice = null, audio = null, keepAlive = null;
+    const pickVoice = () => {
+      const V = (synth ? synth.getVoices() : []).filter((v) => /^de(-|_|$)/i.test(v.lang));
+      if (!V.length) return null;
+      const rank = (v) => (/natural|neural|online/i.test(v.name) ? 0 : /google/i.test(v.name) ? 1 : /katja|conrad|anna|petra|markus|helena|yannick|hedda|stefan|amala|seraphina|florian/i.test(v.name) ? 2 : 3) + (/de-DE/i.test(v.lang) ? 0 : .5);
+      return V.sort((a, b) => rank(a) - rank(b))[0];
+    };
+    if (synth) { voice = pickVoice(); synth.addEventListener && synth.addEventListener("voiceschanged", () => { voice = pickVoice(); if (root) ui(); }); }
+    const clean = (s) => String(s || "").replace(/^> /, "").replace(/…/g, ".").replace(/Hokage/g, "Hokage").trim();
+    const build = () => {
+      const q = [];
+      const ps = root.querySelectorAll(".lore-intro, .lore-ch h3, .lore-ch p:not(.lore-place), .lore-ch blockquote, .lore-hook b, .lore-hook p");
+      q.push({ text: L.title + ".", el: root.querySelector(".lore-nav h2") });
+      ps.forEach((el) => q.push({ text: clean(el.textContent) + (/H3|B/.test(el.tagName) ? "." : ""), el }));
+      return q.filter((x, i) => x.text.length > 1 && !(i && x.text.replace(/\.$/, "") === q[i - 1].text.replace(/\.$/, "")));
+    };
+    const mark = (el) => { root && root.querySelectorAll(".speaking").forEach((e) => e.classList.remove("speaking")); if (el) { el.classList.add("speaking"); const r = el.getBoundingClientRect(); if (r.top < 90 || r.bottom > innerHeight - 40) el.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "center" }); } };
+    const ui = () => {
+      if (!root) return;
+      const box = root.querySelector(".narrator"); if (!box) return;
+      const ok = !!(L.audio || (synth && voice));
+      box.hidden = !ok; if (!ok) return;
+      const p = box.querySelector(".nr-play"), st = box.querySelector(".nr-stop"), info = box.querySelector(".nr-info");
+      p.innerHTML = state === "playing" ? `${icon("pause")}<span>Pause</span>` : `${icon("play")}<span>${state === "paused" ? "Weiter" : "Lore anhören"}</span>`;
+      p.setAttribute("aria-pressed", String(state === "playing"));
+      st.hidden = state === "idle";
+      info.textContent = state === "idle" ? (L.audio ? "" : "Wird von der Sprachausgabe deines Browsers vorgelesen.") : queue.length ? `Abschnitt ${Math.min(idx + 1, queue.length)} von ${queue.length}` : "";
+    };
+    const stopMusic = () => { const s = $(".sound-btn"); if (s && s.getAttribute("aria-pressed") === "true") s.click(); const tv = $("#trailer"); if (tv) tv.pause(); };
+    const speakNext = () => {
+      if (state !== "playing") return;
+      if (idx >= queue.length) { stop(); return; }
+      const item = queue[idx]; mark(item.el); ui();
+      const u = new SpeechSynthesisUtterance(item.text);
+      if (voice) u.voice = voice; u.lang = voice ? voice.lang : "de-DE"; u.rate = .95; u.pitch = .95;
+      u.onend = () => { if (state === "playing") { idx++; speakNext(); } };
+      u.onerror = (e) => { if (e.error !== "interrupted" && e.error !== "canceled" && state === "playing") { idx++; speakNext(); } };
+      synth.speak(u);
+    };
+    const play = () => {
+      stopMusic();
+      if (L.audio) { audio = audio || new Audio(L.audio); audio.onended = stop; audio.play().catch(() => {}); state = "playing"; ui(); return; }
+      if (state === "paused") { state = "playing"; synth.resume(); if (!synth.speaking) speakNext(); }
+      else { synth.cancel(); queue = build(); idx = 0; state = "playing"; speakNext(); }
+      clearInterval(keepAlive); keepAlive = setInterval(() => { if (state === "playing" && synth.speaking && !synth.paused) { synth.pause(); synth.resume(); } }, 10000);
+      ui();
+    };
+    const pause = () => { if (audio && L.audio) audio.pause(); else synth.pause(); state = "paused"; ui(); };
+    function stop() { if (audio) { audio.pause(); audio.currentTime = 0; } if (synth) synth.cancel(); clearInterval(keepAlive); state = "idle"; idx = 0; mark(null); ui(); }
+    addEventListener("pagehide", () => synth && synth.cancel());
+    return {
+      attach(r, lore) {
+        if (state !== "idle") stop();
+        audio = null; root = r; L = lore; ui();
+        const box = r.querySelector(".narrator"); if (!box) return;
+        box.querySelector(".nr-play").addEventListener("click", () => (state === "playing" ? pause() : play()));
+        box.querySelector(".nr-stop").addEventListener("click", stop);
+      }
+    };
+  })();
 
   /* ---------------- Karte ---------------- */
   const MAP_SVG = `<svg viewBox="0 0 1000 620" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
@@ -550,11 +618,12 @@
           $("#lore-panel").innerHTML = `<div class="lore" style="--lc:${esc(L.color || "#ffc400")}">
             <aside class="lore-nav" aria-label="Kapitel"><p class="lore-kicker">${esc(L.tab || "Server-Lore")}</p><h2>${esc(L.title)}</h2>
               <ol>${L.chapters.map((c, k) => `<li><a href="#${cid(c, k)}" style="--lc:${esc(c.color || L.color || "#ffc400")}">${c.place && LORES.length < 2 || (c.place && c.place !== L.tab) ? `<span>${esc(c.place)}</span>` : ""}${esc(c.title)}</a></li>`).join("")}${(L.hook || []).length ? `<li><a href="#${id}-start" style="--lc:${esc(L.color || "#ffc400")}"><span>Euer Einstieg</span>Hier beginnt euer RP</a></li>` : ""}</ol></aside>
-            <div class="lore-text">${L.intro ? `<p class="lore-intro">${esc(L.intro)}</p>` : ""}${L.chapters.map((c, k) => `<article class="lore-ch" id="${cid(c, k)}" style="--lc:${esc(c.color || L.color || "#ffc400")}">
+            <div class="lore-text"><div class="narrator" hidden><button type="button" class="nr-play">${icon("play")}<span>Lore anhören</span></button><button type="button" class="nr-stop" aria-label="Stoppen" hidden>${icon("stop")}</button><span class="nr-info" aria-live="polite"></span></div>${L.intro ? `<p class="lore-intro">${esc(L.intro)}</p>` : ""}${L.chapters.map((c, k) => `<article class="lore-ch" id="${cid(c, k)}" style="--lc:${esc(c.color || L.color || "#ffc400")}">
               ${c.place && c.place !== L.tab ? `<p class="lore-place">${esc(c.place)}</p>` : ""}<h3>${esc(c.title)}</h3>
               ${(c.text || []).map((p, n) => p.startsWith("> ") ? `<blockquote>${esc(p.slice(2))}</blockquote>` : `<p${n === 0 ? ' class="first"' : ""}>${esc(p)}</p>`).join("")}</article>`).join("")}
               ${(L.hook || []).length ? `<div class="lore-hook" id="${id}-start"><b>Hier beginnt euer RP.</b>${L.hook.map((p, n) => `<p${n === L.hook.length - 1 && L.hook.length > 1 ? ' class="lore-close"' : ""}>${esc(p)}</p>`).join("")}</div>` : ""}
             </div></div>`;
+          narrator.attach($("#lore-panel"), L);
           if (jump) { const el = jump === true ? host : document.getElementById(jump); if (el) el.scrollIntoView({ behavior: "smooth", block: "start" }); }
         };
         host.addEventListener("click", (e) => {
@@ -722,6 +791,8 @@
         ${(S.status || {}).statusUrl ? `<h2>Serverstatus</h2><p>Für die Statusanzeige ruft dein Browser Daten von ${esc(new URL(S.status.statusUrl, location.href).hostname)} ab. Dabei wird deine IP-Adresse an diesen Server übermittelt (Art. 6 Abs. 1 lit. f DSGVO).</p>` : ""}
         <h2>Links zu anderen Seiten</h2>
         <p>Auf dieser Website verlinken wir auf Discord, soziale Netzwerke und andere Seiten. Es handelt sich um einfache Links: Erst wenn du sie anklickst, wird die fremde Seite geladen. Ab dann gilt die Datenschutzerklärung des jeweiligen Anbieters.</p>
+        <h2>Vorlesen der Lore</h2>
+        <p>Auf der Welt-Seite kannst du dir die Lore vorlesen lassen. Dafür nutzt die Website die Sprachausgabe deines Browsers. Je nach Browser und gewählter Stimme wird der Text dabei vom Hersteller deines Browsers oder Betriebssystems verarbeitet, zum Beispiel bei Online-Stimmen von Google oder Microsoft. Übertragen wird nur der öffentliche Lore-Text, keine Angaben über dich. Die Funktion startet nur, wenn du auf „Lore anhören“ klickst.</p>
         <h2>Musik</h2>
         <p>Die Musik startet nur, wenn du auf den Lautsprecher-Knopf klickst. Die Datei liegt auf unserem eigenen Webspace, es werden dabei keine Daten an Dritte übertragen.</p>
         <h2>Deine Rechte</h2>
