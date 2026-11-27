@@ -152,7 +152,7 @@ window.NK = {
     country: "",
     email: "kontakt@beispiel.de",
     phone: "",           // Telefon ODER contactForm angeben (zweiter schneller Kontaktweg)
-    contactForm: "",     // z. B. Link zu einem Kontaktformular
+    contactForm: "https://discord.gg/66X6vCe9SZ",  // zweiter Kontaktweg: Ticket auf dem Discord-Server
     register: "",        // falls vorhanden, z. B. "Vereinsregister Amtsgericht Musterstadt, VR 12345"
     responsible: "Max Mustermann, Anschrift wie oben"      // Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV: Name + Anschrift (leer = wie oben)
   },

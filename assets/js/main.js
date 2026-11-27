@@ -137,7 +137,7 @@
   footer.innerHTML = `<div class="wrap">
     <div class="f">
       <a class="brand" href="index.html"><img src="assets/img/logo-small.png" alt=""><div><b>NK Gaming Area</b><span>${esc(S.title)}</span></div></a>
-      <nav aria-label="Fußzeile">${PAGES.map(([h, l]) => `<a href="${h}">${l}</a>`).join("")}</nav>
+      <nav aria-label="Fußzeile">${NAV.flatMap(([l, ic, x]) => Array.isArray(x) ? x.map(([h, n]) => [h, n]) : [[x, l]]).map(([h, l]) => `<a href="${h}">${l}</a>`).join("")}</nav>
     </div>
     ${(D.socials || []).some((x) => x.url) ? `<div class="f-social">${D.socials.filter((x) => x.url).map((x) => `<a href="${esc(x.url)}" target="_blank" rel="noopener" aria-label="${esc(x.platform)}">${(SOC[x.platform.toLowerCase()] || SOC.link).i}</a>`).join("")}</div>` : ""}
     <div class="legal-row"><nav aria-label="Rechtliches">${[["impressum.html", "Impressum", "impressum"], ["datenschutz.html", "Datenschutz", "datenschutz"], ["nutzungsbedingungen.html", "Nutzungsbedingungen", "nutzungsbedingungen"]].map(([h, l, p]) => `<a href="${h}"${page === p ? ' aria-current="page"' : ""}>${l}</a>`).join("")}</nav>
@@ -656,7 +656,7 @@
           <section><h2>Angaben gemäß § 5 DDG</h2>
           <p>${esc(I.name)}${I.representative ? `<br>vertreten durch ${esc(I.representative)}` : ""}<br>${esc(I.address)}<br>${esc(I.city)}${I.country ? `<br>${esc(I.country)}` : ""}</p></section>
           <section><h2>Kontakt</h2>
-          <p>E-Mail: <a href="mailto:${esc(I.email)}">${esc(I.email)}</a>${I.phone ? `<br>Telefon: <a href="tel:${esc(I.phone.replace(/[^0-9+]/g, ""))}">${esc(I.phone)}</a>` : ""}${I.contactForm ? `<br>Kontaktformular: <a href="${esc(I.contactForm)}">${esc(I.contactForm)}</a>` : ""}</p></section>
+          <p>E-Mail: <a href="mailto:${esc(I.email)}">${esc(I.email)}</a>${I.phone ? `<br>Telefon: <a href="tel:${esc(I.phone.replace(/[^0-9+]/g, ""))}">${esc(I.phone)}</a>` : ""}${I.contactForm ? `<br>Discord: Ticket öffnen auf unserem <a href="${esc(I.contactForm)}" target="_blank" rel="noopener">Discord-Server</a>` : ""}</p></section>
           ${I.register ? `<section><h2>Registereintrag</h2><p>${esc(I.register)}</p></section>` : ""}
           <section><h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
           <p>${I.responsible ? esc(I.responsible) : `${esc(I.name)}, Anschrift wie oben`}</p></section></div>`;
