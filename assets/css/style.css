@@ -904,3 +904,15 @@ code { font-size: .9em; color: var(--gold); background: rgba(255,196,0,.08); pad
   .hero.pre .hero-title span, .hero.pre .hero-tag, .hero.pre .status, .hero.pre .hero-actions, .hero.pre .hero-logo { opacity: 1; transform: none; }
 }
 .cinema + .band { padding-top: 10vh; }
+
+/* Clan-Wappen */
+a.clan { display: block; color: inherit; text-decoration: none; }
+.clan.has-crest { display: grid; grid-template-columns: 96px 1fr; gap: 22px; align-items: start; transition: border-color .2s; }
+a.clan:hover { border-color: color-mix(in srgb, var(--lc) 60%, transparent); }
+a.clan:hover h3 { color: var(--lc); }
+.clan .crest { width: 96px; height: 96px; object-fit: contain; }
+.clan h3 { transition: color .2s; }
+.wk-title { display: flex; align-items: center; gap: 24px; margin-bottom: .35em; }
+.wk-title h1 { margin: 0; }
+.wk-title .crest { width: clamp(64px, 8vw, 96px); height: auto; flex: none; }
+@media (max-width: 560px) { .clan.has-crest { grid-template-columns: 64px 1fr; gap: 16px; } .clan .crest { width: 64px; height: 64px; } }

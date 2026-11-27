@@ -38,8 +38,18 @@ window.NK = {
      { emblem: "assets/img/konoha.png", color: "#6fbf4a", name: "Konohagakure", alias: "…", land: "Feuerreich", kage: "Hokage", text: "…" } */
   villages: [],
 
-  /* { name: "Uchiha", village: "Konohagakure", status: "Offen", ability: "…", text: "…" } */
-  clans: [],
+  /* crest = Wappen-Bild, wiki = id der Wiki-Seite. status = Text unter dem Clan.
+     { name: "Uchiha", village: "Konohagakure", crest: "assets/img/clans/uchiha.webp", ability: "…", text: "…" } */
+  clans: [
+    { name: "Uchiha", village: "Konohagakure", crest: "assets/img/clans/uchiha.webp", wiki: "uchiha", ability: "Sharingan & Katon", text: "Einer der ältesten Clans der Ninja-Welt. Einst die größten Rivalen der Senju, heute einer der Gründer Konohas.", status: "1 Clanleitung · 2 Mitglieder" },
+    { name: "Hyūga", village: "Konohagakure", crest: "assets/img/clans/hyuga.webp", wiki: "hyuga", ability: "Byakugan & Jūken", text: "Ein alter, stolzer Clan mit strengen Traditionen, geteilt in Sōke und Bunke.", status: "1 Clanleitung · 2 Mitglieder" },
+    { name: "Senju", village: "Konohagakure", crest: "assets/img/clans/senju.webp", wiki: "senju", ability: "Mokuton & Vitalität", text: "In den Clan-Kriegen eine der mächtigsten Familien. Gründeten Konoha gemeinsam mit den Uchiha.", status: "1 Clanleitung · 2 Mitglieder" },
+    { name: "Aburame", village: "Konohagakure", crest: "assets/img/clans/aburame.webp", wiki: "aburame", ability: "Insektenkontrolle", text: "Leben zurückgezogen und gelten als unheimlich. Kaum ein Clan ist so loyal.", status: "1 Clanleitung · 2 Mitglieder" },
+    { name: "Mugen", village: "Sunagakure", crest: "assets/img/clans/mugen.webp", wiki: "mugen", ability: "Sōryūgan", text: "Ein geheimnisvoller Clan. Über seine Herkunft spricht er nicht.", status: "1 Clanleitung · 2 Mitglieder" },
+    { name: "Karakuro", village: "Sunagakure", crest: "assets/img/clans/karakuro.webp", wiki: "karakuro", ability: "Puppenkunst", text: "Meister der Puppenkunst. Ihre Werkstätten gehören zu den wertvollsten Orten des Dorfes.", status: "1 Clanleitung · 2 Mitglieder" },
+    { name: "Sakuraku", village: "Sunagakure", crest: "assets/img/clans/sakuraku.webp", wiki: "sakuraku", ability: "Pflanzenkontrolle", text: "Sie legten Sunas erste Gärten an. Für viele sind sie ein Zeichen der Hoffnung.", status: "1 Clanleitung · 2 Mitglieder" },
+    { name: "Kyoofu", village: "Sunagakure", crest: "assets/img/clans/kyoofu.webp", wiki: "kyoofu", ability: "Sandkontrolle", text: "Mit der Wüste verwachsen wie kein anderer Clan. Sie formen den Sand mit ihrem Chakra.", status: "1 Clanleitung · 2 Mitglieder" }
+  ],
 
   /* Das Wiki steht in einer eigenen Datei: assets/js/wiki.js */
   wiki: [],

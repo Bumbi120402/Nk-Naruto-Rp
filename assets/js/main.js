@@ -584,7 +584,7 @@
       if (!D.clans.length) { $("#clans").innerHTML = sealed("Clans folgen", "Jeder Clan bekommt hier seine Fähigkeiten, seine Geschichte und den Hinweis, ob er frei spielbar ist."); return; }
       const vs = ["Alle", ...new Set(D.clans.map((c) => c.village).filter(Boolean))];
       const draw = (f) => { $("#clans").innerHTML = `<div class="clans">${D.clans.filter((c) => f === "Alle" || c.village === f).map((c) =>
-        `<article class="clan"><h3>${esc(c.name)}</h3>${c.ability ? `<div class="ab">${esc(c.ability)}</div>` : ""}<p>${esc(c.text)}</p><div class="st">${esc(c.status || "")}${c.village ? ` · ${esc(c.village)}` : ""}</div></article>`).join("")}</div>`; };
+        `<${c.wiki ? `a href="wiki.html#${esc(c.wiki)}"` : "article"} class="clan${c.crest ? " has-crest" : ""}" style="--lc:${esc(villageColor(c.village))}">${c.crest ? `<img class="crest" src="${esc(c.crest)}" alt="Wappen der ${esc(c.name)}" loading="lazy">` : ""}<div><h3>${esc(c.name)}</h3>${c.ability ? `<div class="ab">${esc(c.ability)}</div>` : ""}<p>${esc(c.text)}</p><div class="st">${esc(c.status || "")}${c.village ? ` · ${esc(c.village)}` : ""}</div></div></${c.wiki ? "a" : "article"}>`).join("")}</div>`; };
       $("#clan-filter").innerHTML = vs.map((v, i) => `<button type="button" class="chip" aria-pressed="${!i}">${esc(v)}</button>`).join("");
       $("#clan-filter").addEventListener("click", (e) => { const b = e.target.closest(".chip"); if (!b) return;
         $("#clan-filter").querySelectorAll(".chip").forEach((c) => c.setAttribute("aria-pressed", c === b)); draw(b.textContent); });
@@ -620,7 +620,8 @@
       });
       const show = (scroll) => {
         const p = cur(), i = pages.indexOf(p), prev = pages[i - 1], next = pages[i + 1];
-        art.innerHTML = `<div class="crumbs">${esc(p.cat.name)}</div><h1>${esc(p.title)}</h1>${p.html}
+        const cl = (D.clans || []).find((c) => c.wiki === p.id && c.crest);
+        art.innerHTML = `<div class="crumbs">${esc(p.cat.name)}</div>${cl ? `<div class="wk-title"><img class="crest" src="${esc(cl.crest)}" alt="Wappen der ${esc(cl.name)}"><h1>${esc(p.title)}</h1></div>` : `<h1>${esc(p.title)}</h1>`}${p.html}
           <nav class="wk-pager" aria-label="Blättern">${prev ? `<a href="#${prev.id}"><small>Zurück</small>${esc(prev.title)}</a>` : "<span></span>"}${next ? `<a class="next" href="#${next.id}"><small>Weiter</small>${esc(next.title)}</a>` : ""}</nav>`;
         document.title = `${p.title} · Wiki · ${S.name}`;
         drawNav();
