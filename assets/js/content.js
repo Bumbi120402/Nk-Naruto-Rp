@@ -151,7 +151,7 @@ window.NK = {
     city: "12345 Musterstadt",            // PLZ und Ort
     country: "",
     email: "kontakt@beispiel.de",
-    phone: "0123 456789",           // Telefon ODER contactForm angeben (zweiter schneller Kontaktweg)
+    phone: "",           // Telefon ODER contactForm angeben (zweiter schneller Kontaktweg)
     contactForm: "",     // z. B. Link zu einem Kontaktformular
     register: "",        // falls vorhanden, z. B. "Vereinsregister Amtsgericht Musterstadt, VR 12345"
     responsible: "Max Mustermann, Anschrift wie oben"      // Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV: Name + Anschrift (leer = wie oben)

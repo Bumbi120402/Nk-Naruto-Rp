@@ -650,7 +650,7 @@
     },
     impressum() {
       const I = D.impressum || {}, el = $("#impressum");
-      const ready = I.name && I.address && I.city && I.email && (I.phone || I.contactForm);
+      const ready = I.name && I.address && I.city && I.email;
       if (ready) {
         el.innerHTML = `<div class="scroll legal-doc impressum-doc">
           <section><h2>Angaben gemäß § 5 DDG</h2>
