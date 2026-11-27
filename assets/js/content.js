@@ -326,5 +326,100 @@ window.NK = {
       "Wird der neue Kazekage Sunagakure zu neuem Ruhm führen oder das Dorf in den Untergang stürzen? Was aus dem Dorf im Sand wird, liegt auch in euren Händen."
     ]
   }
-]
+],
+
+  /* ------------------------------------------------------------ BEWERBUNGS-GUIDE (bewerbung.html)
+     steps = Ablauf in Reihenfolge. sections = Regeln je Thema. goals = gute und schlechte Beispiele.
+     checklist = Punkte zum Abhaken vor dem Einreichen. Alles frei anpassbar.                     */
+  bewerbung: {
+    intro: "Eine gute Bewerbung ist kein Aufsatz über einen Helden. Sie zeigt einen Charakter, der in unsere Welt passt und anderen Spielern etwas zum Spielen gibt. Hier steht, worauf wir achten.",
+    steps: [
+      ["Discord beitreten", "Dort reichst du deine Bewerbung ein und bekommst Rückmeldung vom Team."],
+      ["Regelwerk und Wiki lesen", "Vor allem die Seiten zu deinem Dorf, den Rängen und den Clans."],
+      ["Charakter ausarbeiten", "Name, Herkunft, Geschichte, Persönlichkeit und Ziele. Nimm dir Zeit dafür."],
+      ["Bewerbung einreichen", "Das Team liest sie und meldet sich mit einer Zusage oder mit Verbesserungswünschen."],
+      ["Als Akademieschüler starten", "Jeder Shinobi beginnt ganz unten. Alles Weitere erspielst du dir."]
+    ],
+    sections: [
+      { title: "Name", items: [
+        "Vor- und Nachname, beides selbst ausgedacht.",
+        "Keine Namen von Figuren aus Naruto, Boruto oder anderen Animes, Mangas und Spielen. Auch nicht leicht abgewandelt.",
+        "Clannamen wie Uchiha oder Hyūga nur, wenn du einen freien Clan-Platz bekommen hast.",
+        "Keine Spaß- oder Wortspielnamen."
+      ]},
+      { title: "Herkunft", items: [
+        "Dein Charakter stammt aus Konohagakure oder Sunagakure. Nur diese beiden Dörfer sind zum Start spielbar.",
+        "Keine Abstammung von einem Kage oder einer bekannten Figur.",
+        "Die Figuren aus Anime und Manga gibt es nur bis zu den Zweiten Kage. Danach schreibt ihr die Geschichte. Dein Charakter ist kein Teil der Original-Handlung."
+      ]},
+      { title: "Geschichte", items: [
+        "Sie passt zur Lore deines Dorfes und zur aktuellen Lage, also der Zeit nach dem Krieg.",
+        "Dein Charakter weiß nur, was jemand in seinem Alter und Rang wissen kann. Geheimnisse der Führung, der ANBU oder anderer Clans kennt er nicht.",
+        "Keine besonderen Kräfte, Bluterben oder Techniken, die nicht zu seiner Herkunft passen.",
+        "Normale Menschen sind spannender als Auserwählte. Schwächen und offene Fragen machen einen Charakter lebendig."
+      ]},
+      { title: "Ziele", items: [
+        "Ein gutes Ziel beantwortet drei Fragen: Wann? Wie? Warum?",
+        "Mindestens ein kurzfristiges, ein mittelfristiges und ein langfristiges Ziel.",
+        "Gute Ziele erzeugen Spiel für andere, zum Beispiel für deinen Clan, eine Abteilung oder andere Familien im Dorf.",
+        "Ziele dürfen niemanden zu etwas zwingen. Andere Spieler und Clans entscheiden selbst, ob sie mitspielen."
+      ]},
+      { title: "Clans", items: [
+        "Jeder Clan hat feste Plätze: einen Clanleiter und zwei Mitglieder.",
+        "Du kannst dich nur auf einen freien Platz bewerben.",
+        "Clan-Fähigkeiten lernen nur Mitglieder des Clans."
+      ]},
+      { title: "Was wir ablehnen", items: [
+        "„Stärker als alle anderen“, „Wunderkind“, „Genie“ oder jede andere angeborene Überlegenheit.",
+        "Mehrere Chakra-Naturen oder hohe Techniken schon zu Beginn.",
+        "Verbotene Techniken, Bijū, Jinchūriki oder legendäre Waffen in der Vorgeschichte.",
+        "Ein früheres Leben als Spion, Abtrünniger oder Mitglied einer geheimen Organisation."
+      ]}
+    ],
+    goals: {
+      bad: [
+        ["Stark werden.", "Zu allgemein. Jeder will stärker werden, daraus entsteht kein Spiel."],
+        ["Kage werden.", "Zu groß für einen Start. Das entscheidet sich im RP, nicht in der Bewerbung."],
+        ["Die Chūnin-Prüfung bestehen.", "Macht jeder ohnehin. Es sagt nichts über deinen Charakter."],
+        ["Den Tod meiner Eltern rächen.", "Dreht sich nur um erfundene Figuren und gibt anderen Spielern nichts zu tun."]
+      ],
+      good: [
+        ["Nach der Akademie will meine Figur in der Medizin anfangen. Sie hat gesehen, wie viele Verletzte nach dem Krieg ohne Hilfe blieben, und will eine Sprechstunde für die Familien im Grenzviertel aufbauen.", "Sagt wann, wie und warum. Bringt andere Spieler ins Spiel."],
+        ["Im Clanviertel reden die Familien kaum noch miteinander. Mein Charakter will einmal im Monat ein gemeinsames Essen organisieren, auch wenn die Ältesten dagegen sind.", "Klein, konkret und voller Reibung. Daraus entsteht RP für viele."]
+      ]
+    },
+    checklist: [
+      "Vor- und Nachname sind selbst ausgedacht.",
+      "Mein Charakter kommt aus Konoha oder Suna.",
+      "Die Geschichte passt zur Lore und zur Zeit nach dem Krieg.",
+      "Mein Charakter weiß nicht mehr, als er wissen kann.",
+      "Ich habe kurz-, mittel- und langfristige Ziele mit Wann, Wie und Warum.",
+      "Meine Ziele geben anderen Spielern etwas zu tun.",
+      "Ich habe die Rechtschreibung noch einmal geprüft."
+    ]
+  },
+
+  /* ------------------------------------------------------------ ABTEILUNGEN (abteilungen.html)
+     Pro Dorf eine Liste. lead = Name der Leitung, leer = "Leitung offen". access = wer mitmachen kann. */
+  abteilungen: {
+    Konohagakure: [
+      { name: "Führung des Dorfes", text: "Der Hokage und seine Berater. Hier werden die großen Entscheidungen getroffen, von Bündnissen bis zur Besetzung der Posten.", access: "Ernennung", lead: "" },
+      { name: "Missionsbüro", text: "Nimmt Aufträge an, teilt sie nach Rang ein und vergibt sie an die Teams. Nach jeder Mission wird hier Bericht erstattet.", access: "ab Genin", lead: "" },
+      { name: "Ninja-Akademie", text: "Bildet die nächste Generation aus: Grundlagen in Nin-, Tai- und Genjutsu, Chakra-Kontrolle und der Wille des Feuers. Es gibt drei Lehrerposten.", access: "Lehrer ab Chūnin", lead: "" },
+      { name: "Militär", text: "Plant die Verteidigung des Dorfes, führt die Jōnin und koordiniert die Teams an der Grenze. Geleitet vom Jōnin-Kommandanten.", access: "ab Chūnin", lead: "" },
+      { name: "Medizin", text: "Versorgt Verletzte im Dorf und auf Missionen und bildet Medizin-Ninja aus. Iryō-Ninjutsu verlangt die beste Chakra-Kontrolle von allen.", access: "ab Genin", lead: "" },
+      { name: "Dorfpolizei", text: "Sorgt im Dorf für Ordnung und schützt die Bewohner. Seit dem Zweiten Hokage liegt sie in der Verantwortung der Uchiha.", access: "Uchiha und Ernennung", lead: "" },
+      { name: "ANBU", text: "Die geheime Eliteeinheit des Hokage. Wer dazugehört, weiß kaum jemand. Man bewirbt sich nicht, man wird ausgewählt.", access: "Ernennung durch den Kommandanten", lead: "geheim" }
+    ],
+    Sunagakure: [
+      { name: "Führung des Dorfes", text: "Der Kazekage und der Rat. Hier wird über Wasser, Handel und die Grenze entschieden, oft gegen den Willen einzelner Clans.", access: "Ernennung", lead: "" },
+      { name: "Missionsbüro", text: "Verteilt die Aufträge, von denen Suna lebt. Weil das Windreich arm ist, zählt hier jede Mission.", access: "ab Genin", lead: "" },
+      { name: "Ninja-Akademie", text: "Ausbildung mit Schwerpunkt auf Überleben in der Wüste, Fūton und Fallenbau. Es gibt drei Lehrerposten.", access: "Lehrer ab Chūnin", lead: "" },
+      { name: "Militär", text: "Hält die Grenze, schützt die Karawanen und plant die Verteidigung der Schlucht, des einzigen Zugangs zum Dorf.", access: "ab Chūnin", lead: "" },
+      { name: "Medizin", text: "Behandelt Verletzte und kennt sich wie kaum jemand sonst mit Giften und Gegengiften aus.", access: "ab Genin", lead: "" },
+      { name: "Werkstätten", text: "Hier entstehen Puppen, Waffen und Gifte. Sunas Erfindungsgeist kommt aus diesen Räumen.", access: "ab Genin", lead: "" },
+      { name: "Wasserwache", text: "Bewacht die Zisternen und Wasserspeicher, das wertvollste Gut des Dorfes. Seit dem Erlass des Kazekage untersteht sie dem Dorf und nicht mehr den Clans.", access: "ab Genin", lead: "" },
+      { name: "ANBU", text: "Die geheime Eliteeinheit des Kazekage. Ihre Mitglieder kennt nur die Führung.", access: "Ernennung durch den Kommandanten", lead: "geheim" }
+    ]
+  }
 };

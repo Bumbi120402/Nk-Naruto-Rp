@@ -23,6 +23,8 @@
     soundOn: '<path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/>',
     soundOff: '<path d="M4 9v6h4l5 4V5L8 9z"/><path d="m17 9 5 6M22 9l-5 6"/>',
     search: '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/>',
+    bewerbung: '<path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5"/><path d="m10 14 2 2 4-4"/>',
+    abteilungen: '<rect x="3" y="9" width="18" height="12"/><path d="M7 9V5h10v4"/><path d="M3 14h18M10 14v2h4v-2"/>',
     lock: '<rect x="5" y="11" width="14" height="10" rx="1"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>'
   };
   const icon = (k) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[k]}</svg>`;
@@ -64,6 +66,8 @@
       ["jutsu.html", "Jutsu", "jutsu", "Alle Techniken durchsuchen"]]],
     ["Server", "regelwerk", [
       ["regelwerk.html", "Regelwerk", "regelwerk", "Was auf dem Server gilt"],
+      ["bewerbung.html", "Bewerbungs-Guide", "bewerbung", "So schreibst du eine gute Bewerbung"],
+      ["abteilungen.html", "Abteilungen", "abteilungen", "Wer im Dorf welche Aufgabe hat"],
       ["faq.html", "FAQ", "faq", "Antworten auf häufige Fragen"],
       ["team.html", "Team", "team", "Die Leute hinter NK"]]],
     ["Community", "social", [
@@ -322,6 +326,8 @@
       (D.wiki || []).forEach((c) => c.pages.forEach((p) => I.push({ type: "Wiki", sub: c.name, title: p.title, text: strip(p.html), url: `wiki.html#${p.id}` })));
       (D.jutsu || []).forEach((j) => I.push({ type: "Jutsu", sub: [j.element, j.rank && "Rang " + j.rank].filter(Boolean).join(", "), title: j.name, text: j.text, url: `jutsu.html?q=${encodeURIComponent(j.name)}` }));
       (D.rules || []).forEach((s, i) => s.items.forEach(([n, d], j) => I.push({ type: "Regelwerk", sub: `§${i + 1}.${j + 1}`, title: n, text: d, url: `regelwerk.html#r${i + 1}` })));
+      ((D.bewerbung || {}).sections || []).forEach((s) => I.push({ type: "Bewerbung", sub: "Bewerbungs-Guide", title: s.title, text: s.items.join(" "), url: "bewerbung.html" }));
+      Object.entries(D.abteilungen || {}).forEach(([v, L]) => (L || []).forEach((d) => I.push({ type: "Abteilung", sub: v, title: d.name, text: d.text, url: "abteilungen.html#" + v.toLowerCase() })));
       (D.faq || []).forEach(([q, a], k) => I.push({ type: "FAQ", title: q, text: a, url: `faq.html#faq-${k + 1}` }));
       (D.news || []).forEach((n) => I.push({ type: "News", sub: n.date, title: n.title, text: n.text, url: "news.html" }));
       (D.changelog || []).forEach((v) => I.push({ type: "Changelog", sub: v.version && "Version " + v.version, title: v.title || "Version " + v.version, text: (v.changes || []).map((c) => c[1]).join(" "), url: "changelog.html" }));
@@ -744,6 +750,37 @@
         <h2>Anwendbares Recht</h2>
         <p>Es gilt das Recht der Bundesrepublik Deutschland.</p>
         <p class="fine">Stand: ${esc((D.legal || {}).updated || "November 2026")}</p></div>`;
+    },
+    bewerbung() {
+      const B = D.bewerbung || {}, el = $("#guide");
+      if (!B.sections) { el.innerHTML = sealed("Der Guide folgt bald", "Hier steht bald, was in eine gute Bewerbung gehört."); return; }
+      const G = B.goals || {}, C = B.checklist || [];
+      el.innerHTML = `${B.intro ? `<p class="guide-intro">${esc(B.intro)}</p>` : ""}
+        ${(B.steps || []).length ? `<section class="guide-block"><h2>Ablauf</h2><ol class="guide-steps">${B.steps.map(([h, d]) => `<li><b>${esc(h)}</b><span>${esc(d)}</span></li>`).join("")}</ol></section>` : ""}
+        <section class="guide-block"><h2>Worauf wir achten</h2><div class="guide-rules">${B.sections.map((s) => `<article class="guide-rule" id="g-${esc(s.title.toLowerCase().replace(/[^a-zäöüß]+/g, "-"))}"><h3>${esc(s.title)}</h3><ul>${s.items.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></article>`).join("")}</div></section>
+        ${(G.bad || G.good) ? `<section class="guide-block"><h2>Ziele: schwach und stark</h2><div class="guide-goals">
+          <div class="gg bad"><h3>So eher nicht</h3>${(G.bad || []).map(([g, w]) => `<div class="gg-item"><p class="q">${esc(g)}</p><p class="why">${esc(w)}</p></div>`).join("")}</div>
+          <div class="gg good"><h3>So wird es gut</h3>${(G.good || []).map(([g, w]) => `<div class="gg-item"><p class="q">${esc(g)}</p><p class="why">${esc(w)}</p></div>`).join("")}</div></div></section>` : ""}
+        ${C.length ? `<section class="guide-block"><h2>Vor dem Einreichen</h2><div class="scroll guide-check"><p class="gc-count" aria-live="polite"></p><ul>${C.map((x, i) => `<li><label><input type="checkbox" data-i="${i}"><span>${esc(x)}</span></label></li>`).join("")}</ul>
+          <div class="gc-done" hidden><b>Alles abgehakt.</b><span>Dann ab in den Discord damit.</span>${discordBtn("btn", "Bewerbung einreichen")}</div></div></section>` : ""}`;
+      const boxes = el.querySelectorAll(".guide-check input"), cnt = el.querySelector(".gc-count"), done = el.querySelector(".gc-done");
+      const upd = () => { const n = [...boxes].filter((b) => b.checked).length; if (cnt) cnt.textContent = `${n} von ${boxes.length} erledigt`; if (done) done.hidden = n !== boxes.length; };
+      boxes.forEach((b) => b.addEventListener("change", upd)); upd();
+    },
+    abteilungen() {
+      const A = D.abteilungen || {}, el = $("#depts"), V = Object.keys(A).filter((k) => (A[k] || []).length);
+      if (!V.length) { el.innerHTML = sealed("Noch keine Abteilungen eingetragen", "Hier steht bald, welche Abteilungen es in den Dörfern gibt und wer sie leitet."); return; }
+      const col = (n) => villageColor(n);
+      const draw = (i) => {
+        const v = V[i];
+        el.querySelectorAll(".lore-tabs button").forEach((b) => b.setAttribute("aria-selected", String(+b.dataset.i === i)));
+        el.querySelector(".dept-grid").innerHTML = A[v].map((d) => `<article class="dept" style="--lc:${esc(col(v))}"><h3>${esc(d.name)}</h3><p>${esc(d.text)}</p>
+          <dl>${d.access ? `<div><dt>Zugang</dt><dd>${esc(d.access)}</dd></div>` : ""}<div><dt>Leitung</dt><dd${d.lead ? "" : ' class="open"'}>${d.lead ? esc(d.lead) : "offen"}</dd></div></dl></article>`).join("");
+      };
+      el.innerHTML = `<div class="lore-tabs" role="tablist" aria-label="Dörfer">${V.map((v, i) => `<button type="button" role="tab" data-i="${i}" aria-selected="false" style="--lc:${esc(col(v))}">${esc(v)}</button>`).join("")}</div><div class="dept-grid"></div>`;
+      el.querySelector(".lore-tabs").addEventListener("click", (e) => { const b = e.target.closest("button"); if (b) { draw(+b.dataset.i); history.replaceState(null, "", "#" + V[+b.dataset.i].toLowerCase()); } });
+      const h = decodeURIComponent(location.hash.slice(1)).toLowerCase();
+      draw(Math.max(0, V.findIndex((v) => v.toLowerCase().startsWith(h) && h)));
     },
     jutsu() {
       const J = D.jutsu || [], el = $("#jutsu");
