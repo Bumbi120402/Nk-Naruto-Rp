@@ -46,9 +46,9 @@ window.NK = {
     { name: "Senju", village: "Konohagakure", crest: "assets/img/clans/senju.webp", wiki: "senju", ability: "Mokuton & Vitalität", text: "In den Clan-Kriegen eine der mächtigsten Familien. Gründeten Konoha gemeinsam mit den Uchiha.", status: "1 Clanleitung · 2 Mitglieder" },
     { name: "Aburame", village: "Konohagakure", crest: "assets/img/clans/aburame.webp", wiki: "aburame", ability: "Insektenkontrolle", text: "Leben zurückgezogen und gelten als unheimlich. Kaum ein Clan ist so loyal.", status: "1 Clanleitung · 2 Mitglieder" },
     { name: "Mugen", village: "Sunagakure", crest: "assets/img/clans/mugen.webp", wiki: "mugen", ability: "Sōryūgan", text: "Ein geheimnisvoller Clan. Über seine Herkunft spricht er nicht.", status: "1 Clanleitung · 2 Mitglieder" },
-    { name: "Karakuro", village: "Sunagakure", crest: "assets/img/clans/karakuro.webp", wiki: "karakuro", ability: "Puppenkunst", text: "Meister der Puppenkunst. Ihre Werkstätten gehören zu den wertvollsten Orten des Dorfes.", status: "1 Clanleitung · 2 Mitglieder" },
-    { name: "Sakuraku", village: "Sunagakure", crest: "assets/img/clans/sakuraku.webp", wiki: "sakuraku", ability: "Pflanzenkontrolle", text: "Sie legten Sunas erste Gärten an. Für viele sind sie ein Zeichen der Hoffnung.", status: "1 Clanleitung · 2 Mitglieder" },
-    { name: "Kyoofu", village: "Sunagakure", crest: "assets/img/clans/kyoofu.webp", wiki: "kyoofu", ability: "Sandkontrolle", text: "Mit der Wüste verwachsen wie kein anderer Clan. Sie formen den Sand mit ihrem Chakra.", status: "1 Clanleitung · 2 Mitglieder" }
+    { name: "Shirogane", village: "Sunagakure", crest: "assets/img/clans/shirogane.webp", wiki: "shirogane", ability: "Puppenkunst", text: "Meister der Puppenkunst. Ihre Werkstätten gehören zu den wertvollsten Orten des Dorfes.", status: "1 Clanleitung · 2 Mitglieder" },
+    { name: "Ayakaze", village: "Sunagakure", crest: "assets/img/clans/ayakaze.webp", wiki: "ayakaze", ability: "Windkontrolle", text: "Leben mit den Stürmen der Wüste. Sie formen Wind und Tornados ohne Fächer, allein mit ihrem Chakra.", status: "1 Clanleitung · 2 Mitglieder" },
+    { name: "Sabaku", village: "Sunagakure", crest: "assets/img/clans/sabaku.webp", wiki: "sabaku", ability: "Sandkontrolle", text: "Mit der Wüste verwachsen wie kein anderer Clan. Sie formen den Sand mit ihrem Chakra.", status: "1 Clanleitung · 2 Mitglieder" }
   ],
 
   /* Das Wiki steht in einer eigenen Datei: assets/js/wiki.js */
